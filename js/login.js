@@ -1,10 +1,10 @@
 document.getElementById('loginForm').addEventListener('submit', function (event) {
     // Obtener valores de los campos de entrada
-    var usuario = document.getElementById('inputUsuario').value;
-    var contrasenia = document.getElementById('inputContraseña').value;
+    var Usuario = document.getElementById('inputUsuario').value;
+    var Contraseña = document.getElementById('inputContraseña').value;
 
     // Verificará si los campos están vacíos
-    if (usuario === "" || contrasenia === "") {
+    if (Usuario === "" || Contraseña === "") {
         // Previene el envío del formulario con campos vacíos
         event.preventDefault();
         alert("Por favor, completa ambos campos.");
