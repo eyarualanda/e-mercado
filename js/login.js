@@ -13,7 +13,21 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
         event.preventDefault();  // Previene la recarga del formulario
         window.location.href = "index.html";  // Cambia "index.html" a la ruta correcta
                 // Guarda la sesión en localStorage
-  localStorage.setItem('sesionIniciada', 'true');
-  window.location.href = "index.html";  // Redirige a la página de portada
+localStorage.setItem('sesionIniciada', 'true');
+    window.location.href = "index.html";  // Redirige a la página de portada
 }
 });
+
+window.onload = function () {
+    // Verifica si la sesión no está iniciada
+if (localStorage.getItem('sesionIniciada') !== 'true') {
+        window.location.href = 'login.html';  // Redirige al login
+}
+};
+document.getElementById('cerrarSesion').addEventListener('click', function () {
+              // Elimina la sesión de localStorage
+            localStorage.removeItem('sesionIniciada')
+              // Redirige al login
+            window.location.href = 'login.html';
+        ;
+    })
