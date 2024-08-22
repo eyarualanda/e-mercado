@@ -39,3 +39,17 @@ let getJSONData = function(url){
         return result;
     });
 }
+
+window.onload = function () {
+  // Verifica si la sesión no está iniciada
+if (localStorage.getItem('sesionIniciada') !== 'true') {
+      window.location.href = 'login.html';  // Redirige al login
+}
+};
+document.getElementById('cerrarSesion').addEventListener('click', function () {
+            // Elimina la sesión de localStorage
+          localStorage.removeItem('sesionIniciada')
+            // Redirige al login
+          window.location.href = 'login.html';
+      ;
+  })
