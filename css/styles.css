@@ -188,3 +188,33 @@ a.custom-card:hover {
 .checked {
   color: orange;
 }
+
+.title  {
+  font-weight: bolder;
+}
+
+
+h2.title {
+  margin: 40px;
+  font-size: 40px;
+}
+
+
+.precio {
+  font-size: 17px;
+  font-weight: bold;
+  margin-bottom: 0;
+}
+
+
+.cantVend {
+  font-size: small;
+  font-style: italic;
+}
+
+
+.productos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
