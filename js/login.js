@@ -14,7 +14,7 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
         window.location.href = "index.html";  // Cambia "index.html" a la ruta correcta
                 // Guarda la sesión en localStorage
 localStorage.setItem('sesionIniciada', 'true');
-  window.location.href = "index.html";  // Redirige a la página de portada
+    window.location.href = "index.html";  // Redirige a la página de portada
 }
 });
 
