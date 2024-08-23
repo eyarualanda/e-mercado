@@ -218,3 +218,11 @@ h2.title {
   flex-direction: column;
   align-items: center;
 }
+
+.btn-cerrar-sesion {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+}
