@@ -13,6 +13,7 @@ document.getElementById('loginForm').addEventListener('submit', function (event)
         event.preventDefault();  // Previene la recarga del formulario
         window.location.href = "index.html";  // Cambia "index.html" a la ruta correcta
                 // Guarda la sesión en localStorage
+                localStorage.setItem("usuario", usuario);
   localStorage.setItem('sesionIniciada', 'true');
   window.location.href = "index.html";  // Redirige a la página de portada
 }

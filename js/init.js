@@ -46,10 +46,18 @@ if (localStorage.getItem('sesionIniciada') !== 'true') {
       window.location.href = 'login.html';  // Redirige al login
 }
 };
+document.addEventListener("DOMContentLoaded", function(){ 
+  var usuario = localStorage.getItem("usuario")|| "Invitado";
+  var usuarioDisplay = document.getElementById("usuarioDisplay");
+  if (usuarioDisplay){
+    usuarioDisplay.textContent = usuario;
+  }
 document.getElementById('cerrarSesion').addEventListener('click', function () {
-            // Elimina la sesión de localStorage
-          localStorage.removeItem('sesionIniciada')
+  localStorage.removeItem("usuario");         
+  // Elimina la sesión de localStorage
+          localStorage.removeItem('sesionIniciada');
             // Redirige al login
           window.location.href = 'login.html';
-      ;
+      
   })
+});
