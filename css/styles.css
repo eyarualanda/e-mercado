@@ -227,10 +227,14 @@ h2.title {
   border-radius: 5px;
 }
 
-@media (max-width: 767px){
-  #lista-de-productos{
+@media (max-width: 767px) {
+  #divBotonLogin {
+    justify-content: center;
+  }
+   #lista-de-productos{
     text-align: center;
   }
+} 
  
 
 
