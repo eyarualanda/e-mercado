@@ -226,3 +226,15 @@ h2.title {
   padding: 10px;
   border-radius: 5px;
 }
+
+@media (max-width: 767px){
+  #lista-de-productos{
+    text-align: center;
+  }
+ 
+
+
+
+
+
+
