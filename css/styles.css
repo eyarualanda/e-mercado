@@ -228,9 +228,6 @@ h2.title {
 }
 
 @media (max-width: 767px) {
-  #divBotonLogin {
-    justify-content: center;
-  }
    #lista-de-productos{
     text-align: center;
   }

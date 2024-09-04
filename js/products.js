@@ -1,4 +1,4 @@
-var autos = PRODUCTS_URL + "101" + EXT_TYPE; // URL de la categoría autos de la API
+var catID = PRODUCTS_URL + localStorage.getItem('catID') + EXT_TYPE;
 var listaDeProductos = document.getElementById('lista-de-productos');
 var nombreCategoria = document.getElementById('nombreCategoria');
 
@@ -39,15 +39,6 @@ function mostrarProductos() {
 }
 
 document.addEventListener("DOMContentLoaded", function(){
-    fetch(autos)
-    .then(response => response.json())
-    .then(data => {
-        nombreCategoria.innerHTML = data.catName;
-        productsArray = data.products;
-        mostrarProductos();
-    })
-    .catch(error => console.error('Error al cargar los productos:', error));
-});
 
 document.getElementById("rangeFilterPrice").addEventListener("click", function(){
     minPrice = document.getElementById("rangeFilterPriceMin").value;
@@ -82,4 +73,22 @@ document.getElementById("sortDesc").addEventListener("click", function(){
 document.getElementById("sortByCount").addEventListener("click", function(){
     productsArray.sort((a, b) => b.soldCount - a.soldCount);
     mostrarProductos();
+});
+
+    getJSONData(catID).then((resultado) => { // Llama a la función y espera el resultado.
+        if (resultado.status === "ok") { // Si la respuesta es correcta.
+            // Aquí puedes hacer lo que necesites con los datos.
+            nombreCategoria.innerHTML = resultado.data.catName; // Usa resultado.data para acceder a los datos.
+            listaDeProductos.innerHTML = '';
+            
+            resultado.data.products.forEach(product => {
+                mostrarProductos(product);
+            });
+        } else {
+            console.error("Error:", resultado.data);
+        }
+    }).catch(error => {
+        console.error("Error al obtener datos:", error);
+    });
+    
 });
