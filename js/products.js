@@ -1,4 +1,3 @@
-var autos = PRODUCTS_URL + "101" + EXT_TYPE; // URL de la categoría autos de la API
 var catID = PRODUCTS_URL + localStorage.getItem('catID') + EXT_TYPE;
 var listaDeProductos = document.getElementById('lista-de-productos');
 var nombreCategoria = document.getElementById('nombreCategoria');
@@ -22,49 +21,34 @@ function mostrarProductos(product) {
 }
 
 document.addEventListener("DOMContentLoaded", function(){
-    // fetch(catID)
-    // .then(response => response.json()) // Convertir la respuesta a JSON
-    // .then(data => {
-    //     nombreCategoria.innerHTML = data.catName;
-    //     listaDeProductos.innerHTML = '';
-    //     // Crear tarjetas para cada producto
-    //     data.products.forEach(product => {
-    //         mostrarProductos(product);
-    //     });
-    // })
-    // .catch(error => console.error('Error al cargar los productos:', error));
-
-    getJSONData(catID) // Llama a la función getJSONData con catID como argumento
-    .then(result => {
-        if (result.status === 'ok') {
-            const data = result.data; // Obtén los datos del resultado
-            nombreCategoria.innerHTML = data.catName; // Actualiza el nombre de la categoría
-            listaDeProductos.innerHTML = ''; // Limpia la lista de productos
+    
+    getJSONData(catID).then((resultado) => { // Llama a la función y espera el resultado.
+        if (resultado.status === "ok") { // Si la respuesta es correcta.
+            // Aquí puedes hacer lo que necesites con los datos.
+            nombreCategoria.innerHTML = resultado.data.catName; // Usa resultado.data para acceder a los datos.
+            listaDeProductos.innerHTML = '';
             
-            // Crear tarjetas para cada producto
-            data.products.forEach(product => {
-                mostrarProductos(product); // Llama a tu función para mostrar productos
+            resultado.data.products.forEach(product => {
+                mostrarProductos(product);
             });
         } else {
-            console.error('Error al cargar los productos:', result.data); // Maneja errores
+            console.error("Error:", resultado.data);
         }
-    })
-    .catch(error => {
-        console.error('Error general:', error); // Maneja errores generales
+    }).catch(error => {
+        console.error("Error al obtener datos:", error);
     });
-
-    getJSONData(catID)
-    .then(result => {
-        if (result.status === 'ok') {
-            const { catName, products } = result.data; // Desestructurar datos
-            nombreCategoria.innerHTML = catName;
-            listaDeProductos.innerHTML = ''; // Limpiar la lista de productos
-
-            // Crear tarjetas para cada producto
-            products.forEach(mostrarProductos); // Llama a mostrarProductos directamente
-        } else {
-            console.error('Error al cargar los productos:', result.data);
-        }
-    })
-    .catch(console.error); // Manejo de errores generales
+    
 });
+
+// FUNCIÓN VIEJA
+// fetch(catID)
+// .then(response => response.json()) // Convertir la respuesta a JSON
+// .then(data => {
+//     nombreCategoria.innerHTML = data.catName;
+//     listaDeProductos.innerHTML = '';
+//     // Crear tarjetas para cada producto
+//     data.products.forEach(product => {
+//         mostrarProductos(product);
+//     });
+// })
+// .catch(error => console.error('Error al cargar los productos:', error));
