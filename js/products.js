@@ -6,7 +6,7 @@ let minPrice = undefined;
 let maxPrice = undefined;
 let productsArray = [];
 
-function mostrarProductos() {
+function mostrarProductos(productsArray) {
     listaDeProductos.innerHTML = '';
 
     let filteredProducts = productsArray;
@@ -40,55 +40,50 @@ function mostrarProductos() {
 
 document.addEventListener("DOMContentLoaded", function(){
 
-document.getElementById("rangeFilterPrice").addEventListener("click", function(){
-    minPrice = document.getElementById("rangeFilterPriceMin").value;
-    maxPrice = document.getElementById("rangeFilterPriceMax").value;
+    document.getElementById("rangeFilterPrice").addEventListener("click", function(){
+        minPrice = document.getElementById("rangeFilterPriceMin").value;
+        maxPrice = document.getElementById("rangeFilterPriceMax").value;
 
-    minPrice = minPrice ? parseInt(minPrice) : undefined;
-    maxPrice = maxPrice ? parseInt(maxPrice) : undefined;
+        minPrice = minPrice ? parseInt(minPrice) : undefined;
+        maxPrice = maxPrice ? parseInt(maxPrice) : undefined;
 
-    mostrarProductos();
-});
+        mostrarProductos(productsArray);
+    });
 
-document.getElementById("clearRangeFilter").addEventListener("click", function(){
-    document.getElementById("rangeFilterPriceMin").value = '';
-    document.getElementById("rangeFilterPriceMax").value = '';
+    document.getElementById("clearRangeFilter").addEventListener("click", function(){
+        document.getElementById("rangeFilterPriceMin").value = '';
+        document.getElementById("rangeFilterPriceMax").value = '';
 
-    minPrice = undefined;
-    maxPrice = undefined;
+        minPrice = undefined;
+        maxPrice = undefined;
 
-    mostrarProductos();
-});
+        mostrarProductos(productsArray);
+    });
 
-document.getElementById("sortAsc").addEventListener("click", function(){
-    productsArray.sort((a, b) => a.cost - b.cost);
-    mostrarProductos();
-});
+    document.getElementById("sortAsc").addEventListener("click", function(){
+        productsArray.sort((a, b) => a.cost - b.cost);
+        mostrarProductos(productsArray);
+    });
 
-document.getElementById("sortDesc").addEventListener("click", function(){
-    productsArray.sort((a, b) => b.cost - a.cost);
-    mostrarProductos();
-});
+    document.getElementById("sortDesc").addEventListener("click", function(){
+        productsArray.sort((a, b) => b.cost - a.cost);
+        mostrarProductos(productsArray);
+    });
 
-document.getElementById("sortByCount").addEventListener("click", function(){
-    productsArray.sort((a, b) => b.soldCount - a.soldCount);
-    mostrarProductos();
-});
+    document.getElementById("sortByCount").addEventListener("click", function(){
+        productsArray.sort((a, b) => b.soldCount - a.soldCount);
+        mostrarProductos(productsArray);
+    });
 
-    getJSONData(catID).then((resultado) => { // Llama a la función y espera el resultado.
-        if (resultado.status === "ok") { // Si la respuesta es correcta.
-            // Aquí puedes hacer lo que necesites con los datos.
-            nombreCategoria.innerHTML = resultado.data.catName; // Usa resultado.data para acceder a los datos.
-            listaDeProductos.innerHTML = '';
-            
-            resultado.data.products.forEach(product => {
-                mostrarProductos(product);
-            });
+    getJSONData(catID).then((resultado) => {
+        if (resultado.status === "ok") {
+            nombreCategoria.innerHTML = resultado.data.catName;
+            productsArray = resultado.data.products; // Actualiza el arreglo de productos
+            mostrarProductos(productsArray); // Muestra los productos
         } else {
             console.error("Error:", resultado.data);
         }
     }).catch(error => {
         console.error("Error al obtener datos:", error);
     });
-    
 });
