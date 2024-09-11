@@ -6,6 +6,11 @@ let minPrice = undefined;
 let maxPrice = undefined;
 let productsArray = [];
 
+function setProductID(id) {
+    localStorage.setItem("productID", id);
+    window.location = "product-info.html"
+}
+
 function mostrarProductos(productsArray) {
     listaDeProductos.innerHTML = '';
 
@@ -21,7 +26,7 @@ function mostrarProductos(productsArray) {
 
     filteredProducts.forEach(product => {
         listaDeProductos.innerHTML += `
-            <div class="col-md-4 cursor-active">
+            <div onclick="setProductID(${product.id})" class="col-md-4 cursor-active">
                 <div class="card h-100" style="width: 100%;">
                     <img src="${product.image}" class="card-img-top" alt="${product.name}">
                     <div class="card-body">
