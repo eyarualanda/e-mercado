@@ -44,12 +44,20 @@ function mostrarInfoProducto(product) {
     <div class="col-md-4 my-3">
         <h2>${product.name}</h2>
         <hr class="my-4">
-        <h5>Precio: ${product.currency} ${product.cost}</h5>
+        <h5> ${product.currency} ${product.cost}</h5>
         <p class="small text-muted">Cantidad vendida: ${product.soldCount}</p>
         <div class="col-md-3 my-3">
                 <label for="quantity" class="form-label">Cantidad:</label>
                 <input id="quantity" type="number" name="quantity" min="1" value="1" class="form-control">
         </div> 
+        <div class="my-3">
+            <button id="buyButton" class="btn btn-primary w-10 mb-2">
+                <i class="fas fa-shopping-bag"></i> Comprar
+            </button>
+            <button id="addToCartButton" class="btn btn-secondary w-10 mb-2">
+                <i class="fas fa-cart-plus"></i> Agregar al carrito
+            </button>
+        </div>
     </div>
     <div class="col my-4">
         <h5>Características: </h5>
