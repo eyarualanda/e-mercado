@@ -5,6 +5,7 @@ var nombreCategoria = document.getElementById('nombreCategoria');
 let minPrice = undefined;
 let maxPrice = undefined;
 let productsArray = [];
+let searchProducts = ''; 
 
 function setProductID(id) {
     localStorage.setItem("productID", id);
@@ -23,6 +24,13 @@ function mostrarProductos(productsArray) {
     if (maxPrice !== undefined) {
         filteredProducts = filteredProducts.filter(product => product.cost <= maxPrice);
     }
+    
+if (searchProducts) {
+    filteredProducts = filteredProducts.filter(product => 
+        product.name.toLowerCase().includes(searchProducts.toLowerCase()) || 
+        product.description.toLowerCase().includes(searchProducts.toLowerCase())
+    );
+}
 
     filteredProducts.forEach(product => {
         listaDeProductos.innerHTML += `
@@ -77,6 +85,11 @@ document.addEventListener("DOMContentLoaded", function(){
 
     document.getElementById("sortByCount").addEventListener("click", function(){
         productsArray.sort((a, b) => b.soldCount - a.soldCount);
+        mostrarProductos(productsArray);
+    });
+    
+    document.getElementById("search").addEventListener("input", function() {
+        searchProducts = this.value;
         mostrarProductos(productsArray);
     });
 
