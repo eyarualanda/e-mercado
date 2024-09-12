@@ -22,7 +22,7 @@ function mostrarInfoProducto(product) {
         <a href="products.html" class="text-decoration-none text-reset">${product.category}</a>
     </p>
 
-    <div class="col-md-8">
+    <div class="col-md-7">
         <div id="carouselExampleIndicators" class="carousel slide">
             <div class="carousel-indicators">
             ${carouselIndicators}
@@ -41,7 +41,7 @@ function mostrarInfoProducto(product) {
         </div>
     </div>
     
-    <div class="col-md-4 my-3">
+    <div class="col-md-5 my-3">
         <h2>${product.name}</h2>
         <hr class="my-4">
         <h5> ${product.currency} ${product.cost}</h5>
@@ -50,11 +50,11 @@ function mostrarInfoProducto(product) {
                 <label for="quantity" class="form-label">Cantidad:</label>
                 <input id="quantity" type="number" name="quantity" min="1" value="1" class="form-control">
         </div> 
-        <div class="my-3">
-            <button id="buyButton" class="btn btn-primary w-10 mb-2">
+        <div class="d-grid gap-2">
+            <button id="buyButton" class="btn btn-primary w-10 p-2">
                 <i class="fas fa-shopping-bag"></i> Comprar
             </button>
-            <button id="addToCartButton" class="btn btn-secondary w-10 mb-2">
+            <button id="addToCartButton" class="btn btn-secondary w-10 p-2">
                 <i class="fas fa-cart-plus"></i> Agregar al carrito
             </button>
         </div>
