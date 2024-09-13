@@ -1,249 +1,379 @@
+/* Estilos generales */
 .jumbotron,
 .card-body,
 .container,
 .site-header {
-  font-family: 'Verdana', serif !important;
+  font-family: 'Verdana', serif !important; /* Fuente general */
 }
 
 .jumbotron .display-4 {
-  font-weight: bold;
+  font-weight: bold; /* Negrita para el texto destacado */
 }
 
 nav a {
-  text-decoration: none;
+  text-decoration: none; /* Sin subrayado en los enlaces de navegación */
 }
 
 .bd-placeholder-img {
-  font-size: 1.125rem;
-  text-anchor: middle;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  font-size: 1.125rem; /* Tamaño de fuente para los elementos de marcador de posición */
+  text-anchor: middle; /* Centra el texto en el medio */
+  user-select: none; /* Evita la selección del texto */
 }
 
 @media (min-width: 768px) {
   .bd-placeholder-img-lg {
-    font-size: 3.5rem;
+    font-size: 3.5rem; /* Tamaño de fuente mayor para pantallas grandes */
   }
 }
 
 .jumbotron {
-  height: 50vh;
-  padding: 5em inherit;
-  margin-bottom: 0;
-  background-color: #53C0FB;
-  background: url('../img/cover_back.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  color: black;
-  font-weight: bold;
+  height: 50vh; /* Altura de la jumbotron */
+  padding: 5em inherit; /* Espaciado interno */
+  margin-bottom: 0; /* Sin margen inferior */
+  background-color: #53C0FB; /* Color de fondo */
+  background: url('../img/cover_back.png'); /* Imagen de fondo */
+  background-size: cover; /* Ajusta la imagen para cubrir el contenedor */
+  background-position: center; /* Centra la imagen */
+  background-repeat: no-repeat; /* No repetir la imagen */
+  color: black; /* Color del texto */
+  font-weight: bold; /* Negrita para el texto */
 }
 
 @media (min-width: 768px) {
   .jumbotron {
     padding-top: 6rem;
-    padding-bottom: 6rem;
+    padding-bottom: 6rem; /* Aumenta el espaciado en pantallas grandes */
   }
 }
 
 .jumbotron p:last-child {
-  margin-bottom: 0;
+  margin-bottom: 0; /* Sin margen inferior para el último párrafo */
 }
 
 .jumbotron-heading {
-  font-weight: 300;
+  font-weight: 300; /* Peso de fuente más ligero para el título */
 }
 
 .jumbotron .container {
-  max-width: 40rem;
-  background-color: rgba(255, 255, 255, 0.5);
-  border-radius: 10px;
-  text-shadow: 1px 1px 2px grey;
+  max-width: 40rem; /* Ancho máximo del contenedor */
+  background-color: rgba(255, 255, 255, 0.5); /* Fondo blanco semitransparente */
+  border-radius: 10px; /* Bordes redondeados */
+  text-shadow: 1px 1px 2px grey; /* Sombra de texto */
 }
 
 .jumbotron .lead {
-  font-size: 38px;
+  font-size: 38px; /* Tamaño de fuente para el texto destacado */
 }
 
 footer {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-top: 3rem; /* Espaciado superior */
+  padding-bottom: 3rem; /* Espaciado inferior */
 }
 
 footer p {
-  margin-bottom: .25rem;
+  margin-bottom: .25rem; /* Margen inferior para los párrafos del pie de página */
 }
 
 .site-header a {
-  color: white;
-  transition: ease-in-out color .15s;
+  color: white; /* Color del texto en el encabezado */
+  transition: ease-in-out color .15s; /* Transición suave para el color */
 }
 
 .site-header .dropdown-menu a {
-  color: black;
+  color: black; /* Color del texto en los menús desplegables */
 }
 
 .dropzone {
-  border: 2px dashed #0087F7;
-  border-radius: 5px;
-  background: white;
+  border: 2px dashed #0087F7; /* Borde punteado azul */
+  border-radius: 5px; /* Bordes redondeados */
+  background: white; /* Fondo blanco */
 }
 
 .img-fit {
-  max-height: 100%;
+  max-height: 100%; /* Ajusta la altura máxima de la imagen */
 }
 
 .alert {
-  position: fixed;
-  top: 80px;
-  width: 50%;
-  left: 50%;
-  transform: translate(-50%, 0);
+  position: fixed; /* Posición fija para las alertas */
+  top: 80px; /* Espaciado desde la parte superior */
+  width: 50%; /* Ancho del 50% */
+  left: 50%; /* Centra horizontalmente */
+  transform: translate(-50%, 0); /* Ajusta la posición para centrar */
 }
 
 .lds-ring {
-  display: inline-block;
-  position: relative;
-  width: 64px;
-  height: 64px;
-  top: 50%;
-  left: 50%;
+  display: inline-block; /* Muestra el anillo de carga en línea */
+  position: relative; /* Posición relativa */
+  width: 64px; /* Ancho del anillo de carga */
+  height: 64px; /* Altura del anillo de carga */
+  top: 50%; /* Posición vertical centrada */
+  left: 50%; /* Posición horizontal centrada */
 }
 
 .cursor-active {
-  cursor: pointer;
+  cursor: pointer; /* Cambia el mouse a mano para elementos clicables */
 }
 
 .left {
-  float: left;
-  padding: 4px;
-  background-color: rgba(255, 255, 255, 0.5);
+  float: left; /* Flota a la izquierda */
+  padding: 4px; /* Espaciado interno */
+  background-color: rgba(255, 255, 255, 0.5); /* Fondo blanco semitransparente */
 }
 
 .lds-ring div {
-  box-sizing: border-box;
-  display: block;
-  position: absolute;
-  width: 51px;
-  height: 51px;
-  margin: 6px;
-  border: 6px solid #fff;
-  border-radius: 50%;
-  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  border-color: #fff transparent transparent transparent;
+  box-sizing: border-box; /* Ajusta el tamaño del borde */
+  display: block; /* Muestra el div en bloque */
+  position: absolute; /* Posición absoluta */
+  width: 51px; /* Ancho del div */
+  height: 51px; /* Altura del div */
+  margin: 6px; /* Espaciado externo */
+  border: 6px solid #fff; /* Borde blanco */
+  border-radius: 50%; /* Bordes redondeados */
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite; /* Animación del anillo de carga */
+  border-color: #fff transparent transparent transparent; /* Color del borde */
 }
 
 .lds-ring div:nth-child(1) {
-  animation-delay: -0.45s;
+  animation-delay: -0.45s; /* Retraso en la animación del primer div */
 }
 
 .lds-ring div:nth-child(2) {
-  animation-delay: -0.3s;
+  animation-delay: -0.3s; /* Retraso en la animación del segundo div */
 }
 
 .lds-ring div:nth-child(3) {
-  animation-delay: -0.15s;
+  animation-delay: -0.15s; /* Retraso en la animación del tercer div */
 }
 
 @keyframes lds-ring {
   0% {
-    transform: rotate(0deg);
+    transform: rotate(0deg); /* Rotación inicial */
   }
 
   100% {
-    transform: rotate(360deg);
+    transform: rotate(360deg); /* Rotación final */
   }
 }
 
 .signin {
-  width: 100%;
-  max-width: 330px;
-  padding: 15px;
-  margin: auto;
+  width: 100%; /* Ancho completo */
+  max-width: 330px; /* Ancho máximo */
+  padding: 15px; /* Espaciado interno */
+  margin: auto; /* Centra horizontalmente */
 }
 
 #spinner-wrapper {
-  position: fixed;
-  background-color: rgba(0, 0, 0, 0.5);
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: 1021;
-  display: none;
+  position: fixed; /* Posición fija */
+  background-color: rgba(0, 0, 0, 0.5); /* Fondo negro semitransparente */
+  width: 100%; /* Ancho completo */
+  height: 100%; /* Altura completa */
+  top: 0; /* Posición desde la parte superior */
+  left: 0; /* Posición desde la izquierda */
+  z-index: 1021; /* Nivel de apilamiento alto */
+  display: none; /* Inicialmente oculto */
 }
 
 main {
-  min-height: calc(100vh - 210px);
+  min-height: calc(100vh - 210px); /* Altura mínima ajustada */
 }
 
 a.custom-card,
 a.custom-card:hover {
-  color: inherit;
-  text-decoration: inherit;
+  color: inherit; /* Hereda el color del texto */
+  text-decoration: inherit; /* Hereda la decoración del texto */
 }
 
 .checked {
-  color: orange;
+  color: orange; /* Color para elementos seleccionados */
 }
 
-.title  {
-  font-weight: bolder;
+.title {
+  font-weight: bolder; /* Negrita más fuerte para el título */
 }
-
 
 h2.title {
-  margin: 40px;
-  font-size: 40px;
+  margin: 40px; /* Margen alrededor del título */
+  font-size: 40px; /* Tamaño de fuente para el título */
 }
-
 
 .precio {
-  font-size: 17px;
-  font-weight: bold;
-  margin-bottom: 0;
+  font-size: 17px; /* Tamaño de fuente para el precio */
+  font-weight: bold; /* Negrita para el precio */
+  margin-bottom: 0; /* Sin margen inferior */
 }
-
 
 .cantVend {
-  font-size: small;
-  font-style: italic;
+  font-size: small; /* Tamaño de fuente pequeño para la cantidad vendida */
+  font-style: italic; /* Cursiva para la cantidad vendida */
 }
 
-
 .productos {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: flex; /* Flexbox para el contenedor de productos */
+  flex-direction: column; /* Dirección vertical */
+  align-items: center; /* Alinea los elementos al centro */
 }
 
 .btn-cerrar-sesion {
-  background-color: rgb(255, 255, 255);
-  color: rgb(0, 0, 0);
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
+  background-color: rgb(255, 255, 255); /* Fondo blanco */
+  color: rgb(0, 0, 0); /* Color del texto negro */
+  border: none; /* Sin borde */
+  padding: 10px; /* Espaciado interno */
+  border-radius: 5px; /* Bordes redondeados */
 }
 
-@media (max-width: 767px) {
-   #lista-de-productos{
-    text-align: center;
-  }
-} 
-
-#tarjetaLogin {
-  background-color: #B1C1FC;
-} 
-
 .card-title-login {
- font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
- font-weight: bold;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; /* Fuente para el título de login */
+  font-weight: bold; /* Negrita para el título de login */
 }
 
 #imgLogin {
-  width: 100%;
-  height: auto;
-  border-radius: 2rem;
+  width: 100%; /* Ancho completo */
+  height: auto; /* Altura automática */
+  border-radius: 2rem; /* Bordes redondeados */
+}
+
+/* Estilos generales para los botones */
+.btn-custom {
+  background-color: #343a40; /* Color de fondo */
+  color: #ffffff; /* Color del texto e íconos */
+  border: 1px solid #495057; /* Borde del botón */
+  padding: 10px 15px; /* Espaciado interno */
+  border-radius: 5px; /* Bordes redondeados */
+  font-size: 14px; /* Tamaño de fuente */
+  display: flex; /* Flexbox para alinear íconos y texto */
+  align-items: center; /* Alinea íconos y texto al centro */
+  justify-content: center; /* Alinea el contenido al centro */
+  gap: 8px; /* Espacio entre el ícono y el texto */
+}
+
+.btn-custom i {
+  margin-right: 0; /* Sin margen extra */
+  font-size: 18px; /* Tamaño de los íconos en pantallas grandes */
+}
+
+.btn-custom:hover {
+  background-color: #495057; /* Color de fondo al pasar el mouse */
+  border-color: #6c757d; /* Color del borde al pasar el mouse */
+  color: #ffffff; /* Color del texto e íconos al pasar el mouse */
+}
+
+/* Estilos para dispositivos móviles (pantallas pequeñas) */
+@media (max-width: 768px) {
+  .search-bar {
+    display: none; /* Oculta la barra de búsqueda */
+    position: absolute; /* Posición absoluta */
+    top: 60px; /* Espaciado desde la parte superior */
+    left: 0; /* Posición desde la izquierda */
+    right: 0; /* Posición desde la derecha */
+    background-color: #343a40; /* Color de fondo */
+    padding: 10px; /* Espaciado interno */
+    z-index: 1000; /* Nivel de apilamiento alto */
+    border-radius: 0 0 5px 5px; /* Bordes redondeados en la parte inferior */
+    flex-direction: row; /* Dirección horizontal */
+    align-items: center; /* Alinea los elementos al centro */
+  }
+
+  .search-bar.show {
+    display: flex !important; /* Muestra la barra de búsqueda cuando se activa */
+  }
+
+  .search-bar input {
+    width: calc(100% - 60px); /* Ajusta el ancho para el ícono */
+    margin-right: 10px; /* Espacio entre la barra de búsqueda y el ícono */
+  }
+
+  .search-icon {
+    display: inline-block; /* Muestra el ícono de búsqueda */
+  }
+
+  .price-filter {
+    display: none; /* Oculta el filtro de precios */
+    position: absolute; /* Posición absoluta */
+    top: 60px; /* Espaciado desde la parte superior */
+    right: 0; /* Posición desde la derecha */
+    background-color: #343a40; /* Color de fondo */
+    padding: 10px; /* Espaciado interno */
+    z-index: 1000; /* Nivel de apilamiento alto */
+    border-radius: 0 0 5px 5px; /* Bordes redondeados en la parte inferior */
+    flex-direction: row; /* Dirección horizontal */
+    align-items: center; /* Alinea los elementos al centro */
+  }
+
+  .price-filter.show {
+    display: flex !important; /* Muestra el filtro de precios cuando se activa */
+  }
+
+  .price-filter input {
+    width: 100px; /* Ancho de los inputs */
+    margin-right: 10px; /* Espacio entre los inputs y el botón */
+  }
+
+  .price-filter-icon {
+    display: inline-block; /* Muestra el ícono del filtro */
+  }
+
+  .btn-group {
+    display: flex; /* Flexbox para alinear los botones */
+    flex-direction: row; /* Dirección horizontal */
+    align-items: center; /* Alinea los botones al centro */
+    gap: 10px; /* Espacio entre los botones */
+  }
+
+  .btn-group .btn-custom {
+    margin: 0; /* Sin margen adicional */
+    padding: 10px; /* Espaciado interno */
+    flex: 1; /* Hace que los botones ocupen el mismo espacio */
+  }
+
+  .btn-group .btn-custom span {
+    display: none; /* Oculta el texto de los botones */
+  }
+
+  .btn-group .btn-custom i {
+    display: inline; /* Muestra los íconos de los botones */
+    font-size: 18px; /* Tamaño de los íconos */
+  }
+}
+
+/* Estilos para el menú desplegable en pantallas pequeñas */
+@media (max-width: 767px) {
+  .navbar-collapse {
+    display: flex; /* Muestra el menú desplegable */
+    flex-direction: column; /* Dirección vertical */
+    width: 100%; /* Ancho completo */
+  }
+
+  .navbar-nav {
+    flex-direction: column; /* Dirección vertical para los ítems del menú */
+    width: 100%; /* Ancho completo */
+    text-align: center; /* Centra el texto de cada ítem */
+    padding: 0; /* Sin padding */
+    margin: 0; /* Sin margin */
+  }
+
+  .navbar-nav .nav-item {
+    width: 100%; /* Ancho completo para cada ítem del menú */
+    margin-bottom: 10px; /* Espaciado inferior entre los ítems */
+  }
+
+  .navbar-nav .nav-link {
+    display: block; /* Muestra el enlace en bloque */
+    padding: 10px; /* Espaciado interno */
+    width: 100%; /* Ancho completo */
+    color: #ffffff; /* Color del texto */
+    text-align: center; /* Centra el texto del enlace */
+    border-bottom: 1px solid #495057; /* Línea inferior para separar ítems */
+  }
+
+  .navbar-nav .nav-link:hover {
+    background-color: #495057; /* Color de fondo al pasar el mouse */
+  }
+
+  .navbar-toggler {
+    border: none; /* Sin borde en el botón de menú */
+  }
+
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;base64,..."); /* Asegúrate de que la imagen esté bien cargada */
+  }
 }
