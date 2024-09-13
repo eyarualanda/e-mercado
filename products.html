@@ -1,22 +1,20 @@
 <!DOCTYPE html>
 <html lang="es">
 
-
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>eMercado - Todo lo que busques está aquí</title>
 
-
+  <!-- Estilos y fuentes -->
   <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
   <link href="css/font-awesome.min.css" rel="stylesheet">
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
-
 </head>
 
-
 <body>
+  <!-- Barra de navegación -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
     <div class="container">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -26,82 +24,96 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav w-100 justify-content-between">
           <li class="nav-item">
-            <a class="nav-link" href="index.html">Inicio</a>
+            <a class="nav-link" href="index.html">
+              <i class="fas fa-home"></i>
+              <span>Inicio</span>
+            </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="categories.html">Categorías</a>
+            <a class="nav-link" href="categories.html">
+              <i class="fas fa-list"></i>
+              <span>Categorías</span>
+            </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="sell.html">Vender</a>
+            <a class="nav-link" href="sell.html">
+              <i class="fas fa-tag"></i>
+              <span>Vender</span>
+            </a>
           </li>
           <li class="nav-item">
-            <span class="nav-link" id="usuarioDisplay"></span>
+            <span class="nav-link" id="usuarioDisplay">
+              <i class="fas fa-user"></i>
+              <span>Usuario</span>
+            </span>
           </li>
           <li class="nav-item">
             <button id="cerrarSesion" class="btn-cerrar-sesion">
-              <img src="img/cerrar_sesion.png" width="20px"> Cerrar sesión
-            </button>    
+              <img src="img/cerrar_sesion.png" width="20px">
+              <span>Cerrar sesión</span>
+            </button>
           </li>
-
         </ul>
       </div>
     </div>
   </nav>
-  
+
+  <!-- Barra de búsqueda y filtros -->
+  <div class="navbar navbar-dark bg-dark p-3 mb-3">
+    <div class="container-fluid d-flex justify-content-between align-items-center flex-wrap">
+      
+      <!-- Barra de búsqueda (pantallas grandes) -->
+      <div class="search-bar d-flex align-items-center mb-2 d-none d-md-flex">
+        <input type="search" id="search" class="form-control me-2" placeholder="Buscar productos..." style="width: 250px;">
+        <button class="btn btn-custom"><i class="fas fa-search"></i></button>
+      </div>
+
+      <!-- Ícono de búsqueda (pantallas pequeñas) -->
+      <div class="search-icon d-inline d-md-none">
+        <button class="btn btn-custom"><i class="fas fa-search"></i></button>
+      </div>
+
+      <!-- Filtro por precio (pantallas grandes) -->
+      <div class="price-filter d-flex align-items-center mb-2 d-none d-md-flex">
+        <p class="text-light mb-0 me-2">Precio:</p>
+        <input class="form-control me-2" type="number" placeholder="Mínimo" id="rangeFilterPriceMin" style="width: 100px;">
+        <input class="form-control me-2" type="number" placeholder="Máximo" id="rangeFilterPriceMax" style="width: 100px;">
+        <button class="btn btn-custom me-2" id="rangeFilterPrice">Filtrar</button>
+        <button class="btn btn-custom" id="clearRangeFilter">Limpiar</button>
+      </div>
+
+      <!-- Ícono de filtro por precio (pantallas pequeñas) -->
+      <div class="price-filter-icon d-inline d-md-none">
+        <button class="btn btn-custom"><i class="fas fa-filter"></i></button>
+      </div>
+
+      <!-- Botones de ordenación -->
+      <div class="btn-group d-flex align-items-center">
+        <button class="btn btn-custom" id="sortAsc">
+          <i class="fas fa-sort-amount-up"></i>
+          <span>Menor a Mayor</span>
+        </button>
+        <button class="btn btn-custom" id="sortDesc">
+          <i class="fas fa-sort-amount-down"></i>
+          <span>Mayor a Menor</span>
+        </button>
+        <button class="btn btn-custom" id="sortByCount">
+          <i class="fas fa-star"></i>
+          <span>Relevancia</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sección de productos -->
   <div class="container-fluid m-auto productos">
     <h2 class="title" id="nombreCategoria"></h2>
-
-    <div class="container">
-      <div class="row">
-        <div class="col text-end">
-          <div class="btn-group btn-group-toggle mb-4" data-bs-toggle="buttons">
-            <input type="radio" class="btn-check" name="options" id="sortAsc">
-            <label class="btn btn-light" for="sortAsc"><i class="fas fa-sort-amount-up mr-1"></i>$</label>
-        
-            <input type="radio" class="btn-check" name="options" id="sortDesc">
-            <label class="btn btn-light" for="sortDesc"><i class="fas fa-sort-amount-down mr-1"></i>$</label>
-        
-            <input type="radio" class="btn-check" name="options" id="sortByCount">
-            <label class="btn btn-light" for="sortByCount"><i class="fas fa-sort-amount-down mr-1"></i>Rel.</label>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-lg-6 offset-lg-6 col-md-12 mb-1 container">
-            <div class="row container p-0 m-0">
-                <div class="col">
-                    <p class="font-weight-normal text-end my-2">Precio</p>
-                </div>
-                <div class="col">
-                    <input class="form-control" type="number" placeholder="Mínimo" id="rangeFilterPriceMin">
-                </div>
-                <div class="col">
-                    <input class="form-control" type="number" placeholder="Máximo" id="rangeFilterPriceMax">
-                </div>
-                <div class="col-3 p-0">
-                    <div class="btn-group" role="group">
-                        <button class="btn btn-light btn-block" id="rangeFilterPrice">Filtrar</button>
-                        <button class="btn btn-link btn-sm" id="clearRangeFilter">Limpiar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-      </div>
-      </div>
-    </div>
-
-    <div class="row mb-3">
-      <div class="col-lg-6 offset-lg-6 col-md-12 mb-1 container">
-        <div class="row container p-0 m-0">
-        <input type="search" id="search" class="form-control" placeholder="Buscar..." />
-      </div>
-    </div>
-
     <div class="row">
       <div class="row row-cols-1 row-cols-md-3 g-2" id="lista-de-productos"></div>
     </div>
-  </div>        
+  </div>
 
+  <!-- Pie de página -->
   <footer class="text-muted">
     <div class="container">
       <p class="float-end">
@@ -110,6 +122,8 @@
       <p>Este sitio forma parte de <a href="https://jovenesaprogramar.edu.uy/" target="_blank">Jovenes a Programar</a></p>
     </div>
   </footer>
+
+  <!-- Indicador de carga -->
   <div id="spinner-wrapper">
     <div class="lds-ring">
       <div></div>
@@ -118,9 +132,11 @@
       <div></div>
     </div>
   </div>
+
   <script src="js/bootstrap.bundle.min.js"></script>
   <script src="js/init.js"></script>
   <script src="js/products.js"></script>
+
 </body>
 
 </html>

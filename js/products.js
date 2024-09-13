@@ -5,36 +5,42 @@ var nombreCategoria = document.getElementById('nombreCategoria');
 let minPrice = undefined;
 let maxPrice = undefined;
 let productsArray = [];
-let searchProducts = ''; 
+let searchProducts = '';
 
+// Función que guarda el ID del producto seleccionado y redirige a la página de detalles del producto
 function setProductID(id) {
     localStorage.setItem("productID", id);
-    window.location = "product-info.html"
+    window.location = "product-info.html";
 }
 
+// Función que muestra los productos filtrados en el contenedor
 function mostrarProductos(productsArray) {
-    listaDeProductos.innerHTML = '';
+    listaDeProductos.innerHTML = ''; // Limpiar el contenedor de productos
 
     let filteredProducts = productsArray;
 
+    // Filtrar productos por precio mínimo
     if (minPrice !== undefined) {
         filteredProducts = filteredProducts.filter(product => product.cost >= minPrice);
     }
 
+    // Filtrar productos por precio máximo
     if (maxPrice !== undefined) {
         filteredProducts = filteredProducts.filter(product => product.cost <= maxPrice);
     }
     
-if (searchProducts) {
-    filteredProducts = filteredProducts.filter(product => 
-        product.name.toLowerCase().includes(searchProducts.toLowerCase()) || 
-        product.description.toLowerCase().includes(searchProducts.toLowerCase())
-    );
-}
+    // Filtrar productos por término de búsqueda
+    if (searchProducts) {
+        filteredProducts = filteredProducts.filter(product => 
+            product.name.toLowerCase().includes(searchProducts.toLowerCase()) || 
+            product.description.toLowerCase().includes(searchProducts.toLowerCase())
+        );
+    }
 
+    // Crear y agregar la estructura HTML de cada producto filtrado
     filteredProducts.forEach(product => {
-        listaDeProductos.innerHTML += `
-            <div onclick="setProductID(${product.id})" class="col-md-4 cursor-active">
+        listaDeProductos.innerHTML += 
+            `<div onclick="setProductID(${product.id})" class="col-md-4 cursor-active">
                 <div class="card h-100" style="width: 100%;">
                     <img src="${product.image}" class="card-img-top" alt="${product.name}">
                     <div class="card-body">
@@ -46,62 +52,113 @@ if (searchProducts) {
                         <p class="text-body-secondary cantVend">Cantidad de vendidos: ${product.soldCount}</p>
                     </div>
                 </div>
-            </div>
-        `;
+            </div>`;
     });
 }
 
-document.addEventListener("DOMContentLoaded", function(){
-
-    document.getElementById("rangeFilterPrice").addEventListener("click", function(){
+document.addEventListener("DOMContentLoaded", function() {
+    // Filtrar productos por rango de precios cuando se hace clic en el botón de filtrar
+    document.getElementById("rangeFilterPrice").addEventListener("click", function() {
         minPrice = document.getElementById("rangeFilterPriceMin").value;
         maxPrice = document.getElementById("rangeFilterPriceMax").value;
 
         minPrice = minPrice ? parseInt(minPrice) : undefined;
         maxPrice = maxPrice ? parseInt(maxPrice) : undefined;
 
-        mostrarProductos(productsArray);
+        mostrarProductos(productsArray); // Actualizar la lista de productos
     });
 
-    document.getElementById("clearRangeFilter").addEventListener("click", function(){
+    // Limpiar los filtros de precio cuando se hace clic en el botón de limpiar
+    document.getElementById("clearRangeFilter").addEventListener("click", function() {
         document.getElementById("rangeFilterPriceMin").value = '';
         document.getElementById("rangeFilterPriceMax").value = '';
 
         minPrice = undefined;
         maxPrice = undefined;
 
-        mostrarProductos(productsArray);
+        mostrarProductos(productsArray); // Actualizar la lista de productos
     });
 
-    document.getElementById("sortAsc").addEventListener("click", function(){
-        productsArray.sort((a, b) => a.cost - b.cost);
-        mostrarProductos(productsArray);
+    // Función para ordenar los productos según el criterio pasado como argumento
+    function ordenarProductos(comparador) {
+        productsArray.sort(comparador);
+        mostrarProductos(productsArray); // Mostrar productos ordenados
+    }
+
+    // Ordenar productos de menor a mayor precio
+    document.getElementById("sortAsc").addEventListener("click", function() {
+        ordenarProductos((a, b) => a.cost - b.cost);
     });
 
-    document.getElementById("sortDesc").addEventListener("click", function(){
-        productsArray.sort((a, b) => b.cost - a.cost);
-        mostrarProductos(productsArray);
+    // Ordenar productos de mayor a menor precio
+    document.getElementById("sortDesc").addEventListener("click", function() {
+        ordenarProductos((a, b) => b.cost - a.cost);
     });
 
-    document.getElementById("sortByCount").addEventListener("click", function(){
-        productsArray.sort((a, b) => b.soldCount - a.soldCount);
-        mostrarProductos(productsArray);
+    // Ordenar productos por cantidad de vendidos
+    document.getElementById("sortByCount").addEventListener("click", function() {
+        ordenarProductos((a, b) => b.soldCount - a.soldCount);
     });
-    
+
+    // Filtrar productos según el término de búsqueda introducido por el usuario
     document.getElementById("search").addEventListener("input", function() {
         searchProducts = this.value;
-        mostrarProductos(productsArray);
+        mostrarProductos(productsArray); // Actualizar la lista de productos
     });
 
+    // Obtener los datos de los productos desde el servidor y mostrarlos
     getJSONData(catID).then((resultado) => {
         if (resultado.status === "ok") {
             nombreCategoria.innerHTML = resultado.data.catName;
-            productsArray = resultado.data.products; // Actualiza el arreglo de productos
-            mostrarProductos(productsArray); // Muestra los productos
+            productsArray = resultado.data.products; // Guardar los productos obtenidos
+            mostrarProductos(productsArray); // Mostrar los productos
         } else {
             console.error("Error:", resultado.data);
         }
     }).catch(error => {
         console.error("Error al obtener datos:", error);
+    });
+
+    // Script para manejar el despliegue de la barra de búsqueda y filtro en pantallas pequeñas
+    const searchIcon = document.querySelector('.search-icon button');
+    const searchBar = document.querySelector('.search-bar');
+    const priceFilterIcon = document.querySelector('.price-filter-icon button');
+    const priceFilter = document.querySelector('.price-filter');
+
+    // Alternar entre mostrar la barra de búsqueda y el filtro de precio
+    function toggleElemento(elementoMostrar, elementoOcultar) {
+        elementoMostrar.classList.toggle('show');
+        if (elementoOcultar.classList.contains('show')) {
+            elementoOcultar.classList.remove('show');
+        }
+    }
+
+    // Mostrar u ocultar la barra de búsqueda
+    searchIcon.addEventListener('click', function () {
+        toggleElemento(searchBar, priceFilter);
+    });
+
+    // Mostrar u ocultar el filtro de precio
+    priceFilterIcon.addEventListener('click', function () {
+        toggleElemento(priceFilter, searchBar);
+    });
+
+    // Ocultar barra de búsqueda y filtro cuando se hace clic fuera de ellos
+    document.addEventListener('click', function (event) {
+        if (!searchBar.contains(event.target) && !searchIcon.contains(event.target)) {
+            searchBar.classList.remove('show');
+        }
+        if (!priceFilter.contains(event.target) && !priceFilterIcon.contains(event.target)) {
+            priceFilter.classList.remove('show');
+        }
+    });
+
+    // Evitar que al hacer clic dentro de la barra de búsqueda o filtro se oculten
+    searchBar.addEventListener('click', function (event) {
+        event.stopPropagation();
+    });
+
+    priceFilter.addEventListener('click', function (event) {
+        event.stopPropagation();
     });
 });
