@@ -61,11 +61,23 @@ function mostrarProductos(productsArray) {
             product.description.toLowerCase().includes(searchProducts.toLowerCase())
         );
     }
-
-    // Crear y agregar la estructura HTML de cada producto filtrado
-    filteredProducts.forEach(product => {
-        listaDeProductos.innerHTML += crearTarjeta(product);
-    });
+    
+    // Verificar si no hay productos para mostrar
+    if (filteredProducts.length === 0) {
+        listaDeProductos.innerHTML = `
+            <div class="d-flex justify-content-center align-items-center m-auto w-100">
+                <div class="text-center p-4 shadow rounded" role="alert">
+                    <h4 class="alert-heading">No hay productos disponibles.</h4>
+                    <p>Prueba ajustar los filtros o selecciona otra categoría.</p>
+                </div>
+            </div>
+        `;
+    } else {
+        // Crear y agregar la estructura HTML de cada producto filtrado
+        filteredProducts.forEach(product => {
+            listaDeProductos.innerHTML += crearTarjeta(product);
+        });
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function() {
