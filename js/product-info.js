@@ -2,7 +2,7 @@ const productID = PRODUCT_INFO_URL + localStorage.getItem('productID') + EXT_TYP
 const comentariosProducto = PRODUCT_INFO_COMMENTS_URL + localStorage.getItem('productID') + EXT_TYPE;
 const infoProducto = document.getElementById('info-producto');
 const divComentariosProducto = document.getElementById('comentarios-producto');
-let opiniones = []; // Ahora la variable es global
+let opiniones = [];
 
 function mostrarInfoProducto(product) {
     infoProducto.innerHTML = '';
@@ -70,7 +70,7 @@ function mostrarInfoProducto(product) {
 }
 
 function mostrarComentariosProducto(opiniones) {
-    divComentariosProducto.innerHTML = ""; // Limpiar contenido
+    divComentariosProducto.innerHTML = "";
 
     let comentariosHTML = opiniones.map(opinion => {
         return `
@@ -90,11 +90,20 @@ function mostrarComentariosProducto(opiniones) {
         `;
     }).join('');
 
+    let promedio = calcularPromedio(opiniones);
+
     divComentariosProducto.innerHTML = `
     <div class="col-md-5">
         <h5 class="fw-bold">Opiniones del producto<h5>
         <hr>
-        <p id="calificacionPromedio" class="fs-2">${calcularPromedio(opiniones)}</p>
+        <div class="row d-flex justify-content-between align-items-center">
+            <div class="col-auto">
+                <p id="calificacionPromedio" class="fs-2">${calcularPromedio(opiniones)}</p>
+            </div>
+            <div class="col-auto mb-3">
+                ${mostrarEstrellas(promedio)}
+            </div>
+        </div>
 
         ${generarBarrasProgreso(opiniones)}
 
@@ -109,7 +118,7 @@ function mostrarComentariosProducto(opiniones) {
             </div>
             <textarea class="form-control mb-2" placeholder="Escribe tu reseña aquí"></textarea>
             <div class="d-flex align-items-center mt-2">
-                <button id="enviarReseñaButton" class="btn btn-primary btn-sm">Enviar reseña</button>
+                <button id="enviarReseniaButton" class="btn btn-primary btn-sm">Enviar reseña</button>
             </div>
         </div>
     </div>
@@ -121,8 +130,7 @@ function mostrarComentariosProducto(opiniones) {
     </div>
     `;
 
-    // Asignar evento después de añadir el botón al DOM
-    document.getElementById('enviarReseñaButton').addEventListener('click', enviarReseña);
+    document.getElementById('enviarReseniaButton').addEventListener('click', enviarResenia);
 }
 
 function formatearFecha(fechaISO) {
@@ -138,14 +146,19 @@ function formatearFecha(fechaISO) {
 function mostrarEstrellas(score) {
     let estrellasHTML = '';
     for (let i = 1; i <= 5; i++) {
-        estrellasHTML += i <= score 
-            ? '<i class="fas fa-star" style="color: #FFD43B;"></i>' 
-            : '<i class="far fa-star" style="color: #FFD43B;"></i>';
+        if (i <= score) {
+            estrellasHTML += '<i class="fas fa-star" style="color: #FFD43B;"></i>';
+        } else if (i - score < 1) {
+            estrellasHTML += '<i class="fas fa-star-half-alt" style="color: #FFD43B;"></i>';
+        } else {
+            estrellasHTML += '<i class="far fa-star" style="color: #FFD43B;"></i>';
+        }
     }
     return estrellasHTML;
 }
 
-function estrellas() {
+
+function generarEstrellas() {
     const stars = document.querySelectorAll('#product-star-rating i');
     stars.forEach((star, index) => {
         star.addEventListener('click', () => {
@@ -156,20 +169,20 @@ function estrellas() {
     });
 }
 
-function enviarReseña() {
-    const nuevaReseña = document.querySelector('textarea').value;
+function enviarResenia() {
+    const nuevaResenia = document.querySelector('textarea').value;
     const nuevaCalificacion = document.querySelectorAll('#product-star-rating .fas').length;
 
-    if (nuevaReseña && nuevaCalificacion) {
+    if (nuevaResenia && nuevaCalificacion) {
         const nuevaOpinion = {
             score: nuevaCalificacion,
-            description: nuevaReseña,
-            user: "Usuario Actual", 
+            description: nuevaResenia,
+            user: localStorage.getItem("usuario"), 
             dateTime: new Date().toISOString()
         };
 
         opiniones.push(nuevaOpinion); // Añadir la nueva opinión
-        mostrarComentariosProducto(opiniones); // Volver a renderizar los comentarios
+        mostrarComentariosProducto(opiniones); // Volver a mostrar los comentarios
     } else {
         alert("Por favor ingresa una reseña y una calificación.");
     }
@@ -189,22 +202,36 @@ function generarBarrasProgreso(opiniones) {
         const cantidad = opiniones.filter(opinion => opinion.score === score).length;
         const porcentaje = (cantidad / total) * 100;
         return `
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: ${porcentaje}%" aria-valuenow="${porcentaje}" aria-valuemin="0" aria-valuemax="100">${score} estrellas (${cantidad})</div>
+            <div class="progress my-2">
+                <div class="progress-bar bg-secondary" role="progressbar" style="width: ${porcentaje}%" aria-valuenow="${porcentaje}" aria-valuemin="0" aria-valuemax="100"><small>${score} estrellas (${cantidad})</small></div>
             </div>
         `;
     }).join('');
 }
 
-// Obtener la información del producto y comentarios
-getJSONData(comentariosProducto).then((resultado) => {
-    if (resultado.status === "ok") {
-        opiniones = resultado.data; // Usar la variable global
-        mostrarComentariosProducto(opiniones);
-        estrellas();
-    } else {
-        console.error("Error:", resultado.data);
-    }
-}).catch(error => {
-    console.error("Error al obtener datos:", error);
+document.addEventListener("DOMContentLoaded", function() {
+    getJSONData(productID).then((resultado) => {
+        if (resultado.status === "ok") {
+            const product = resultado.data; 
+            mostrarInfoProducto(product);
+        } else {
+            console.error("Error:", resultado.data);
+        }
+    }).catch(error => {
+        console.error("Error al obtener datos:", error);
+    });
+
+    getJSONData(comentariosProducto).then((resultado) => {
+        if (resultado.status === "ok") {
+            opiniones = resultado.data; 
+            mostrarComentariosProducto(opiniones);
+            generarEstrellas();
+        } else {
+            console.error("Error:", resultado.data);
+        }
+    }).catch(error => {
+        console.error("Error al obtener datos:", error);
+    });
+
+    
 });
