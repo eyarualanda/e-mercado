@@ -189,7 +189,7 @@ function generarBarrasProgreso(opiniones) {
         const cantidad = opiniones.filter(opinion => opinion.score === score).length;
         const porcentaje = (cantidad / total) * 100;
         return `
-            <div class="progress">
+            <div class="progress my-3">
                 <div class="progress-bar" role="progressbar" style="width: ${porcentaje}%" aria-valuenow="${porcentaje}" aria-valuemin="0" aria-valuemax="100">${score} estrellas (${cantidad})</div>
             </div>
         `;
