@@ -129,7 +129,8 @@ function mostrarComentariosProducto(opiniones) {
         ${comentariosHTML}
     </div>
     `;
-
+    
+    generarEstrellas();
     document.getElementById('enviarReseniaButton').addEventListener('click', enviarResenia);
 }
 
@@ -225,7 +226,6 @@ document.addEventListener("DOMContentLoaded", function() {
         if (resultado.status === "ok") {
             opiniones = resultado.data; 
             mostrarComentariosProducto(opiniones);
-            generarEstrellas();
         } else {
             console.error("Error:", resultado.data);
         }
