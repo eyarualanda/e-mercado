@@ -129,7 +129,7 @@ function mostrarComentariosProducto(opiniones) {
         ${comentariosHTML}
     </div>
     `;
-    
+
     generarEstrellas();
     document.getElementById('enviarReseniaButton').addEventListener('click', enviarResenia);
 }
@@ -204,7 +204,7 @@ function generarBarrasProgreso(opiniones) {
         const porcentaje = (cantidad / total) * 100;
         return `
             <div class="progress my-2">
-                <div class="progress-bar bg-secondary" role="progressbar" style="width: ${porcentaje}%" aria-valuenow="${porcentaje}" aria-valuemin="0" aria-valuemax="100"><small>${score} estrellas (${cantidad})</small></div>
+                <div class="progress-bar bg-secondary" role="progressbar" style="width: ${porcentaje}%" aria-valuenow="${porcentaje}" aria-valuemin="0" aria-valuemax="100"><small>${score} <i class="fa-solid fa-star"></i> (${cantidad})</small></div>
             </div>
         `;
     }).join('');
