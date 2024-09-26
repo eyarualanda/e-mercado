@@ -251,9 +251,9 @@ function calcularPromedio(opiniones) {
     const promedio = (total / opiniones.length).toFixed(1);
 
     if (promedio > 0) {
-        return promedio;
+        return promedio; // si el promedio es mayor a 0, o sea que haya alguna calificación, muestra el promedio
     } else {
-        return '<small class="fs-6">Aún no hay opiniones</small>';
+        return '<small class="fs-6">Aún no hay opiniones</small>'; // si no hay calificaciones (el promedio es 0), retorna este mensaje
     }
 }
 
