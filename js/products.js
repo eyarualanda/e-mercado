@@ -7,17 +7,11 @@ let maxPrice = undefined;
 let productsArray = [];
 let searchProducts = '';
 
-// Función que guarda el ID del producto seleccionado y redirige a la página de detalles del producto
-function setProductID(id) {
-    localStorage.setItem("productID", id);
-    window.location = "product-info.html";
-}
-
 // Función que crea una tarjeta de producto
 var crearTarjeta = function crearTarjeta(product) {
     return `
         <div onclick="setProductID(${product.id})" class="col-md-4 cursor-active">
-            <div class="card h-100" style="width: 100%;">
+            <div class="card h-100 shadow" style="width: 100%;">
                 <img src="${product.image}" class="card-img-top" alt="${product.name}">
                 <div class="card-body">
                     <h5 class="card-title title">${product.name}</h5>
