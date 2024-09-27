@@ -247,9 +247,14 @@ function enviarResenia() {
 function calcularPromedio(opiniones) {
     // Utiliza reduce para sumar todas las puntuaciones de las opiniones
     const total = opiniones.reduce((sum, opinion) => sum + opinion.score, 0);
-    
     // Calcula el promedio dividiendo el total por la cantidad de opiniones y redondea a un decimal
-    return (total / opiniones.length).toFixed(1);
+    const promedio = (total / opiniones.length).toFixed(1);
+
+    if (promedio > 0) {
+        return promedio; // si el promedio es mayor a 0, o sea que haya alguna calificación, muestra el promedio
+    } else {
+        return '<small class="fs-6">Aún no hay opiniones</small>'; // si no hay calificaciones (el promedio es 0), retorna este mensaje
+    }
 }
 
 // Generar las barras de progreso de acuerdo a las calificaciones
