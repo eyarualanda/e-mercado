@@ -61,3 +61,9 @@ document.getElementById('cerrarSesion').addEventListener('click', function () {
       
   })
 });
+
+// Guarda el localStorage el ID de un producto, para mostrar su información en poduct-info
+let setProductID = function(id) {
+  localStorage.setItem("productID", id);
+  window.location = "product-info.html";
+}

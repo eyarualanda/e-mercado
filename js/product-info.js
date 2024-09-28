@@ -71,8 +71,7 @@ function mostrarInfoProducto(product) {
         </div>
     `;
 
-    // Crear tarjetas para los productos relacionados: mostrarProductosRelacionados(`${product.relatedProducts}`);
-    
+    mostrarProductosRelacionados(product.relatedProducts);
 }
 
 function mostrarComentariosProducto(opiniones) {
@@ -140,30 +139,30 @@ function mostrarComentariosProducto(opiniones) {
     document.getElementById('enviarReseniaButton').addEventListener('click', enviarResenia);
 }
 
-// function mostrarProductosRelacionados(productosRelacionados) {
-//     if (productosRelacionados.length > 0) {
-//         const tarjetasHTML = productosRelacionados.map(producto => `
-//             <div class="col-md-4 mb-4">
-//                 <div class="card">
-//                     <img src="${producto.image}" class="card-img-top" alt="${producto.name}">
-//                     <div class="card-body">
-//                         <h5 class="card-title">${producto.name}</h5>
-//                         <p class="card-text">${producto.currency} ${producto.cost}</p>
-//                         <a href="product.html?productID=${producto.id}" class="btn btn-primary">Ver producto</a>
-//                     </div>
-//                 </div>
-//             </div>
-//         `).join('');
+function mostrarProductosRelacionados(productosRelacionados) {
+    if (productosRelacionados.length > 0) { // Si hay productos relacionados
+        // Crea tarjetas para cada elemento de productosRelacionados
+        // Al hacer click en la tarjeta llama la función de poner el id en localStorage, que definimos en products.js
+        const tarjetasHTML = productosRelacionados.map(product => ` 
+            <div class="col-md-4 mb-4 cursor-active" onclick="setProductID(${product.id})"> 
+                <div class="card shadow">
+                    <img src="${product.image}" class="card-img-top" alt="${product.name}">
+                    <div class="card-body">
+                        <h5 class="card-title">${product.name}</h5>
+                    </div>
+                </div>
+            </div>
+        `).join('');
 
-//         divProductosRelacionados.innerHTML = `
-//             <h5 class="fw-bold">Productos relacionados</h5>
-//             <hr>
-//             <div class="row">
-//                 ${tarjetasHTML}
-//             </div>
-//         `;
-//     }
-// }
+        divProductosRelacionados.innerHTML = `
+            <h5 class="fw-bold">Productos relacionados</h5>
+            <hr>
+            <div class="row justify-content-center">
+                ${tarjetasHTML}
+            </div>
+        `;
+    }
+}
 
 function formatearFecha(fechaISO) {
     const fecha = new Date(fechaISO); // Convertimos la cadena de fecha (ejemplo: "2024-09-26") en una fecha que JavaScript pueda entender
