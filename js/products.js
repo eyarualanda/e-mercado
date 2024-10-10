@@ -8,7 +8,7 @@ let productsArray = [];
 let searchProducts = '';
 
 // Función que crea una tarjeta de producto
-var crearTarjeta = function crearTarjeta(product) {
+function crearTarjeta(product) {
     return `
         <div class="col-md-4 producto" onclick="setProductID(${product.id})">
             <img src="${product.image}" alt="${product.name}">

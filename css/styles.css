@@ -377,6 +377,7 @@ h2.title {
     background-image: url("data:image/svg+xml;base64,..."); /* Asegúrate de que la imagen esté bien cargada */
   }
 }
+
 /* Hover effect para las tarjetas de productos*/
 .producto {
   position: relative;
@@ -450,4 +451,11 @@ h2.title {
 
 .producto:hover .product-name-overlay {
   opacity: 1; /* Mostrar overlay al hacer hover */
+}
+
+.img-circular {
+  width: 500%; 
+  height: 500%;
+  border-radius: 50%;
+  object-fit: cover; 
 }

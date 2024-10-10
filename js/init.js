@@ -60,6 +60,12 @@ document.getElementById('cerrarSesion').addEventListener('click', function () {
           window.location.href = 'login.html';
       
   })
+
+  const body = document.body;
+
+  // Cargar estado del modo desde Local Storage
+  const modoNocheActivo = localStorage.getItem('modoNoche') === 'true';
+  body.setAttribute('data-bs-theme', modoNocheActivo ? 'dark' : 'light');
 });
 
 // Guarda el localStorage el ID de un producto, para mostrar su información en poduct-info
