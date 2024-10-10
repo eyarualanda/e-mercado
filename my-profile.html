@@ -97,7 +97,6 @@
   </style>
 </head>
 
-
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark p-1">
     <div class="container">
@@ -125,8 +124,6 @@
               <span> Vender</span>
             </a>
           </li>
-         
-
 
           <div class="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -138,7 +135,6 @@
               </i>
             </button>
 
-
             <ul class="dropdown-menu dropdown-menu-dark">
               <li>
                 <a class="nav-link" href="my-profile.html">
@@ -146,11 +142,6 @@
                   <span>Mi perfil</span>
                 </a>
               </li>
-
-
-
-
-
 
               <li><a class="dropdown-item" href="#">Mi carrito</a></li>
          
@@ -164,63 +155,77 @@
             </ul>
           </div>
 
-
         </ul>
       </div>
     </div>
   </nav>
-  </main>
-  <h2 class="title" id="nombreperfil">Mi Perfil</h2>
-  <style>
-    h2 {
-        text-align: center;
-    }
-</style>
    
   <div class="container">
    
     <!-- Sección de perfil -->
     <div class="profile">
-      <img src="https://via.placeholder.com/150" alt="Foto de perfil">
-      <label for="uploadImage">Cambiar imagen</label>
-      <input type="file" id="uploadImage">
-      <div class="toggle">
-        <label for="modeSwitch">Modo noche</label>
-        <input type="checkbox" id="modeSwitch">
+
+    
+    <div class="container my-4">
+      <h1><strong>Mi registro</strong></h1>
+      <form id="profileForm">
+        <div class="row">
+          <div class="col-md-4">
+            <img src="img/default_profile.png" alt="Imagen de perfil" class="img-circular" id="previewImage">
+            <input type="file" class="form-control" id="fotoPerfil" accept="image/*">
+            
+                  <img src="https://via.placeholder.com/150" alt="Foto de perfil">
+                  <label for="uploadImage">Cambiar imagen</label>
+                  <input type="file" id="uploadImage">
+          </div>
+
+          <div class="col-md-8">
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="nombre" class="form-label">Nombre*</label>
+                <input type="text" class="form-control" id="nombre" required>
+              </div>
+              <div class="col-md-6">
+                <label for="segundoNombre" class="form-label">Segundo nombre (Opcional)</label>
+                <input type="text" class="form-control" id="segundoNombre">
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="apellido" class="form-label">Apellido*</label>
+                <input type="text" class="form-control" id="apellido" required>
+              </div>
+              <div class="col-md-6">
+                <label for="segundoApellido" class="form-label">Segundo apellido (Opcional)</label>
+                <input type="text" class="form-control" id="segundoApellido">
+              </div>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="email" class="form-label">E-mail*</label>
+                <input type="email" class="form-control" id="email" required>
+              </div>
+              <div class="col-md-6">
+                <label for="telefono" class="form-label">Teléfono de contacto</label>
+                <input type="tel" class="form-control" id="telefono">
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar cambios</button>
+          </div>
+        </div>
+      </form>
+
+      <div class="container mt-4">
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" id="switchModoNoche">
+          <label class="form-check-label" for="switchModoNoche">Modo noche</label>
+        </div>
+
       </div>
     </div>
-
-
-    <!-- Sección de formulario -->
-    <div class="form-section">
-      <div class="form-group">
-        <label for="nombre">Nombre *</label>
-        <input type="text" id="nombre" placeholder="">
-      </div>
- 
-      <div class="form-group">
-        <label for="segundoNombre">Segundo Nombre (Opcional)</label>
-        <input type="text" id="segundoNombre" placeholder="">
-      </div>
-      <div class="form-group">
-        <label for="apellido">Apellido *</label>
-        <input type="text" id="apellido" placeholder="">
-      </div>
-      <div class="form-group">
-        <label for="segundoApellido">Segundo Apellido (Opcional)</label>
-        <input type="text" id="segundoApellido" placeholder="">
-      </div>
-      <div class="form-group">
-        <label for="email">E-mail *</label>
-        <input type="email" id="email" placeholder="">
-      </div>
-      <div class="form-group">
-        <label for="telefono">Teléfono de contacto</label>
-        <input type="tel" id="telefono" placeholder="">
-      </div>
-    </div>
-
-
+      
     <!-- Botones -->
     <div class="buttons">
       <button class="btn btn-delete">Eliminar cuenta</button>
