@@ -3,7 +3,7 @@
 .card-body,
 .container,
 .site-header {
-  font-family: 'Verdana', serif !important; /* Fuente general */
+  font-family: 'Montserrat', sans-serif !important; /* Fuente general */
 }
 
 .jumbotron .display-4 {
@@ -412,6 +412,7 @@ h2.title {
 .producto .overlay .nombre-producto {
   font-size: 1.2em;
   margin-bottom: 10px;
+  font-family: 'Poppins', sans-serif;
 }
 
 .producto .overlay .botones {
@@ -447,6 +448,7 @@ h2.title {
   padding: 5px;
   opacity: 0;
   transition: opacity 0.3s ease;
+  font-family: 'Poppins', sans-serif;
 }
 
 .producto:hover .product-name-overlay {
@@ -458,4 +460,140 @@ h2.title {
   height: 500%;
   border-radius: 50%;
   object-fit: cover; 
+}
+
+/* Definir variables de fuente */
+:root {
+  --font-primary: 'Montserrat', sans-serif;
+  --font-secondary: 'Poppins', sans-serif;
+}
+
+/* Aplicar la fuente principal a todo el cuerpo */
+body {
+  font-family: var(--font-primary);
+  color: #333;
+  background-color: #f9f9f9; /* Ejemplo de fondo claro */
+  margin: 0;
+  padding: 0;
+}
+
+/* Aplicar la fuente secundaria a títulos y botones */
+h1, h2, h3, h4, h5, h6, .btn {
+  font-family: var(--font-secondary);
+}
+:root {
+  --color-primary: #4CAF50; /* Verde */
+  --color-secondary: #FFC107; /* Amarillo */
+  --color-accent: #FF5722; /* Naranja */
+  --color-background: #f9f9f9;
+  --color-text: #333;
+  --color-footer: #2c3e50;
+}
+
+/* Aplicar colores */
+body {
+  background-color: var(--color-background);
+  color: var(--color-text);
+}
+
+.navbar {
+  background-color: var(--color-primary);
+}
+
+.btn {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+.btn:hover {
+  background-color: var(--color-accent);
+}
+.product-card {
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+}
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.btn:hover {
+  background-color: var(--color-accent);
+  transform: translateY(-2px);
+}
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+.section {
+  padding: 60px 0;
+}
+
+.product-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.product-card {
+  opacity: 0;
+  animation: fadeIn 0.6s forwards;
+}
+
+.product-card:nth-child(1) { animation-delay: 0.1s; }
+.product-card:nth-child(2) { animation-delay: 0.2s; }
+
+
+.product {
+  position: relative;
+  overflow: hidden;
+}
+
+.product-image {
+  width: 100%;
+  transition: all 0.3s ease; /* Efecto de transición suave */
+}
+
+.product:hover .product-image {
+  filter: brightness(0.7); /* Oscurecer la imagen */
+}
+
+.product-info {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 0; /* Ocultar la información del producto inicialmente */
+  transition: opacity 0.3s ease; /* Efecto de transición suave */
+}
+
+.product:hover .product-info {
+  /* Mostrar la información del producto al hacer hover */
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  color: white;
+  text-align: center;
+  padding: 5px;
+  opacity: 1;
 }
