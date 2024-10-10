@@ -21,6 +21,12 @@
       -ms-user-select: none;
       user-select: none;
     }
+    .img-circular {
+  width: 200px; 
+  height: 200px; 
+  border-radius: 50%;
+  object-fit: cover;
+}
 
     @media (min-width: 768px) {
       .bd-placeholder-img-lg {
@@ -82,7 +88,7 @@
         <div class="row">
           <div class="col-md-4">
             <img src="img/default_profile.png" alt="Imagen de perfil" class="img-preview" id="previewImage">
-            <input type="file" class="form-control" id="fotoPerfil" accept="image/*" disabled>
+            <input type="file" class="form-control" id="fotoPerfil" accept="image/*">
           </div>
 
           <div class="col-md-8">
