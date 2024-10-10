@@ -142,12 +142,11 @@ function mostrarComentariosProducto(opiniones) {
 function mostrarProductosRelacionados(productosRelacionados) {
     if (productosRelacionados.length > 0) { // Si hay productos relacionados
         // Crea tarjetas para cada elemento de productosRelacionados
-        // Al hacer click en la tarjeta llama la función de poner el id en localStorage, que definimos en products.js
         const tarjetasHTML = productosRelacionados.map(product => ` 
             <div class="col-md-4 mb-4 cursor-active" onclick="setProductID(${product.id})"> 
-                <div class="card shadow">
-                    <img src="${product.image}" class="card-img-top" alt="${product.name}">
-                    <div class="card-body">
+                <div class="card shadow product">
+                    <img src="${product.image}" class="card-img-top product-image" alt="${product.name}">
+                    <div class="card-body product-info">
                         <h5 class="card-title">${product.name}</h5>
                     </div>
                 </div>
@@ -163,6 +162,7 @@ function mostrarProductosRelacionados(productosRelacionados) {
         `;
     }
 }
+
 
 function formatearFecha(fechaISO) {
     const fecha = new Date(fechaISO); // Convertimos la cadena de fecha (ejemplo: "2024-09-26") en una fecha que JavaScript pueda entender
