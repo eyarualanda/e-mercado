@@ -10,27 +10,23 @@ let searchProducts = '';
 // Función que crea una tarjeta de producto
 var crearTarjeta = function crearTarjeta(product) {
     return `
-        <div onclick="setProductID(${product.id})" class="col-md-4 cursor-active">
-            <div class="card h-100 shadow" style="width: 100%;">
-                <img src="${product.image}" class="card-img-top" alt="${product.name}">
-                <div class="card-body">
-                    <h5 class="card-title title">${product.name}</h5>
-                    <p class="card-text">${product.description}</p>
-                    <p class="text-body-secondary precio">${product.currency} ${product.cost}</p>
-                    <p class="text-body-secondary cantVend">Cantidad de vendidos: ${product.soldCount}</p>
-                    <div class="d-grid gap-2">
-                        <button id="buyButton" class="btn btn-primary w-10 p-2">
-                            <i class="fas fa-shopping-bag"></i> Comprar
-                        </button>
-                        <button id="addToCartButton" class="btn btn-secondary w-10 p-2">
-                            <i class="fas fa-cart-plus"></i> Agregar al carrito
-                        </button>
-                    </div>
+        <div class="col-md-4 producto" onclick="setProductID(${product.id})">
+            <img src="${product.image}" alt="${product.name}">
+            <div class="overlay">
+                <div class="nombre-producto">${product.name}</div>
+                <div class="botones">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-shopping-bag"></i> Comprar
+                    </button>
+                    <button class="btn btn-secondary">
+                        <i class="fas fa-cart-plus"></i> Agregar al carrito
+                    </button>
                 </div>
             </div>
         </div>
     `;
 }
+
 
 // Función que muestra los productos filtrados en el contenedor
 function mostrarProductos(productsArray) {
