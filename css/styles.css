@@ -377,3 +377,9 @@ h2.title {
     background-image: url("data:image/svg+xml;base64,..."); /* Asegúrate de que la imagen esté bien cargada */
   }
 }
+.img-circular {
+  width: 500%; 
+  height: 500%;
+  border-radius: 50%;
+  object-fit: cover; 
+}
