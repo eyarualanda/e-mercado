@@ -29,6 +29,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const nombre = document.getElementById('nombre');
     const apellido = document.getElementById('apellido');
     const email = document.getElementById('email');
+
+    email.value = localStorage.getItem('usuario');
     
 
     // Convertir la imagen a base64 para almacenarla en LocalStorage
@@ -55,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Si la validación es exitosa, guardamos los datos en LocalStorage
         localStorage.setItem('nombre', nombre.value);
         localStorage.setItem('apellido', apellido.value);
-        localStorage.setItem('email', email.value);
+        localStorage.setItem('usuario', email.value);
         localStorage.setItem('segundoNombre', document.getElementById('segundoNombre').value);
         localStorage.setItem('segundoApellido', document.getElementById('segundoApellido').value);
         localStorage.setItem('telefono', document.getElementById('telefono').value);
