@@ -597,3 +597,16 @@ body {
   padding: 5px;
   opacity: 1;
 }
+.btn-upload {
+  display: inline-block;
+  padding: 30% 20%;
+  background-color: #007bff;
+  color: white;
+  border-radius: 5%;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-upload:hover {
+  background-color: #0056b3;
+}
