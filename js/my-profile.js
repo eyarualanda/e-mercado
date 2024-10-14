@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
+
     const switchModoNoche = document.getElementById('switchModoNoche');
     const body = document.body;
 
@@ -14,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
       localStorage.setItem('modoNoche', modoNoche);
     });
 
+
      // Seleccionamos el formulario y el campo de la imagen
      const profileForm = document.getElementById('profileForm');
      const fotoPerfil = document.getElementById('fotoPerfil');
@@ -25,44 +27,56 @@ document.addEventListener('DOMContentLoaded', function() {
        if (storedImage) {
          previewImage.src = storedImage;
        }
-    const profileForm = document.getElementById('profileForm');
-    const nombre = document.getElementById('nombre');
-    const apellido = document.getElementById('apellido');
-    const email = document.getElementById('email');
+        
+      const profileForm = document.getElementById('profileForm');
+      const nombre = document.getElementById('nombre');
+      const apellido = document.getElementById('apellido');
+      const email = document.getElementById('email');
 
-    email.value = localStorage.getItem('usuario');
-    
+      nombre.value = localStorage.getItem('nombre');
+      apellido.value = localStorage.getItem('apellido');
+      email.value = localStorage.getItem('usuario');
+      segundoNombre.value = localStorage.getItem('segundoNombre');
+      segundoApellido.value = localStorage.getItem('segundoApellido');
+      telefono.value = localStorage.getItem('telefono');
 
-    // Convertir la imagen a base64 para almacenarla en LocalStorage
-    fotoPerfil.addEventListener('change', function(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const base64Image = e.target.result;
-          previewImage.src = base64Image; // Mostrar la imagen seleccionada
-          localStorage.setItem('fotoPerfil', base64Image); // Guardar en LocalStorage
-        };
-        reader.readAsDataURL(file); // Leer el archivo como base64
-      }
-    });
-    // Escuchamos el evento submit del formulario
-    profileForm.addEventListener('submit', function(event) {
-      event.preventDefault(); // Prevenir el envío del formulario por defecto
+      // Convertir la imagen a base64 para almacenarla en LocalStorage
+      fotoPerfil.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const base64Image = e.target.result;
+            previewImage.src = base64Image; // Mostrar la imagen seleccionada
+            localStorage.setItem('fotoPerfil', base64Image); // Guardar en LocalStorage
+          };
+          reader.readAsDataURL(file); // Leer el archivo como base64
+        }
+      });
+      // Escuchamos el evento submit del formulario
+      profileForm.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevenir el envío del formulario por defecto
 
-      // Validamos si los campos obligatorios tienen algún valor
-      if (nombre.value.trim() === '' || apellido.value.trim() === '' || email.value.trim() === '') {
-        alert('Por favor, complete todos los campos obligatorios.');
-      } else {
-        // Si la validación es exitosa, guardamos los datos en LocalStorage
-        localStorage.setItem('nombre', nombre.value);
-        localStorage.setItem('apellido', apellido.value);
-        localStorage.setItem('usuario', email.value);
-        localStorage.setItem('segundoNombre', document.getElementById('segundoNombre').value);
-        localStorage.setItem('segundoApellido', document.getElementById('segundoApellido').value);
-        localStorage.setItem('telefono', document.getElementById('telefono').value);
+        // Validamos si los campos obligatorios tienen algún valor
+        if (nombre.value.trim() === '' || apellido.value.trim() === '' || email.value.trim() === '') {
+          alert('Por favor, complete todos los campos obligatorios.');
+        } else {
+          // Si la validación es exitosa, guardamos los datos en LocalStorage
+          localStorage.setItem('nombre', nombre.value);
+          localStorage.setItem('apellido', apellido.value);
+          localStorage.setItem('usuario', email.value);
+          localStorage.setItem('segundoNombre', document.getElementById('segundoNombre').value);
+          localStorage.setItem('segundoApellido', document.getElementById('segundoApellido').value);
+          localStorage.setItem('telefono', document.getElementById('telefono').value);
 
-        alert('Datos guardados correctamente');
-      }
-    });
+          alert('Datos guardados correctamente');
+
+          nombre.value = localStorage.getItem('nombre');
+          apellido.value = localStorage.getItem('apellido');
+          email.value = localStorage.getItem('usuario');
+          segundoNombre.value = localStorage.getItem('segundoNombre');
+          segundoApellido.value = localStorage.getItem('segundoApellido');
+          telefono.value = localStorage.getItem('telefono');
+        }
+      });
   }});
