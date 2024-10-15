@@ -7,18 +7,6 @@ document.addEventListener('DOMContentLoaded', function () {
   const switchModoNoche = document.getElementById('switchModoNoche');
   const body = document.body;
 
-  // Cargar el estado del modo noche desde Local Storage y aplicarlo al cargar la página.
-  const modoNocheActivo = localStorage.getItem('modoNoche') === 'true';
-  switchModoNoche.checked = modoNocheActivo;
-  body.setAttribute('data-bs-theme', modoNocheActivo ? 'dark' : 'light');
-
-  // Escucha cambios en el switch del modo noche para alternar entre claro y oscuro.
-  switchModoNoche.addEventListener('change', () => {
-    const modoNoche = switchModoNoche.checked;
-    body.setAttribute('data-bs-theme', modoNoche ? 'dark' : 'light');
-    localStorage.setItem('modoNoche', modoNoche);
-  });
-
   // Referencias a los elementos del formulario de perfil.
   const profileForm = document.getElementById('profileForm');
   const fotoPerfil = document.getElementById('fotoPerfil');
@@ -31,13 +19,14 @@ document.addEventListener('DOMContentLoaded', function () {
   const telefono = document.getElementById('telefono');
 
   // Cargar el email del usuario almacenado en Local Storage al iniciar sesión.
-  const usuario = localStorage.getItem('usuario');
-  if (usuario) {
-    email.value = usuario;
-    cargarDatosUsuario(usuario);
+  const usuarioGuardado = localStorage.getItem('usuario');
+  if (usuarioGuardado) {
+    email.value = usuarioGuardado;
+    cargarDatosUsuario(usuarioGuardado);
   } else {
     // Si no hay un usuario, establecer la imagen predeterminada.
     previewImage.src = defaultProfileImg;
+    body.setAttribute('data-bs-theme', 'light'); // Modo claro por defecto.
   }
 
   // Función para cargar los datos del usuario desde Local Storage.
@@ -53,11 +42,17 @@ document.addEventListener('DOMContentLoaded', function () {
       segundoApellido.value = usuario.segundoApellido || '';
       telefono.value = usuario.telefono || '';
 
-      // Si hay una imagen de perfil almacenada, mostrarla. Si no, usar la imagen predeterminada.
+      // Cargar imagen de perfil o establecer la imagen predeterminada.
       previewImage.src = usuario.fotoPerfil || defaultProfileImg;
+
+      // Cargar el estado del modo oscuro.
+      const modoNocheActivo = usuario.modoNoche || false;
+      switchModoNoche.checked = modoNocheActivo;
+      body.setAttribute('data-bs-theme', modoNocheActivo ? 'dark' : 'light');
     } else {
-      // Si no existe el usuario, usar la imagen predeterminada.
+      // Si no existe el usuario, usar la imagen predeterminada y modo claro.
       previewImage.src = defaultProfileImg;
+      body.setAttribute('data-bs-theme', 'light');
     }
   }
 
@@ -67,9 +62,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const index = usuarios.findIndex(u => u.email === usuario.email);
 
     if (index !== -1) {
-      usuarios[index] = usuario;
+      usuarios[index] = usuario; // Actualizar el usuario existente.
     } else {
-      usuarios.push(usuario);
+      usuarios.push(usuario); // Agregar el nuevo usuario.
     }
 
     localStorage.setItem('usuarios', JSON.stringify(usuarios));
@@ -89,6 +84,12 @@ document.addEventListener('DOMContentLoaded', function () {
       // Si no se selecciona ninguna imagen, mostrar la imagen predeterminada.
       previewImage.src = defaultProfileImg;
     }
+  });
+
+  // Escucha cambios en el switch del modo noche.
+  switchModoNoche.addEventListener('change', () => {
+    const modoNoche = switchModoNoche.checked;
+    body.setAttribute('data-bs-theme', modoNoche ? 'dark' : 'light');
   });
 
   // Función para validar si un campo está vacío en tiempo real.
@@ -124,10 +125,11 @@ document.addEventListener('DOMContentLoaded', function () {
         segundoNombre: segundoNombre.value,
         segundoApellido: segundoApellido.value,
         telefono: telefono.value,
-        fotoPerfil: previewImage.src || defaultProfileImg  // Guardar la imagen de perfil o la predeterminada.
+        fotoPerfil: previewImage.src || defaultProfileImg,  // Guardar la imagen de perfil o la predeterminada.
+        modoNoche: switchModoNoche.checked  // Guardar el estado del modo oscuro.
       };
 
-      guardarDatosUsuario(usuario);
+      guardarDatosUsuario(usuario);  // Guardar o actualizar los datos del usuario en Local Storage.
       alert('Datos guardados correctamente');
     } else {
       alert('Por favor, complete todos los campos obligatorios.');
