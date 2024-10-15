@@ -1,20 +1,22 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+  // Ruta de la imagen predeterminada de perfil.
+  const defaultProfileImg = 'img/default_profile_img.jpg'; // Cambia esta ruta a la ubicación correcta de tu imagen.
+
   // Referencias a los elementos del interruptor de modo noche y el body de la página.
   const switchModoNoche = document.getElementById('switchModoNoche');
   const body = document.body;
 
   // Cargar el estado del modo noche desde Local Storage y aplicarlo al cargar la página.
-  // Si 'modoNoche' es true, activamos el tema oscuro. De lo contrario, el tema claro.
   const modoNocheActivo = localStorage.getItem('modoNoche') === 'true';
-  switchModoNoche.checked = modoNocheActivo;  // Establece el estado del interruptor.
-  body.setAttribute('data-bs-theme', modoNocheActivo ? 'dark' : 'light');  // Cambia el tema visual de la página.
+  switchModoNoche.checked = modoNocheActivo;
+  body.setAttribute('data-bs-theme', modoNocheActivo ? 'dark' : 'light');
 
   // Escucha cambios en el switch del modo noche para alternar entre claro y oscuro.
   switchModoNoche.addEventListener('change', () => {
     const modoNoche = switchModoNoche.checked;
-    body.setAttribute('data-bs-theme', modoNoche ? 'dark' : 'light'); // Aplica el tema seleccionado.
-    localStorage.setItem('modoNoche', modoNoche);  // Guarda la preferencia en Local Storage para mantener el tema en futuras visitas.
+    body.setAttribute('data-bs-theme', modoNoche ? 'dark' : 'light');
+    localStorage.setItem('modoNoche', modoNoche);
   });
 
   // Referencias a los elementos del formulario de perfil.
@@ -29,95 +31,91 @@ document.addEventListener('DOMContentLoaded', function () {
   const telefono = document.getElementById('telefono');
 
   // Cargar el email del usuario almacenado en Local Storage al iniciar sesión.
-  // Si existe un email guardado, se carga y se buscan los demás datos asociados al usuario.
   const usuario = localStorage.getItem('usuario');
   if (usuario) {
-    email.value = usuario;  // Carga el email en el campo correspondiente.
-    cargarDatosUsuario(usuario);  // Llama a la función que carga otros datos del perfil.
+    email.value = usuario;
+    cargarDatosUsuario(usuario);
+  } else {
+    // Si no hay un usuario, establecer la imagen predeterminada.
+    previewImage.src = defaultProfileImg;
   }
 
   // Función para cargar los datos del usuario desde Local Storage.
   function cargarDatosUsuario(emailUsuario) {
-    const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];  // Obtener la lista de usuarios, o un array vacío si no existen.
-    const usuario = usuarios.find(u => u.email === emailUsuario);  // Buscar el usuario por email.
+    const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+    const usuario = usuarios.find(u => u.email === emailUsuario);
 
     if (usuario) {
-      // Asignar los datos del usuario a los campos del formulario si existen.
+      // Asignar los datos del usuario a los campos del formulario.
       nombre.value = usuario.nombre || '';
       apellido.value = usuario.apellido || '';
       segundoNombre.value = usuario.segundoNombre || '';
       segundoApellido.value = usuario.segundoApellido || '';
       telefono.value = usuario.telefono || '';
 
-      // Si hay una imagen de perfil almacenada, mostrarla.
-      if (usuario.fotoPerfil) {
-        previewImage.src = usuario.fotoPerfil;
-      }
+      // Si hay una imagen de perfil almacenada, mostrarla. Si no, usar la imagen predeterminada.
+      previewImage.src = usuario.fotoPerfil || defaultProfileImg;
+    } else {
+      // Si no existe el usuario, usar la imagen predeterminada.
+      previewImage.src = defaultProfileImg;
     }
   }
 
   // Función para guardar o actualizar los datos del usuario en Local Storage.
   function guardarDatosUsuario(usuario) {
-    let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];  // Obtener la lista de usuarios.
-    const index = usuarios.findIndex(u => u.email === usuario.email);  // Buscar si el usuario ya existe.
+    let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+    const index = usuarios.findIndex(u => u.email === usuario.email);
 
     if (index !== -1) {
-      // Si el usuario ya existe, actualizar sus datos.
       usuarios[index] = usuario;
     } else {
-      // Si no existe, agregar el nuevo usuario a la lista.
       usuarios.push(usuario);
     }
 
-    // Guardar la lista actualizada de usuarios en Local Storage.
     localStorage.setItem('usuarios', JSON.stringify(usuarios));
   }
 
   // Manejar el cambio en el input de la imagen de perfil.
-  // Convierte la imagen a base64 para almacenarla y muestra una previsualización.
   fotoPerfil.addEventListener('change', function (event) {
-    const file = event.target.files[0];  // Obtiene el archivo de la imagen seleccionada.
+    const file = event.target.files[0];
     if (file) {
-      const reader = new FileReader();  // Crear un lector de archivos para convertir la imagen.
+      const reader = new FileReader();
       reader.onload = function (e) {
-        const base64Image = e.target.result;  // Convierte la imagen a base64.
-        previewImage.src = base64Image;  // Muestra la imagen en la previsualización.
+        const base64Image = e.target.result;
+        previewImage.src = base64Image;
       };
-      reader.readAsDataURL(file);  // Leer el archivo como URL de datos (base64).
+      reader.readAsDataURL(file);
     } else {
-      // Si el archivo no es válido o el usuario no seleccionó uno, restablecer la imagen de previsualización.
-      previewImage.src = '';  // Vaciar la previsualización si no hay archivo.
+      // Si no se selecciona ninguna imagen, mostrar la imagen predeterminada.
+      previewImage.src = defaultProfileImg;
     }
   });
 
   // Función para validar si un campo está vacío en tiempo real.
-  // Si el campo está vacío, se aplica la clase 'is-invalid', de lo contrario, 'is-valid'.
   function validarCampo(campo) {
     if (campo.value.trim() === '') {
-      campo.classList.add('is-invalid');  // Marca el campo como inválido.
+      campo.classList.add('is-invalid');
       campo.classList.remove('is-valid');
     } else {
-      campo.classList.add('is-valid');  // Marca el campo como válido.
+      campo.classList.add('is-valid');
       campo.classList.remove('is-invalid');
     }
   }
 
   // Validación en tiempo real de los campos de nombre, apellido y email.
-  nombre.addEventListener('input', () => validarCampo(nombre));  // Validar cuando el usuario escribe en el campo de nombre.
-  apellido.addEventListener('input', () => validarCampo(apellido));  // Validar cuando el usuario escribe en el campo de apellido.
-  email.addEventListener('input', () => validarCampo(email));  // Validar cuando el usuario escribe en el campo de email.
+  nombre.addEventListener('input', () => validarCampo(nombre));
+  apellido.addEventListener('input', () => validarCampo(apellido));
+  email.addEventListener('input', () => validarCampo(email));
 
   // Manejar el envío del formulario con validación de campos obligatorios.
   profileForm.addEventListener('submit', function (event) {
-    event.preventDefault();  // Evitar el envío automático del formulario.
-    event.stopPropagation();  // Evitar la propagación del evento.
+    event.preventDefault();
+    event.stopPropagation();
 
-    // Validar todos los campos obligatorios.
     validarCampo(nombre);
     validarCampo(apellido);
     validarCampo(email);
 
-    // Si todos los campos obligatorios son válidos, guardar los datos del usuario.
     if (nombre.classList.contains('is-valid') && apellido.classList.contains('is-valid') && email.classList.contains('is-valid')) {
       const usuario = {
         nombre: nombre.value,
@@ -126,13 +124,12 @@ document.addEventListener('DOMContentLoaded', function () {
         segundoNombre: segundoNombre.value,
         segundoApellido: segundoApellido.value,
         telefono: telefono.value,
-        fotoPerfil: previewImage.src  // Guardar la imagen de perfil en base64.
+        fotoPerfil: previewImage.src || defaultProfileImg  // Guardar la imagen de perfil o la predeterminada.
       };
 
-      guardarDatosUsuario(usuario);  // Guardar o actualizar los datos del usuario en Local Storage.
+      guardarDatosUsuario(usuario);
       alert('Datos guardados correctamente');
     } else {
-      // Mostrar una alerta si los campos obligatorios no están completos.
       alert('Por favor, complete todos los campos obligatorios.');
     }
   });
