@@ -90,6 +90,21 @@ document.addEventListener('DOMContentLoaded', function () {
   switchModoNoche.addEventListener('change', () => {
     const modoNoche = switchModoNoche.checked;
     body.setAttribute('data-bs-theme', modoNoche ? 'dark' : 'light');
+    
+    // Obtener el email del usuario actual
+    const emailUsuario = email.value;
+    if (emailUsuario) {
+        let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+        const index = usuarios.findIndex(u => u.email === emailUsuario);
+
+        if (index !== -1) {
+            // Actualizar el estado del modo noche del usuario en el array
+            usuarios[index].modoNoche = modoNoche;
+
+            // Guardar los cambios en localStorage
+            localStorage.setItem('usuarios', JSON.stringify(usuarios));
+        }
+    }
   });
 
   // Función para validar si un campo está vacío en tiempo real.
