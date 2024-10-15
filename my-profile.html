@@ -88,7 +88,7 @@
    
     <div class="container my-4">
       <h1><strong>Mi registro</strong></h1>
-      <form id="profileForm">
+      <form id="profileForm" novalidate>
         <div class="row">
           <div class="col-md-4">
             <img src="img/default_profile.png" alt="Imagen de perfil" class="img-circular" id="previewImage" loading="lazy">
@@ -106,6 +106,12 @@
               <div class="col-md-6">
                 <label for="nombre" class="form-label">Nombre*</label>
                 <input type="text" class="form-control" id="nombre" required>
+                <div class="valid-feedback">
+                  Nombre válido
+                </div>
+                <div class="invalid-feedback">
+                  Ingresa un nombre válido
+                </div>
               </div>
               <div class="col-md-6">
                 <label for="segundoNombre" class="form-label">Segundo nombre (Opcional)</label>
@@ -117,6 +123,12 @@
               <div class="col-md-6">
                 <label for="apellido" class="form-label">Apellido*</label>
                 <input type="text" class="form-control" id="apellido" required>
+                <div class="valid-feedback">
+                  Apellido válido
+                </div>
+                <div class="invalid-feedback">
+                  Ingresa un apellido válido
+                </div>
               </div>
               <div class="col-md-6">
                 <label for="segundoApellido" class="form-label">Segundo apellido (Opcional)</label>
@@ -128,6 +140,12 @@
               <div class="col-md-6">
                 <label for="email" class="form-label">E-mail*</label>
                 <input type="email" class="form-control" id="email" required>
+                <div class="valid-feedback">
+                  E-mail válido
+                </div>
+                <div class="invalid-feedback">
+                  Ingresa un e-mail válido
+                </div>
               </div>
               <div class="col-md-6">
                 <label for="telefono" class="form-label">Teléfono de contacto</label>
