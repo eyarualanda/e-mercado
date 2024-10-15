@@ -1,25 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
 
+  // Ruta de la imagen predeterminada de perfil.
+  const defaultProfileImg = 'img/default_profile_img.jpg'; // Cambia esta ruta a la ubicación correcta de tu imagen.
+
+  // Referencias a los elementos del interruptor de modo noche y el body de la página.
   const switchModoNoche = document.getElementById('switchModoNoche');
   const body = document.body;
 
-  // Cargar estado del modo noche desde Local Storage.
-  // Si 'modoNoche' está guardado en Local Storage y es 'true', activamos el modo oscuro.
-  // También se asegura que el switch de modo noche esté marcado/desmarcado acorde.
-  const modoNocheActivo = localStorage.getItem('modoNoche') === 'true';
-  switchModoNoche.checked = modoNocheActivo;
-  body.setAttribute('data-bs-theme', modoNocheActivo ? 'dark' : 'light');
-
-  // Escucha cambios en el switch de modo noche.
-  // Cada vez que el switch cambia, actualizamos el tema de la página (oscuro o claro)
-  // y guardamos el estado en Local Storage.
-  switchModoNoche.addEventListener('change', () => {
-    const modoNoche = switchModoNoche.checked;
-    body.setAttribute('data-bs-theme', modoNoche ? 'dark' : 'light');
-    localStorage.setItem('modoNoche', modoNoche);
-  });
-
-  // Variables que hacen referencia a los elementos del formulario de perfil.
+  // Referencias a los elementos del formulario de perfil.
   const profileForm = document.getElementById('profileForm');
   const fotoPerfil = document.getElementById('fotoPerfil');
   const previewImage = document.getElementById('previewImage');
@@ -30,92 +18,121 @@ document.addEventListener('DOMContentLoaded', function () {
   const segundoApellido = document.getElementById('segundoApellido');
   const telefono = document.getElementById('telefono');
 
-  // Cargar el correo del usuario desde Local Storage (que supuestamente se guarda al iniciar sesión).
-  // Si existe, se carga en el campo 'email' y se llama a la función para cargar los demás datos del usuario.
-  const usuario = localStorage.getItem('usuario');
-  if (usuario) {
-    email.value = usuario; // Coloca el email almacenado en el campo de email.
-    cargarDatosUsuario(usuario); // Intenta cargar los datos del usuario desde Local Storage.
+  // Cargar el email del usuario almacenado en Local Storage al iniciar sesión.
+  const usuarioGuardado = localStorage.getItem('usuario');
+  if (usuarioGuardado) {
+    email.value = usuarioGuardado;
+    cargarDatosUsuario(usuarioGuardado);
+  } else {
+    // Si no hay un usuario, establecer la imagen predeterminada.
+    previewImage.src = defaultProfileImg;
+    body.setAttribute('data-bs-theme', 'light'); // Modo claro por defecto.
   }
 
-  // Función que carga los datos del usuario desde Local Storage.
-  // Recibe como parámetro el email del usuario y busca en el array de usuarios guardado.
-  // Si encuentra el usuario, carga sus datos en los campos del formulario.
+  // Función para cargar los datos del usuario desde Local Storage.
   function cargarDatosUsuario(emailUsuario) {
     const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
     const usuario = usuarios.find(u => u.email === emailUsuario);
 
     if (usuario) {
+      // Asignar los datos del usuario a los campos del formulario.
       nombre.value = usuario.nombre || '';
       apellido.value = usuario.apellido || '';
       segundoNombre.value = usuario.segundoNombre || '';
       segundoApellido.value = usuario.segundoApellido || '';
       telefono.value = usuario.telefono || '';
-      // Si hay una imagen de perfil guardada, la muestra en el elemento de previsualización.
-      if (usuario.fotoPerfil) {
-        previewImage.src = usuario.fotoPerfil;
-      }
+
+      // Cargar imagen de perfil o establecer la imagen predeterminada.
+      previewImage.src = usuario.fotoPerfil || defaultProfileImg;
+
+      // Cargar el estado del modo oscuro.
+      const modoNocheActivo = usuario.modoNoche || false;
+      switchModoNoche.checked = modoNocheActivo;
+      body.setAttribute('data-bs-theme', modoNocheActivo ? 'dark' : 'light');
+    } else {
+      // Si no existe el usuario, usar la imagen predeterminada y modo claro.
+      previewImage.src = defaultProfileImg;
+      body.setAttribute('data-bs-theme', 'light');
     }
   }
 
   // Función para guardar o actualizar los datos del usuario en Local Storage.
-  // Recibe un objeto 'usuario' con todos los datos y lo almacena en el array de usuarios.
-  // Si el usuario ya existe (basado en el email), se actualizan sus datos, de lo contrario, se añade como nuevo.
   function guardarDatosUsuario(usuario) {
     let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
     const index = usuarios.findIndex(u => u.email === usuario.email);
 
-    // Si el usuario ya existe en el array, se actualizan sus datos.
     if (index !== -1) {
-      usuarios[index] = usuario;
+      usuarios[index] = usuario; // Actualizar el usuario existente.
     } else {
-      // Si no existe, se agrega como nuevo.
-      usuarios.push(usuario);
+      usuarios.push(usuario); // Agregar el nuevo usuario.
     }
 
-    // Guardar el array actualizado de usuarios en Local Storage.
     localStorage.setItem('usuarios', JSON.stringify(usuarios));
   }
 
-  // Escuchar el cambio en el input de la imagen de perfil.
-  // Cuando el usuario selecciona una nueva imagen, se convierte a base64 para almacenarla en Local Storage.
-  // También se muestra en el elemento de previsualización de la imagen.
+  // Manejar el cambio en el input de la imagen de perfil.
   fotoPerfil.addEventListener('change', function (event) {
-    const file = event.target.files[0]; // Obtiene el archivo seleccionado.
+    const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = function (e) {
-        const base64Image = e.target.result; // Convierte la imagen a base64.
-        previewImage.src = base64Image; // Muestra la imagen en la previsualización.
+        const base64Image = e.target.result;
+        previewImage.src = base64Image;
       };
-      reader.readAsDataURL(file); // Leer el archivo como una URL de datos (base64).
+      reader.readAsDataURL(file);
+    } else {
+      // Si no se selecciona ninguna imagen, mostrar la imagen predeterminada.
+      previewImage.src = defaultProfileImg;
     }
   });
 
-  // Escuchar el evento de envío del formulario.
-  // Cuando el formulario se envía, se verifica que los campos obligatorios estén completos.
-  // Si todo está correcto, los datos del usuario se guardan en Local Storage.
-  profileForm.addEventListener('submit', function (event) {
-    event.preventDefault(); // Evita que el formulario se envíe de forma predeterminada.
+  // Escucha cambios en el switch del modo noche.
+  switchModoNoche.addEventListener('change', () => {
+    const modoNoche = switchModoNoche.checked;
+    body.setAttribute('data-bs-theme', modoNoche ? 'dark' : 'light');
+  });
 
-    // Validación: verifica que los campos de nombre, apellido y email no estén vacíos.
-    if (nombre.value.trim() === '' || apellido.value.trim() === '' || email.value.trim() === '') {
-      alert('Por favor, complete todos los campos obligatorios.');
+  // Función para validar si un campo está vacío en tiempo real.
+  function validarCampo(campo) {
+    if (campo.value.trim() === '') {
+      campo.classList.add('is-invalid');
+      campo.classList.remove('is-valid');
     } else {
-      // Crear un objeto con los datos del usuario.
+      campo.classList.add('is-valid');
+      campo.classList.remove('is-invalid');
+    }
+  }
+
+  // Validación en tiempo real de los campos de nombre, apellido y email.
+  nombre.addEventListener('input', () => validarCampo(nombre));
+  apellido.addEventListener('input', () => validarCampo(apellido));
+  email.addEventListener('input', () => validarCampo(email));
+
+  // Manejar el envío del formulario con validación de campos obligatorios.
+  profileForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    validarCampo(nombre);
+    validarCampo(apellido);
+    validarCampo(email);
+
+    if (nombre.classList.contains('is-valid') && apellido.classList.contains('is-valid') && email.classList.contains('is-valid')) {
       const usuario = {
         nombre: nombre.value,
         apellido: apellido.value,
-        email: email.value, // Se mantiene el correo con el que inició sesión.
+        email: email.value,
         segundoNombre: segundoNombre.value,
         segundoApellido: segundoApellido.value,
         telefono: telefono.value,
-        fotoPerfil: previewImage.src // Guardar la imagen actual en base64.
+        fotoPerfil: previewImage.src || defaultProfileImg,  // Guardar la imagen de perfil o la predeterminada.
+        modoNoche: switchModoNoche.checked  // Guardar el estado del modo oscuro.
       };
 
-      // Guardar los datos del usuario en Local Storage.
-      guardarDatosUsuario(usuario);
+      guardarDatosUsuario(usuario);  // Guardar o actualizar los datos del usuario en Local Storage.
       alert('Datos guardados correctamente');
+    } else {
+      alert('Por favor, complete todos los campos obligatorios.');
     }
   });
 });
