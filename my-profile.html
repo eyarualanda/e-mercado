@@ -5,29 +5,32 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>eMercado - Todo lo que busques está aquí</title>
-  
   <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
   <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100..900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
   <style>
     .bd-placeholder-img {
       font-size: 1.125rem;
       text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
       user-select: none;
     }
-
     .img-circular {
-      width: 200px; 
-      height: 200px; 
-      border-radius: 50%;
-      object-fit: cover;
-    }
+  width: 200px; 
+  height: 200px; 
+  border-radius: 50%;
+  object-fit: cover;
+}
 
     @media (min-width: 768px) {
       .bd-placeholder-img-lg {
@@ -64,29 +67,17 @@
               <span> Vender</span>
             </a>
           </li>
-
-          <!-- Dropdown para el perfil -->
-          <li class="nav-item dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <li class="nav-item">
+            <a class="nav-link" href="my-profile.html">
               <i class="fas fa-user"></i>
               <span id="usuarioDisplay"></span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <button id="cerrarSesion" class="btn-cerrar-sesion">
+              <img src="img/cerrar_sesion.png" width="20px" loading="lazy">
+              <span>Cerrar sesión</span>
             </button>
-            <ul class="dropdown-menu dropdown-menu-dark">
-              <li>
-                <a class="nav-link" href="my-profile.html">
-                  <i class="fas fa-user"></i>
-                  <span>Mi perfil</span>
-                </a>
-              </li>
-              <li><a class="dropdown-item" href="#">Mi carrito</a></li>
-              <li><hr class="dropdown-divider"></li>
-              <li>
-                <button id="cerrarSesion" class="btn-cerrar-sesion dropdown-item">
-                  <img src="img/cerrar_sesion.png" width="20px">
-                  <span>Cerrar sesión</span>
-                </button>
-              </li>
-            </ul>
           </li>
         </ul>
       </div>
@@ -94,6 +85,7 @@
   </nav>
 
   <main>
+   
     <div class="container my-4">
       <h1><strong>Mi registro</strong></h1>
       <form id="profileForm">
@@ -106,10 +98,10 @@
                 <i class="fas fa-upload"></i> Subir imagen
               </label>
             </div>
-            <div class="form-check form-switch mt-4">
-              <input class="form-check-input" type="checkbox" role="switch" id="switchModoNoche">
-              <label class="form-check-label" for="switchModoNoche">Modo noche</label>
-            </div>
+              <div class="form-check form-switch mt-4">
+                <input class="form-check-input" type="checkbox" role="switch" id="switchModoNoche">
+                <label class="form-check-label" for="switchModoNoche">Modo noche</label>
+              </div>
           </div>
 
           <div class="col-md-8">
@@ -117,8 +109,12 @@
               <div class="col-md-6 mb-3">
                 <label for="nombre" class="form-label">Nombre*</label>
                 <input type="text" class="form-control" id="nombre" required>
-                <div class="valid-feedback">Nombre válido</div>
-                <div class="invalid-feedback">Ingresa un nombre válido</div>
+                <div class="valid-feedback">
+                  Nombre válido
+                </div>
+                <div class="invalid-feedback">
+                  Ingresa un nombre válido
+                </div>
               </div>
               <div class="col-md-6 mb-3">
                 <label for="segundoNombre" class="form-label">Segundo nombre (Opcional)</label>
@@ -130,8 +126,12 @@
               <div class="col-md-6 mb-3">
                 <label for="apellido" class="form-label">Apellido*</label>
                 <input type="text" class="form-control" id="apellido" required>
-                <div class="valid-feedback">Apellido válido</div>
-                <div class="invalid-feedback">Ingresa un apellido válido</div>
+                <div class="valid-feedback">
+                  Apellido válido
+                </div>
+                <div class="invalid-feedback">
+                  Ingresa un apellido válido
+                </div>
               </div>
               <div class="col-md-6 mb-3">
                 <label for="segundoApellido" class="form-label">Segundo apellido (Opcional)</label>
@@ -143,8 +143,12 @@
               <div class="col-md-6 mb-3">
                 <label for="email" class="form-label">E-mail*</label>
                 <input type="email" class="form-control" id="email" required>
-                <div class="valid-feedback">E-mail válido</div>
-                <div class="invalid-feedback">Ingresa un e-mail válido</div>
+                <div class="valid-feedback">
+                  E-mail válido
+                </div>
+                <div class="invalid-feedback">
+                  Ingresa un e-mail válido
+                </div>
               </div>
               <div class="col-md-6 mb-3">
                 <label for="telefono" class="form-label">Teléfono de contacto</label>
@@ -155,6 +159,7 @@
           </div>
         </div>
       </form>
+
     </div>
   </main>
 

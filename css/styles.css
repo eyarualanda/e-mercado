@@ -93,9 +93,6 @@ footer p {
   max-height: 100%; /* Ajusta la altura máxima de la imagen */
 }
 
-.nav-item{
-  display: inline-block;
-}
 .alert {
   position: fixed; /* Posición fija para las alertas */
   top: 80px; /* Espaciado desde la parte superior */
