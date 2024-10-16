@@ -17,11 +17,15 @@ document.addEventListener('DOMContentLoaded', function () {
   const segundoNombre = document.getElementById('segundoNombre');
   const segundoApellido = document.getElementById('segundoApellido');
   const telefono = document.getElementById('telefono');
+  
+  // Referencia al elemento donde se muestra el email del usuario en el navbar
+  const usuarioDisplay = document.getElementById('usuarioDisplay');
 
   // Cargar el email del usuario almacenado en Local Storage al iniciar sesión.
   const usuarioGuardado = localStorage.getItem('usuario');
   if (usuarioGuardado) {
     email.value = usuarioGuardado;
+    usuarioDisplay.textContent = usuarioGuardado; // Mostrar el email en el navbar
     cargarDatosUsuario(usuarioGuardado);
   } else {
     // Si no hay un usuario, establecer la imagen predeterminada.
@@ -90,10 +94,37 @@ document.addEventListener('DOMContentLoaded', function () {
   switchModoNoche.addEventListener('change', () => {
     const modoNoche = switchModoNoche.checked;
     body.setAttribute('data-bs-theme', modoNoche ? 'dark' : 'light');
+    
+    // Obtener el email del usuario actual
+    const emailUsuario = email.value;
+    if (emailUsuario) {
+        let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+        const index = usuarios.findIndex(u => u.email === emailUsuario);
+
+        if (index !== -1) {
+            // Actualizar el estado del modo noche del usuario en el array
+            usuarios[index].modoNoche = modoNoche;
+
+            // Guardar los cambios en localStorage
+            localStorage.setItem('usuarios', JSON.stringify(usuarios));
+        }
+    }
   });
 
   // Función para validar si un campo está vacío en tiempo real.
-  function validarCampo(campo) {
+  // Función para validar si un campo está vacío o, si es email, que tenga un formato válido.
+function validarCampo(campo) {
+  if (campo.type === 'email') {
+    // Validación de email usando checkValidity()
+    if (campo.checkValidity()) {
+      campo.classList.add('is-valid');
+      campo.classList.remove('is-invalid');
+    } else {
+      campo.classList.add('is-invalid');
+      campo.classList.remove('is-valid');
+    }
+  } else {
+    // Validación para otros campos (que no estén vacíos)
     if (campo.value.trim() === '') {
       campo.classList.add('is-invalid');
       campo.classList.remove('is-valid');
@@ -102,6 +133,7 @@ document.addEventListener('DOMContentLoaded', function () {
       campo.classList.remove('is-invalid');
     }
   }
+}
 
   // Validación en tiempo real de los campos de nombre, apellido y email.
   nombre.addEventListener('input', () => validarCampo(nombre));
@@ -130,6 +162,11 @@ document.addEventListener('DOMContentLoaded', function () {
       };
 
       guardarDatosUsuario(usuario);  // Guardar o actualizar los datos del usuario en Local Storage.
+      localStorage.setItem('usuario', email.value); // Actualizar el email en localStorage
+
+      // Actualizar el email del usuario en el navbar
+      usuarioDisplay.textContent = email.value;
+      
       alert('Datos guardados correctamente');
     } else {
       alert('Por favor, complete todos los campos obligatorios.');
