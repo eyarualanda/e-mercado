@@ -26,25 +26,35 @@ nav a {
   }
 }
 
+/* Estilo base: Resolución estándar (1366x768 px) */
 .jumbotron {
-  height: 50vh; /* Altura de la jumbotron */
-  padding: 5em inherit; /* Espaciado interno */
-  margin-bottom: 0; /* Sin margen inferior */
-  background-color: #53C0FB; /* Color de fondo */
-  background: url('../img/cover_back.png'); /* Imagen de fondo */
-  background-size: cover; /* Ajusta la imagen para cubrir el contenedor */
-  background-position: center; /* Centra la imagen */
-  background-repeat: no-repeat; /* No repetir la imagen */
-  color: black; /* Color del texto */
-  font-weight: bold; /* Negrita para el texto */
+  height: 50vh; /* Altura del 50% del viewport */
+  padding: 5em inherit;
+  margin-bottom: 0;
+  background: #f8f9fa url('../img/cover_back.png') no-repeat center;
+  background-size: cover; /* La imagen cubrirá el contenedor */
+  color: black;
+  font-weight: bold;
 }
 
-@media (min-width: 768px) {
+/* Tableta en modo vertical (768x1024 px) */
+@media (max-width: 1024px) and (min-width: 768px) {
   .jumbotron {
-    padding-top: 6rem;
-    padding-bottom: 6rem; /* Aumenta el espaciado en pantallas grandes */
+    height: 40vh; /* Un poco más baja para tablets */
+    padding: 4em 2em; /* Reduce los márgenes */
+    background-size: contain; /* Evita recortes en imágenes grandes */
   }
 }
+
+/* Smartphones pequeños (Ej. iPhone SE: 320x568 px) */
+@media (max-width: 768px) {
+  .jumbotron {
+    height: 30vh; /* Menor altura para pantallas pequeñas */
+    padding: 2em 1em; /* Padding reducido */
+    background-size: contain; /* Mantiene proporciones */
+  }
+}
+
 
 .jumbotron p:last-child {
   margin-bottom: 0; /* Sin margen inferior para el último párrafo */
