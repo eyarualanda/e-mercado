@@ -7,11 +7,16 @@
   <title>eMercado - Todo lo que busques está aquí</title>
 
   <link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100..900&display=swap" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -57,7 +62,6 @@
       </div>
     </div>
   </nav>
-
   <div class="container">
     <div class="text-center p-4">
       <h2>Vender</h2>
@@ -70,29 +74,36 @@
           <div class="row">
             <div class="col-md-6 mb-3">
               <label for="productName">Nombre</label>
-              <input type="text" class="form-control" id="productName" value="" name="productName" required>
-              <div class="invalid-feedback">Ingresa un nombre</div>
+              <input type="text" class="form-control" id="productName" value="" name="productName">
+              <div class="invalid-feedback">
+                Ingresa un nombre
+              </div>
             </div>
           </div>
           <div class="row">
             <div class="col-md-8 order-md-1">
               <label>Imágenes</label>
               <div class="needsclick dz-clickable" id="file-upload">
-                <div class="dz-message needsclick">Arrastra tus fotos aquí<br></div>
+                <div class="dz-message needsclick">
+                  Arrastra tus fotos aquí<br>
+                </div>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-md-12 mb-3">
               <label for="productDescription">Descripción</label>
-              <textarea name="productDescription" class="form-control" id="productDescription" required></textarea>
+              <textarea name="productDescription" class="form-control" id="productDescription"></textarea>
             </div>
           </div>
           <div class="row">
             <div class="col-md-3 mb-3">
               <label for="productCostInput">Costo</label>
-              <input type="number" name="productCostInput" class="form-control" id="productCostInput" placeholder="" required value="0" min="0">
-              <div class="invalid-feedback">El costo debe ser mayor que 0.</div>
+              <input type="number" name="productCostInput" class="form-control" id="productCostInput" placeholder="" required="" value="0"
+                min="0">
+              <div class="invalid-feedback">
+                El costo debe ser mayor que 0.
+              </div>
             </div>
             <div class="col-md-4 mb-3">
               <label for="productCurrency">Moneda</label>
@@ -101,13 +112,15 @@
                 <option>Pesos Uruguayos (UYU)</option>
                 <option>Dólares (USD)</option>
               </select>
-              <div class="invalid-feedback">Ingresa una categoría válida.</div>
+              <div class="invalid-feedback">
+                Ingresa una categoría válida.
+              </div>
             </div>
           </div>
           <div class="row">
             <div class="col-md-7 mb-3">
               <label for="productCategory">Categoría</label>
-              <select name="productCategory" class="custom-select form-select d-block w-100" id="productCategory" required>
+              <select name="productCategory" class="custom-select form-select d-block w-100" id="productCategory">
                 <option value="">Elija la categoría...</option>
                 <option>Autos</option>
                 <option>Juguetes</option>
@@ -116,33 +129,41 @@
                 <option>Computadoras</option>
                 <option>Vestimenta</option>
               </select>
-              <div class="invalid-feedback">Por favor ingresa una categoría válida.</div>
+              <div class="invalid-feedback">
+                Por favor ingresa una categoría válida.
+              </div>
             </div>
           </div>
           <div class="row">
             <div class="col-md-3 mb-3">
               <label for="productCountInput">Cantidad en stock</label>
-              <input type="number" name="productCountInput" class="form-control" id="productCountInput" required value="1" min="0">
-              <div class="invalid-feedback">La cantidad es requerida.</div>
+              <input type="number" name="productCountInput" class="form-control" id="productCountInput"  required value="1"
+                min="0">
+              <div class="invalid-feedback">
+                La cantidad es requerida.
+              </div>
             </div>
           </div>
           <hr class="mb-4">
           <h5 class="mb-3">Tipo de publicación</h5>
           <div class="d-block my-3">
             <div class="custom-control custom-radio">
-              <input id="goldradio" name="publicationType" type="radio" class="custom-control-input" checked required>
+              <input id="goldradio" name="publicationType" type="radio" class="custom-control-input" checked=""
+                required="">
               <label class="custom-control-label" for="goldradio">Gold (13%)</label>
             </div>
             <div class="custom-control custom-radio">
-              <input id="premiumradio" name="publicationType" type="radio" class="custom-control-input" required>
+              <input id="premiumradio" name="publicationType" type="radio" class="custom-control-input" required="">
               <label class="custom-control-label" for="premiumradio">Premium (7%)</label>
             </div>
             <div class="custom-control custom-radio">
-              <input id="standardradio" name="publicationType" type="radio" class="custom-control-input" required>
+              <input id="standardradio" name="publicationType" type="radio" class="custom-control-input" required="">
               <label class="custom-control-label" for="standardradio">Estándar (3%)</label>
             </div>
             <div class="row">
-              <button type="button" class="m-1 btn btn-link" data-bs-toggle="modal" data-bs-target="#contidionsModal">Ver condiciones</button>
+              <button type="button" class="m-1 btn btn-link" data-bs-toggle="modal"
+                data-bs-target="#contidionsModal">Ver
+                condiciones</button>
             </div>
           </div>
           <hr class="mb-4">
@@ -173,7 +194,6 @@
       </div>
     </div>
   </div>
-  
   <footer class="text-muted">
     <div class="container">
       <p class="float-end">
