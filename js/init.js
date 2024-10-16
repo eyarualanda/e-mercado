@@ -53,19 +53,29 @@ document.addEventListener("DOMContentLoaded", function(){
     usuarioDisplay.textContent = usuario;
   }
 document.getElementById('cerrarSesion').addEventListener('click', function () {
-  localStorage.removeItem("usuario");         
+  localStorage.removeItem("usuario");
   // Elimina la sesión de localStorage
-          localStorage.removeItem('sesionIniciada');
-            // Redirige al login
-          window.location.href = 'login.html';
-      
-  })
-
-  const body = document.body;
-
+  localStorage.removeItem('sesionIniciada');
+    // Redirige al login
+  window.location.href = 'login.html';
+    
+  });
+  
   // Cargar estado del modo desde Local Storage
-  const modoNocheActivo = localStorage.getItem('modoNoche') === 'true';
-  body.setAttribute('data-bs-theme', modoNocheActivo ? 'dark' : 'light');
+  const emailUsuario = localStorage.getItem('usuario');  // Obtener el email del usuario actual
+  if (emailUsuario) {
+      const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+      const usuario = usuarios.find(u => u.email === emailUsuario);
+      
+      if (usuario) {
+          // Cargar el estado del modo noche del usuario y aplicarlo
+          const modoNoche = usuario.modoNoche || false;
+          document.body.setAttribute('data-bs-theme', modoNoche ? 'dark' : 'light');
+      }
+  } else {
+      // Si no hay usuario, aplicar modo claro por defecto
+      document.body.setAttribute('data-bs-theme', 'light');
+  }
 });
 
 // Guarda el localStorage el ID de un producto, para mostrar su información en poduct-info
