@@ -1,20 +1,42 @@
-document.getElementById('loginForm').addEventListener('submit', function (event) {
-    // Obtener valores de los campos de entrada
-    var usuario = document.getElementById('inputUsuario').value;
-    var contrasenia = document.getElementById('inputContraseña').value;
+document.addEventListener('DOMContentLoaded', () => {
+    var usuario = document.getElementById('inputUsuario');
+    var contrasenia = document.getElementById('inputContrasenia');
 
-    // Verificará si los campos están vacíos
-    if (usuario === "" || contrasenia === "") {
-        // Previene el envío del formulario con campos vacíos
-        event.preventDefault();
-        alert("Por favor, completa ambos campos.");
-    }else{
-        // Redirige a la página de portada si los campos no están vacíos
-        event.preventDefault();  // Previene la recarga del formulario
-        window.location.href = "index.html";  // Cambia "index.html" a la ruta correcta
-                // Guarda la sesión en localStorage
-                localStorage.setItem("usuario", usuario);
-  localStorage.setItem('sesionIniciada', 'true');
-  window.location.href = "index.html";  // Redirige a la página de portada
-}
+    function validarCampo(campo) {
+        if (campo.type === 'email') {
+            if (campo.checkValidity() && campo.value !== '') {
+                campo.classList.add('is-valid');
+                campo.classList.remove('is-invalid');
+            } else {
+                campo.classList.add('is-invalid');
+                campo.classList.remove('is-valid');
+            }
+        } else {
+            if (campo.value.trim() === '') {
+                campo.classList.add('is-invalid');
+                campo.classList.remove('is-valid');
+            } else {
+                campo.classList.add('is-valid');
+                campo.classList.remove('is-invalid');
+            }
+        }
+    }
+
+    usuario.addEventListener('input', () => validarCampo(usuario));
+    contrasenia.addEventListener('input', () => validarCampo(contrasenia));
+
+    document.getElementById('loginForm').addEventListener('submit', function (event) {
+        var usuarioValue = usuario.value;
+        var contraseniaValue = contrasenia.value;
+
+        if (usuarioValue === "" || contraseniaValue === "") {
+            event.preventDefault();
+            alert("Por favor, completa ambos campos.");
+        } else {
+            event.preventDefault();
+            localStorage.setItem("usuario", usuarioValue);
+            localStorage.setItem('sesionIniciada', 'true');
+            window.location.href = "index.html";
+        }
+    });
 });
