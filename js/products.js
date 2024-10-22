@@ -15,9 +15,11 @@ function crearTarjeta(product) {
             <div class="overlay">
                 <div class="nombre-producto">${product.name}</div>
                 <div class="botones">
-                    <button class="btn btn-primary">
-                        <i class="fas fa-shopping-bag"></i> Comprar
-                    </button>
+                    <a href="cart.html">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-shopping-bag"></i> Comprar
+                        </button>
+                   </a>
                     <button class="btn btn-secondary">
                         <i class="fas fa-cart-plus"></i> Agregar al carrito
                     </button>
