@@ -56,12 +56,15 @@ function mostrarInfoProducto(product) {
                 <input id="quantity" type="number" name="quantity" min="1" value="1" class="form-control">
             </div> 
             <div class="d-grid gap-2">
-                <button id="buyButton" class="btn btn-primary w-10 p-2">
-                    <i class="fas fa-shopping-bag"></i> Comprar
-                </button>
-                <button id="addToCartButton" class="btn btn-secondary w-10 p-2">
+                <a href="cart.html">
+                    <button id="buyButton" class="btn btn-primary w-100 p-2">
+                        <i class="fas fa-shopping-bag"></i> Comprar
+                    </button>
+                </a>
+                <button id="addToCartButton" class="btn btn-secondary w-100 p-2">
                     <i class="fas fa-cart-plus"></i> Agregar al carrito
                 </button>
+
             </div>
         </div>
         <div class="col my-4">

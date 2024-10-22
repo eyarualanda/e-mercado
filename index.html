@@ -51,25 +51,25 @@
               <i class="fas fa-user"></i>
               <span id="usuarioDisplay"></span>
             </button>
-            <ul class="dropdown-menu dropdown-menu-dark p-3 w-100">
+            <ul class="dropdown-menu dropdown-menu-dark p-3">
               <li>
-                <a class="nav-link" href="my-profile.html">
-                  <i class="fas fa-user"></i>
-                  <span>Mi perfil</span>
+                <a class="dropdown-item" href="cart.html">
+                  <i class="fas fa-cart-shopping"></i>
+                  <span> Mi carrito</span>
                 </a>
               </li>
               <li>
-                <a class="nav-link" href="#">
-                  <i class="fa-solid fa-cart-shopping"></i>
-                  <span>Mi carrito</span>
+                <a class="dropdown-item" href="my-profile.html">
+                  <i class="fas fa-user"></i>
+                  <span> Mi perfil</span>
                 </a>
               </li>
               <li><hr class="dropdown-divider"></li>
               <li> 
-                <button id="cerrarSesion" class="btn-cerrar-sesion dropdown-item nav-link">
-                  <i class="fas fa-sign-out-alt" style="font-size: 20px; margin-right: 8px;"></i>
+                <a id="cerrarSesion" class="dropdown-item">
+                  <i class="fas fa-sign-out-alt"></i>
                   <span>Cerrar sesión</span>
-                </button>
+                </a>
               </li>
             </ul>
           </li>
@@ -77,7 +77,6 @@
       </div>
     </div>
   </nav>
-
   <main>
     <div class="jumbotron text-center"></div>
     <div class="album py-5">
