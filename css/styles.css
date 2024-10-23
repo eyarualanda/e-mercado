@@ -626,3 +626,17 @@ body[data-bs-theme="dark"] .btn-upload {
   background-color: #0056b3; /* Un color más oscuro al pasar el mouse */
 }
 
+
+#cart-container .row {
+  border-bottom: 1px solid #dee2e6;
+  padding: 10px 0;
+  transition: background-color 0.2s;
+}
+
+#cart-container .row:hover {
+  background-color: #f8f9fa;
+}
+
+#finalizarCompra {
+  width: 200px; /* Ancho opcional */
+}
