@@ -60,6 +60,7 @@ function mostrarProductosEnCarrito() {
 
 function eliminarDelCarrito(productID) {
     let currentUser = getCurrentUser();
+
     if (!currentUser) return;
 
     // Filtrar el producto eliminando el que coincide con el ID
@@ -69,9 +70,7 @@ function eliminarDelCarrito(productID) {
 
     // Guardar el carrito actualizado en localStorage
     let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-    usuarios = usuarios.map(usuario => 
-        usuario.email === currentUser.email ? currentUser : usuario
-    );
+    usuarios = usuarios.map(usuario => usuario.email === currentUser.email ? currentUser : usuario);
     localStorage.setItem('usuarios', JSON.stringify(usuarios));
 
     // Actualizar la vista del carrito
