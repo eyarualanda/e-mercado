@@ -285,21 +285,35 @@ function generarBarrasProgreso(opiniones) {
     }).join(''); // Une todas las barras generadas en un solo string
 }
 
-// Agregar al carrito
+// Agregar al carrito asociado al usuario
 function agregarAlCarrito(product) {
-    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    const usuarioActual = localStorage.getItem('usuario'); // El usuario logueado
+
+    let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+    const usuario = usuarios.find(u => u.email === usuarioActual);
+
+    if (!usuario) {
+        alert('Usuario no encontrado.');
+        return;
+    }
+
     const cantidad = parseInt(document.getElementById('quantity').value);
 
-    const productoExistente = carrito.find(p => p.id === product.id);
+    const productoExistente = usuario.carrito.find(p => p.id === product.id);
 
     if (productoExistente) {
         productoExistente.cantidad += cantidad;
     } else {
-        carrito.push({ ...product, cantidad });
+        usuario.carrito.push({ ...product, cantidad });
     }
 
-    localStorage.setItem('carrito', JSON.stringify(carrito));
+    // Actualizar los datos del usuario con el carrito actualizado
+    const index = usuarios.findIndex(u => u.email === usuarioActual);
+    usuarios[index] = usuario;
+    localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
 }
+
 
 document.addEventListener("DOMContentLoaded", function() {
     getJSONData(productID).then((resultado) => {

@@ -1,5 +1,3 @@
-const productID = PRODUCT_INFO_URL + localStorage.getItem('productID') + EXT_TYPE;
-
 document.addEventListener("DOMContentLoaded", () => {
     mostrarProductosEnCarrito();
 
@@ -11,8 +9,20 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+var getCurrentUser = function getCurrentUser() {
+    const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+    const emailActual = localStorage.getItem('usuario');
+    return usuarios.find(usuario => usuario.email === emailActual);
+}
+
 function mostrarProductosEnCarrito() {
-    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+    const currentUser = getCurrentUser();
+    
+    if (!currentUser || !currentUser.carrito) {
+        return; // Si no hay usuario o carrito, no hacer nada
+    }
+
+    const carrito = currentUser.carrito;
     const cartContainer = document.getElementById('cart-container');
     cartContainer.innerHTML = '';
 
@@ -27,7 +37,7 @@ function mostrarProductosEnCarrito() {
         const productoHTML = `
             <div class="row mb-3" id="producto-${producto.id}">
                 <div class="col-3">
-                    <img src="${producto.image}" class="img-fluid" alt="${producto.name}">
+                    <img src="${producto.images[0]}" class="img-fluid" alt="${producto.name}">
                 </div>
                 <div class="col-6">
                     <h5>${producto.name}</h5>
@@ -49,8 +59,17 @@ function mostrarProductosEnCarrito() {
 }
 
 function eliminarDelCarrito(productID) {
-    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    carrito = carrito.filter(producto => producto.id !== productID);
-    localStorage.setItem('carrito', JSON.stringify(carrito));
+    let currentUser = getCurrentUser();
+    
+    if (!currentUser) return;
+
+    // Filtrar el producto a eliminar del carrito del usuario actual
+    currentUser.carrito = currentUser.carrito.filter(producto => producto.id !== productID);
+
+    // Guardar los cambios de nuevo en localStorage
+    let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+    usuarios = usuarios.map(usuario => usuario.email === currentUser.email ? currentUser : usuario);
+    localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
     mostrarProductosEnCarrito();
 }

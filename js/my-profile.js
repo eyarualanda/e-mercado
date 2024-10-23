@@ -158,7 +158,8 @@ function validarCampo(campo) {
         segundoApellido: segundoApellido.value,
         telefono: telefono.value,
         fotoPerfil: previewImage.src || defaultProfileImg,  // Guardar la imagen de perfil o la predeterminada.
-        modoNoche: switchModoNoche.checked  // Guardar el estado del modo oscuro.
+        modoNoche: switchModoNoche.checked,  // Guardar el estado del modo oscuro.
+        carrito: []
       };
 
       guardarDatosUsuario(usuario);  // Guardar o actualizar los datos del usuario en Local Storage.
