@@ -1,12 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
     mostrarProductosEnCarrito();
-
-    document.addEventListener('click', function (e) {
-        if (e.target.classList.contains('eliminar-producto')) {
-            const productID = e.target.getAttribute('data-id');
-            eliminarDelCarrito(productID);
-        }
-    });
 });
 
 var getCurrentUser = function getCurrentUser() {
@@ -60,16 +53,26 @@ function mostrarProductosEnCarrito() {
 
 function eliminarDelCarrito(productID) {
     let currentUser = getCurrentUser();
-    
+
     if (!currentUser) return;
 
-    // Filtrar el producto a eliminar del carrito del usuario actual
-    currentUser.carrito = currentUser.carrito.filter(producto => producto.id !== productID);
+    // Filtrar el producto eliminando el que coincide con el ID
+    currentUser.carrito = currentUser.carrito.filter(
+        producto => producto.id !== parseInt(productID)
+    );
 
-    // Guardar los cambios de nuevo en localStorage
+    // Guardar el carrito actualizado en localStorage
     let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
     usuarios = usuarios.map(usuario => usuario.email === currentUser.email ? currentUser : usuario);
     localStorage.setItem('usuarios', JSON.stringify(usuarios));
 
+    // Actualizar la vista del carrito
     mostrarProductosEnCarrito();
 }
+
+document.getElementById('cart-container').addEventListener('click', function (e) {
+    if (e.target.classList.contains('eliminar-producto')) {
+        const productID = e.target.getAttribute('data-id');
+        eliminarDelCarrito(productID);
+    }
+});
