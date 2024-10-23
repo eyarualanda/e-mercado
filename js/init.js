@@ -42,10 +42,30 @@ let getJSONData = function(url){
 
 window.onload = function () {
   // Verifica si la sesión no está iniciada
-if (localStorage.getItem('sesionIniciada') !== 'true') {
-      window.location.href = 'login.html';  // Redirige al login
-}
+  if (localStorage.getItem('sesionIniciada') !== 'true') {
+    window.location.href = 'login.html';  // Redirige al login
+  } else {
+    // Verifica si los datos obligatorios del perfil están completos
+    let emailUsuario = localStorage.getItem('usuario');
+    let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+    let usuario = usuarios.find(u => u.email === emailUsuario);
+
+    // Evita redirección si ya estás en la página de perfil
+    if (window.location.pathname !== '/my-profile.html') {
+      if (usuario) {
+        let camposObligatoriosCompletos = usuario.nombre && usuario.apellido && usuario.email;
+        if (!camposObligatoriosCompletos) {
+          window.location.href = 'my-profile.html'; // Redirige al perfil si faltan datos
+          alert('Por favor, completa los campos obligatorios');
+        }
+      } else {
+        window.location.href = 'my-profile.html';  // Si no se encuentra el usuario, también redirige al perfil
+        alert('Por favor, completa los campos obligatorios');
+      }
+    }
+  }
 };
+
 document.addEventListener("DOMContentLoaded", function(){ 
   var usuario = localStorage.getItem("usuario")|| "Invitado";
   var usuarioDisplay = document.getElementById("usuarioDisplay");

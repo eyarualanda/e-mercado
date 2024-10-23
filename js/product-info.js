@@ -74,6 +74,10 @@ function mostrarInfoProducto(product) {
         </div>
     `;
 
+    document.getElementById('buyButton').addEventListener('click', () => agregarAlCarrito(product));
+    document.getElementById('addToCartButton').addEventListener('click', () => agregarAlCarrito(product));
+    document.getElementById('addToCartButton').addEventListener('click', () => alert("Producto agregado al carrito"));
+
     mostrarProductosRelacionados(product.relatedProducts);
 }
 
@@ -166,7 +170,6 @@ function mostrarProductosRelacionados(productosRelacionados) {
     }
 }
 
-
 function formatearFecha(fechaISO) {
     const fecha = new Date(fechaISO); // Convertimos la cadena de fecha (ejemplo: "2024-09-26") en una fecha que JavaScript pueda entender
 
@@ -181,7 +184,6 @@ function formatearFecha(fechaISO) {
     return `${dia} ${mes} ${anio}`; // Devolvemos una cadena que combina el día, el mes en español y el año, por ejemplo: "26 Septiembre 2024"
 }
 
-
 function mostrarEstrellas(score) {
     let estrellasHTML = '';
     for (let i = 1; i <= 5; i++) {
@@ -195,7 +197,6 @@ function mostrarEstrellas(score) {
     }
     return estrellasHTML;
 }
-
 
 function generarEstrellas() {
     // Seleccionamos todos los elementos <i> que representan estrellas en el contenedor con el id 'product-star-rating'
@@ -214,7 +215,6 @@ function generarEstrellas() {
         });
     });
 }
-
 
 function enviarResenia() {
     // Obtiene el valor ingresado en el campo de texto (textarea) para la nueva reseña
@@ -243,7 +243,6 @@ function enviarResenia() {
         alert("Por favor ingresa una reseña y una calificación.");
     }
 }
-
 
 // Cálculo de calificación promedio
 function calcularPromedio(opiniones) {
@@ -286,6 +285,36 @@ function generarBarrasProgreso(opiniones) {
     }).join(''); // Une todas las barras generadas en un solo string
 }
 
+// Agregar al carrito asociado al usuario
+function agregarAlCarrito(product) {
+    const usuarioActual = localStorage.getItem('usuario'); // El usuario logueado
+
+    let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+    const usuario = usuarios.find(u => u.email === usuarioActual);
+
+    if (!usuario) {
+        alert('Usuario no encontrado.');
+        return;
+    }
+
+    const cantidad = parseInt(document.getElementById('quantity').value);
+
+    const productoExistente = usuario.carrito.find(p => p.id === product.id);
+
+    if (productoExistente) {
+        productoExistente.cantidad += cantidad;
+    } else {
+        usuario.carrito.push({ ...product, cantidad });
+    }
+
+    // Actualizar los datos del usuario con el carrito actualizado
+    const index = usuarios.findIndex(u => u.email === usuarioActual);
+    usuarios[index] = usuario;
+    localStorage.setItem('usuarios', JSON.stringify(usuarios));
+
+}
+
+
 document.addEventListener("DOMContentLoaded", function() {
     getJSONData(productID).then((resultado) => {
         if (resultado.status === "ok") {
@@ -308,6 +337,4 @@ document.addEventListener("DOMContentLoaded", function() {
     }).catch(error => {
         console.error("Error al obtener datos:", error);
     });
-
-    
 });
