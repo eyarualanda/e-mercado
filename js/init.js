@@ -51,7 +51,7 @@ window.onload = function () {
     let usuario = usuarios.find(u => u.email === emailUsuario);
 
     // Evita redirección si ya estás en la página de perfil
-    if (window.location.pathname !== '/my-profile.html') {
+    if (!window.location.href.includes('my-profile.html')) {
       if (usuario) {
         let camposObligatoriosCompletos = usuario.nombre && usuario.apellido && usuario.email;
         if (!camposObligatoriosCompletos) {
