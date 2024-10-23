@@ -1,5 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
     mostrarProductosEnCarrito();
+
+    document.addEventListener('click', function (e) {
+        if (e.target.classList.contains('eliminar-producto')) {
+            const productID = e.target.getAttribute('data-id');
+            eliminarDelCarrito(productID);
+        }
+    });
 });
 
 var getCurrentUser = function getCurrentUser() {
