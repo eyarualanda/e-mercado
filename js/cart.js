@@ -12,23 +12,6 @@ document.addEventListener("DOMContentLoaded", () => {
 const currentUser = getCurrentUser();
 const carrito = currentUser.carrito;
 
-function eliminarDelCarrito(productID) {
-    let currentUser = getCurrentUser();
-
-    if (!currentUser) return;
-
-    
-    currentUser.carrito = currentUser.carrito.filter(
-        producto => producto.id !== parseInt(productID)
-    );
-
-    
-    let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-    usuarios = usuarios.map(usuario => usuario.email === currentUser.email ? currentUser : usuario);
-    localStorage.setItem('usuarios', JSON.stringify(usuarios));
-    mostrarProductosEnCarrito();
-}
-
 document.getElementById('cart-container').addEventListener('click', function (e) {
     if (e.target.classList.contains('eliminar-producto')) {
         const productID = e.target.getAttribute('data-id');
@@ -73,6 +56,8 @@ function eliminarDelCarrito(productID) {
 
 
     mostrarProductosEnCarrito();
+    actualizarBadgeCarrito();
+
 }
 
 function mostrarProductosEnCarrito() {
@@ -87,7 +72,7 @@ function mostrarProductosEnCarrito() {
     cartContainer.innerHTML = '';
 
     if (carrito.length === 0) {
-        cartContainer.innerHTML = '<p>No hay productos en el carrito.</p>';
+        cartContainer.innerHTML = '<p class="alert alert-light text-center">No hay productos en el carrito.</p>';
         document.getElementById('total-price').innerText = `${carrito[0]?.currency || '$'} 0.00`;
         document.getElementById('total-items').innerText = '0'; // Actualiza aquí si está vacío
         return;
