@@ -92,9 +92,11 @@ function mostrarProductosEnCarrito() {
                     <h5>${producto.name}</h5>
                     <p>${producto.description}</p>
                 </div>
-                <div class="col-2 align-items-center">
+                <div class="btn-group btn-group-sm col-2 align-items-center">
                     <button class="btn btn-outline-secondary btn-sm" onclick="actualizarCantidad(${producto.id}, -1)">-</button>
+                    <button class="btn">
                     <span id="cantidad-${producto.id}">${producto.cantidad}</span>
+                    </button>
                     <button class="btn btn-outline-secondary btn-sm" onclick="actualizarCantidad(${producto.id}, 1)">+</button>
                 </div>
                 <div class="col-3">
