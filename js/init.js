@@ -66,6 +66,24 @@ window.onload = function () {
   }
 };
 
+// Guarda el localStorage el ID de un producto, para mostrar su información en poduct-info
+let setProductID = function(id) {
+  localStorage.setItem("productID", id);
+  window.location = "product-info.html";
+}
+
+let getCurrentUser = function getCurrentUser() {
+  const usuarios = JSON.parse(localStorage.getItem('usuarios')) || []; // Recupera del localStorage los usuarios 
+  const emailActual = localStorage.getItem('usuario'); // Recupera del localStorage el usuario actual 
+  return usuarios.find(usuario => usuario.email === emailActual); // Encuentra el usuario que coincida con el actual
+}
+
+let actualizarBadgeCarrito = function() {
+  const currentUser = getCurrentUser(); // Recupera el usuario actual
+  const carrito = currentUser.carrito; // Toma el carrito del usuario actual
+  document.getElementById('badgeCarrito').innerText = carrito.length; // Hace que el badge del carrito en el navbar tenga de texto el largo del array carrito del usuario
+}
+
 document.addEventListener("DOMContentLoaded", function(){ 
   var usuario = localStorage.getItem("usuario")|| "Invitado";
   var usuarioDisplay = document.getElementById("usuarioDisplay");
@@ -96,10 +114,6 @@ document.getElementById('cerrarSesion').addEventListener('click', function () {
       // Si no hay usuario, aplicar modo claro por defecto
       document.body.setAttribute('data-bs-theme', 'light');
   }
-});
 
-// Guarda el localStorage el ID de un producto, para mostrar su información en poduct-info
-let setProductID = function(id) {
-  localStorage.setItem("productID", id);
-  window.location = "product-info.html";
-}
+  actualizarBadgeCarrito();
+});
