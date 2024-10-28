@@ -83,21 +83,25 @@ function mostrarProductosEnCarrito() {
 
     carrito.forEach(producto => {
         const productoHTML = `
+        <hr>
             <div class="row mb-3" id="producto-${producto.id}">
                 <div class="col-3">
                     <img src="${producto.images[0]}" class="img-fluid" alt="${producto.name}">
                 </div>
-                <div class="col-6">
+                <div class="col-3">
                     <h5>${producto.name}</h5>
-                    <p>${producto.currency} ${producto.cost}</p>
-                    <div class="align-items-center">
-                        <button class="btn btn-outline-secondary btn-sm" onclick="actualizarCantidad(${producto.id}, -1)">-</button>
-                        <span id="cantidad-${producto.id}">${producto.cantidad}</span>
-                        <button class="btn btn-outline-secondary btn-sm" onclick="actualizarCantidad(${producto.id}, 1)">+</button>
-                    </div>
-                    <p>Subtotal: <span id="subtotal-${producto.id}">${producto.currency} ${(producto.cost * producto.cantidad).toFixed(2)}</span></p>
+                    <p>${producto.description}</p>
+                </div>
+                <div class="col-2 align-items-center">
+                    <button class="btn btn-outline-secondary btn-sm" onclick="actualizarCantidad(${producto.id}, -1)">-</button>
+                    <span id="cantidad-${producto.id}">${producto.cantidad}</span>
+                    <button class="btn btn-outline-secondary btn-sm" onclick="actualizarCantidad(${producto.id}, 1)">+</button>
                 </div>
                 <div class="col-3">
+                    <p>${producto.currency} ${producto.cost}</p>
+                    <p>Subtotal: <span id="subtotal-${producto.id}">${producto.currency} ${(producto.cost * producto.cantidad).toFixed(2)}</span></p>
+                </div>
+                <div class="col-1">
                     <button class="btn btn-danger eliminar-producto" data-id="${producto.id}">
                         <i class="fas fa-trash"></i>
                     </button>
