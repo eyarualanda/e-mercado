@@ -72,10 +72,11 @@ function mostrarProductosEnCarrito() {
     cartContainer.innerHTML = '';
 
     if (carrito.length === 0) {
-        cartContainer.innerHTML = '<p class="alert alert-light text-center">No hay productos en el carrito.</p>';
+        document.getElementById('alertaCarrito').innerHTML = '<p class="alert alert-light text-center">No hay productos en el carrito.</p>';
         document.getElementById('total-price').innerText = `${carrito[0]?.currency || '$'} 0.00`;
         document.getElementById('total-items').innerText = '0'; // Actualiza aquí si está vacío
         document.getElementById('cart-summary').classList += ' d-none'; // Actualiza aquí si está vacío
+        cartContainer.classList += ' d-none'; // Actualiza aquí si está vacío
         return;
     }
 

@@ -83,9 +83,11 @@
 
     <main>
 
-        <div class="container m-5">
+        <div class="container mx-5 my-2">
             <h1 class="text-center">Productos del carrito</h1>
-            <div id="cart-container" class="container mb-4">
+            <div id="alertaCarrito"></div>
+            
+            <div id="cart-container" class="container my-4">
             </div>
 
             <div id="cart-summary" class="ff-jost d-flex flex-column align-items-center m-auto">
@@ -97,7 +99,7 @@
                 <hr class="separator"> <!-- Línea de separación -->
                 <div class="summary-details d-flex justify-content-between w-100 mb-4">
                     <span class="fw-bold">Subtotal:</span>
-                    <span id="total-price" class="ms-2">$0.00</span>
+                    <span id="total-price" class="ms-2"></span>
                 </div>
                 <button class="btn btn-outline-success" id="finalizarCompra">Finalizar compra</button>
             </div>
