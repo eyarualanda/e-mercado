@@ -24,6 +24,7 @@ function actualizarCantidad(productID, cantidad) {
     document.getElementById(`subtotal-${productID}`).innerText = `${producto.currency} ${(producto.cost * producto.cantidad).toFixed(2)}`; // Actualiza el subtotal.
 
     actualizarLocalStorage(currentUser); // Guarda el estado del carrito en localStorage.
+    actualizarBadgeCarrito(); // Actualiza la insignia del carrito (si existe en la UI).
     actualizarTotal(); // Recalcula el total general del carrito.
 }
 
