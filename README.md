@@ -1,4 +1,4 @@
-# E-Mercado
+# e-Mercado
 
 Este README describe el proyecto de e-commerce desarrollado para el curso "Jóvenes a Programar" de Ceibal.
 
