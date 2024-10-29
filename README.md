@@ -4,6 +4,8 @@ Este README describe el proyecto final de e-commerce desarrollado para el curso 
 
 Esta página web permite a los usuarios simular la realización de compras en línea mediante una interfaz amigable, con funcionalidades para gestionar sus perfiles, preferencias de usuario y carritos de compra.
 
+Pueden probar la página desde GitHub Pages a través del link: eyarualanda.github.io/e-mercado
+
 ## Tabla de contenidos
 
 - [Características](#características)
