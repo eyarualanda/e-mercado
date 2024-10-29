@@ -82,58 +82,29 @@
     </nav>
 
     <main>
-        <br>
-        <h1 class="text-center">Productos del carrito</h1>
-    
-        <div id="cart-container" class="container ml-4">
-            <!-- Ejemplo de producto en el carrito -->
-            <hr>
-            <div class="row mb-3" id="producto-1">
-                <div class="col-3">
-                    <img src="ruta/a/la/imagen.jpg" class="img-fluid" alt="Nombre del Producto" style="max-height: 150px; object-fit: cover;">
-                </div>
-                <div class="col-3">
-                    <h5>Nombre del Producto</h5>
-                    <p>Descripción del producto aquí. Asegúrate de que sea clara y concisa.</p>
-                </div>
-                <div class="btn-group btn-group-sm col-2 align-items-center">
-                    <button class="btn btn-outline-secondary btn-sm" onclick="actualizarCantidad(1, -1)">-</button>
-                    <button class="btn">
-                        <span id="cantidad-1">1</span>
-                    </button>
-                    <button class="btn btn-outline-secondary btn-sm" onclick="actualizarCantidad(1, 1)">+</button>
-                </div>
-                <div class="col-3">
-                    <p>$100.00</p>
-                    <p>Subtotal: <span id="subtotal-1">$100.00</span></p>
-                </div>
-                <div class="col-1">
-                    <button class="btn btn-danger eliminar-producto" data-id="1">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </div>
+
+        <div class="container m-5">
+            <h1 class="text-center">Productos del carrito</h1>
+            <div id="cart-container" class="container mb-4">
             </div>
-            <hr>
+
+            <div id="cart-summary" class="ff-jost d-flex flex-column align-items-center m-auto">
+                <h2 class="text-center">Resumen de la compra</h2>
+                <div class="summary-details d-flex justify-content-between w-100 mb-2" style="margin-top: 30px;">
+                    <span class="fw-bold">Cantidad total de productos:</span>
+                    <span id="total-items" class="ms-2">0</span>
+                </div>
+                <hr class="separator"> <!-- Línea de separación -->
+                <div class="summary-details d-flex justify-content-between w-100 mb-4">
+                    <span class="fw-bold">Subtotal:</span>
+                    <span id="total-price" class="ms-2">$0.00</span>
+                </div>
+                <button class="btn btn-outline-success" id="finalizarCompra">Finalizar compra</button>
+            </div>
         </div>
 
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <button class="btn btn-outline-dark me-md-2" type="button">Vaciar carrito</button>
-        </div>
         <br>
 
-        <div id="cart-summary" class="footer mt-auto ff-jost d-flex flex-column align-items-center py-3">
-            <h2 class="text-center">Resumen de la compra</h2>
-            <div class="summary-details d-flex justify-content-between w-100 mb-2" style="margin-top: 30px;">
-                <span class="fw-bold">Cantidad total de productos:</span>
-                <span id="total-items" class="ms-2">0</span>
-            </div>
-            <hr class="separator"> <!-- Línea de separación -->
-            <div class="summary-details d-flex justify-content-between w-100 mb-4">
-                <span class="fw-bold">Subtotal:</span>
-                <span id="total-price" class="ms-2">$0.00</span>
-            </div>
-            <button class="btn btn-outline-success" id="finalizarCompra">Finalizar compra</button>
-        </div>
     </main>
 
     <footer class="text-muted">

@@ -75,6 +75,7 @@ function mostrarProductosEnCarrito() {
         cartContainer.innerHTML = '<p class="alert alert-light text-center">No hay productos en el carrito.</p>';
         document.getElementById('total-price').innerText = `${carrito[0]?.currency || '$'} 0.00`;
         document.getElementById('total-items').innerText = '0'; // Actualiza aquí si está vacío
+        document.getElementById('cart-summary').classList += ' d-none'; // Actualiza aquí si está vacío
         return;
     }
 
@@ -83,18 +84,17 @@ function mostrarProductosEnCarrito() {
 
     carrito.forEach(producto => {
         const productoHTML = `
-        <hr>
             <div class="row mb-3" id="producto-${producto.id}">
                 <div class="col-3">
                     <img src="${producto.images[0]}" class="img-fluid" alt="${producto.name}">
                 </div>
                 <div class="col-3">
                     <h5>${producto.name}</h5>
-                    <p>${producto.description}</p>
+                    <p class="d-md-block d-none">${producto.description}</p>
                 </div>
                 <div class="btn-group btn-group-sm col-2 align-items-center">
                     <button class="btn btn-outline-secondary btn-sm" onclick="actualizarCantidad(${producto.id}, -1)">-</button>
-                    <button class="btn">
+                    <button class="btn btn-outline-secondary">
                     <span id="cantidad-${producto.id}">${producto.cantidad}</span>
                     </button>
                     <button class="btn btn-outline-secondary btn-sm" onclick="actualizarCantidad(${producto.id}, 1)">+</button>
