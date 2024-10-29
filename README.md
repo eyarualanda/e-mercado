@@ -1,8 +1,8 @@
 # e-Mercado
 
-Este README describe el proyecto de e-commerce desarrollado para el curso "Jóvenes a Programar" de Ceibal.
+Este README describe el proyecto final de e-commerce desarrollado para el curso "Jóvenes a Programar" de Ceibal.
 
-Este proyecto permite a los usuarios simular la realización de compras en línea mediante una interfaz amigable, con funcionalidades para gestionar sus perfiles, preferencias de usuario y carritos de compra.
+Esta página web permite a los usuarios simular la realización de compras en línea mediante una interfaz amigable, con funcionalidades para gestionar sus perfiles, preferencias de usuario y carritos de compra.
 
 ## Tabla de Contenidos
 
