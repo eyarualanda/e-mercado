@@ -80,9 +80,12 @@ let getCurrentUser = function getCurrentUser() {
 
 let actualizarBadgeCarrito = function() {
   const currentUser = getCurrentUser(); // Recupera el usuario actual
-  const carrito = currentUser.carrito; // Toma el carrito del usuario actual
-  document.getElementById('badgeCarrito').innerText = carrito.length; // Hace que el badge del carrito en el navbar tenga de texto el largo del array carrito del usuario
-}
+  const carrito = currentUser.carrito; // Obtiene el carrito del usuario actual
+  const cantidadTotal = carrito.reduce((total, producto) => total + producto.cantidad, 0); // Suma las cantidades de cada producto
+
+  document.getElementById('badgeCarrito').innerText = cantidadTotal; // Actualiza el badge con la cantidad total
+};
+
 
 document.addEventListener("DOMContentLoaded", function(){ 
   var usuario = localStorage.getItem("usuario")|| "Invitado";
