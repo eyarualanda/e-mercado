@@ -312,6 +312,7 @@ function agregarAlCarrito(product) {
     usuarios[index] = usuario;
     localStorage.setItem('usuarios', JSON.stringify(usuarios));
 
+    actualizarBadgeCarrito();
 }
 
 
