@@ -6,8 +6,6 @@ Este proyecto de e-commerce permite a los usuarios simular la realización de co
 
 - [Características](#características)
 - [Tecnologías Utilizadas](#tecnologías-utilizadas)
-- [Uso](#uso)
-- [Estructura del Proyecto](#estructura-del-proyecto)
 - [Créditos](#créditos)
 
 ## Características
@@ -25,4 +23,4 @@ Este proyecto de e-commerce permite a los usuarios simular la realización de co
 
 ## Créditos
 
-Desarrollado por [Sofía Stazi, Sabrina Filgueira, Jimena Márquez, Eyarúa Sanabria, Pilar Rodríguez].
+Desarrollado por Sofía Stazi, Sabrina Filgueira, Jimena Márquez, Eyarúa Sanabria, Pilar Rodríguez.
