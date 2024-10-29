@@ -625,18 +625,121 @@ body[data-bs-theme="dark"] .btn-upload {
 .btn-upload:hover {
   background-color: #0056b3; /* Un color más oscuro al pasar el mouse */
 }
-
-
-#cart-container .row {
-  border-bottom: 1px solid #dee2e6;
-  padding: 10px 0;
-  transition: background-color 0.2s;
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #f9f9f9; /* Fondo más blanco */
+  margin: 0;
+  padding: 0;
 }
 
-#cart-container .row:hover {
-  background-color: #f8f9fa;
+#cart-container {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 800px;
+  margin: auto;
+}
+
+#cart-summary {
+  background-color: #ffffff; /* Fondo blanco brillante */
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Efecto de sombra más pronunciado */
+  margin: 30px auto;
+  width: 60%; /* Ancho del resumen */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+}
+
+#cart-summary:hover {
+  transform: translateY(-5px); /* Efecto de elevación al pasar el cursor */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4); /* Sombra más intensa al pasar el cursor */
+}
+
+.summary-details {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.separator {
+  border: none;
+  height: 2px; /* Grosor de la línea */
+  background-color: #007bff; /* Color de la línea */
+  margin: 10px 0; /* Espacio alrededor de la línea */
+  width: 100%; /* Asegurarse de que la línea ocupe el ancho del contenedor */
 }
 
 #finalizarCompra {
-  width: 200px; /* Ancho opcional */
+  width: auto; /* Botón no ocupa todo el ancho */
+  font-size: 16px; /* Tamaño de fuente ajustado */
+  padding: 10px 20px; /* Espaciado interno */
+  background-color: #28a745; /* Color de fondo */
+  border-color: #28a745; /* Color del borde */
+  color: #fff; /* Color del texto */
+  border-radius: 5px; /* Bordes redondeados */
+  margin-top: 15px; /* Espacio superior */
+  transition: background-color 0.3s ease; /* Transición suave para el botón */
+}
+
+#finalizarCompra:hover {
+  background-color: #218838; /* Color verde oscuro al pasar el cursor */
+}
+
+h2.text-center {
+  margin-bottom: 15px; /* Espacio entre el título y el contenido */
+  color: #343a40; /* Color de texto */
+}
+
+.text-center {
+  text-align: center;
+}
+
+.footer {
+  background-color: #f1f1f1;
+  padding: 20px 0;
+}
+
+.footer a {
+  color: #007bff;
+}
+
+/* Nuevas reglas para asegurar que las filas de productos tengan la misma altura */
+.row.mb-3 {
+  display: flex;
+  align-items: stretch; /* Asegura que todos los elementos dentro de la fila tengan la misma altura */
+  margin-bottom: 20px; /* Espacio entre cada producto */
+}
+
+.col-3 {
+  display: flex;
+  flex-direction: column; /* Permite que la imagen, título y descripción se apilen verticalmente */
+  height: 100%; /* Asegura que ocupe toda la altura de la fila */
+  text-align: center; /* Centra el texto dentro de la columna */
+}
+
+.col-3 img {
+  max-height: 150px; /* Define una altura máxima para las imágenes */
+  object-fit: cover; /* Asegura que la imagen se recorte adecuadamente */
+  margin-bottom: 10px; /* Espacio entre la imagen y el texto */
+}
+
+.col-3 h5 {
+  margin: 10px 0 5px; /* Margen entre el título y el texto */
+  font-size: 18px; /* Tamaño de fuente del título */
+  color: #343a40; /* Color del texto */
+}
+
+.col-3 p {
+  flex-shrink: 0; /* Evita que la descripción se reduzca */
+  margin: 0; /* Eliminar márgenes para un mejor alineamiento */
+  font-size: 14px; /* Tamaño de fuente de la descripción */
+  color: #6c757d; /* Color del texto de la descripción */
+}
+
+/* Nueva clase para el botón de vaciar carrito */
+.btn-vaciar-carrito {
+  position: absolute; /* Posicionamiento absoluto */
+  bottom: 20px; /* Espacio desde la parte inferior */
+  right: 20px; /* Espacio desde la derecha */
 }
