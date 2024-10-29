@@ -1,6 +1,8 @@
-# E-mercado
+# E-Mercado
 
-Este proyecto de e-commerce permite a los usuarios simular la realización de compras en línea mediante una interfaz amigable, con funcionalidades para gestionar sus perfiles, preferencias de usuario y carritos de compra de manera personalizada.
+Este README describe el proyecto de e-commerce desarrollado para el curso "Jóvenes a Programar" de Ceibal.
+
+Este proyecto permite a los usuarios simular la realización de compras en línea mediante una interfaz amigable, con funcionalidades para gestionar sus perfiles, preferencias de usuario y carritos de compra.
 
 ## Tabla de Contenidos
 
