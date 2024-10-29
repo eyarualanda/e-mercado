@@ -687,10 +687,6 @@ h2.text-center {
   margin-bottom: 15px; /* Espacio entre el título y el contenido */
 }
 
-.text-center {
-  text-align: center;
-}
-
 .footer {
   background-color: #f1f1f1;
   padding: 20px 0;
