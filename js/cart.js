@@ -59,43 +59,62 @@ function mostrarProductosEnCarrito() {
     // Itera sobre cada producto del carrito y genera su HTML.
     currentUser.carrito.forEach(producto => {
         const productoHTML = `
-            <div class="row my-2" id="producto-${producto.id}">
 
-                <div class="col-6">
+        <div class="col-12">
+            <div class="row my-2" id="producto-${producto.id}">
+                <div class="col-12 col-md-6">
                     <div class="row">
                         <div class="col-6">
-                            <img src="${producto.images[0]}" class="img-fluid" alt="${producto.name}">
+                            <img src="${producto.images[0]}" class="img-fluid mb-4" alt="${producto.name}">
                         </div>
 
                         <div class="col-6">
-                            <h5>${producto.name}</h5>
-                            <p class="d-md-block d-none">${producto.description}</p>
+                            <div class="row">
+                                <div class="col-8">
+                                    <h5>${producto.name}</h5>
+                                </div>
+                                <div class="col-2 d-block d-md-none">
+                                    <button class="btn btn-outline-secondary eliminar-producto" data-id="${producto.id}">
+                                        <i class="fas fa-trash fa-sm"></i>
+                                    </button>
+                                </div>
+                                <p class="d-md-block d-none">${producto.description}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-2 text-center">
-                    <p class="fw-semibold">Cantidad:</p>
-                    <div class="btn-group btn-group-sm">
-                        <button class="btn btn-outline-secondary btn-sm" onclick="actualizarCantidad(${producto.id}, -1)">-</button>
-                        <button class="btn btn-outline-secondary">
-                            <span id="cantidad-${producto.id}">${producto.cantidad}</span>
-                        </button>
-                        <button class="btn btn-outline-secondary btn-sm" onclick="actualizarCantidad(${producto.id}, 1)">+</button>
+                <div class="col-12 col-md-5">
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            <p class="fw-semibold">Cantidad:</p>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-outline-secondary btn-sm" onclick="actualizarCantidad(${producto.id}, -1)">-</button>
+                                <button class="btn btn-outline-secondary">
+                                    <span id="cantidad-${producto.id}">${producto.cantidad}</span>
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm" onclick="actualizarCantidad(${producto.id}, 1)">+</button>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <p class="fw-semibold">Precio:</p>
+                            <p>${producto.currency} ${producto.cost}</p>
+
+                            <p class="d-none d-md-block">Subtotal: <span id="subtotal-${producto.id}">${producto.currency} ${(producto.cost * producto.cantidad).toFixed(2)}</span></p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="col-3">
-                    <p class="fw-semibold">Precio:</p>
-                    <p>${producto.currency} ${producto.cost}</p>
-                    <p>Subtotal: <span id="subtotal-${producto.id}">${producto.currency} ${(producto.cost * producto.cantidad).toFixed(2)}</span></p>
-                </div>
-                <div class="col-1">
+                <div class="col-1 d-none d-md-block">
                     <button class="btn btn-outline-secondary eliminar-producto" data-id="${producto.id}">
                         <i class="fas fa-trash fa-sm"></i>
                     </button>
                 </div>
             </div>
+        </div>
+        <hr class="mb-4">
+        
         `;
         
         cartContainer.innerHTML += productoHTML; // Agrega el producto al contenedor del carrito.
