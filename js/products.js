@@ -15,7 +15,7 @@ function crearTarjeta(product) {
             <div class="overlay">
                 <div class="nombre-producto">${product.name}</div>
                 <div class="botones">
-                    <a href="cart.html">
+                    <a href="">
                         <button class="btn btn-primary">
                             <i class="fas fa-shopping-bag"></i> Comprar
                         </button>
