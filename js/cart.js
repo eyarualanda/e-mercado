@@ -3,6 +3,75 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('cart-container').addEventListener('click', manejoDeClicksEnCarrito); // Agrega escucha de clics en el contenedor del carrito.
 });
 
+// Clave de API y URL para ExchangeRate-API (reemplaza con tu clave).
+const API_KEY = 'c21e93603f7dead2043de597';
+const API_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/USD`;
+
+let tasaCambioUSDToUYU = 40; // Tasa de cambio predeterminada (por si falla la API).
+let monedaActual = 'UYU'; // Moneda predeterminada.
+
+// Escucha el evento DOMContentLoaded para iniciar.
+document.addEventListener("DOMContentLoaded", async () => {
+    mostrarProductosEnCarrito();
+    await obtenerTasaCambio(); // Cargar tasa de cambio al inicio.
+
+    // Agregar eventos para los botones de cambio de moneda.
+    document.getElementById('currency-uyu').addEventListener('click', () => cambiarMoneda('UYU'));
+    document.getElementById('currency-usd').addEventListener('click', () => cambiarMoneda('USD'));
+});
+
+// Obtiene la tasa de cambio actual desde la API.
+async function obtenerTasaCambio() {
+    try {
+        const respuesta = await fetch(API_URL);
+        const datos = await respuesta.json();
+
+        // Si la respuesta es correcta, guarda la tasa de cambio.
+        tasaCambioUSDToUYU = datos.conversion_rates.UYU;
+        console.log(`Tasa de cambio actualizada: 1 USD = ${tasaCambioUSDToUYU} UYU`);
+    } catch (error) {
+        console.error('Error al obtener la tasa de cambio:', error);
+        alert('No se pudo actualizar la tasa de cambio. Usando tasa predeterminada.');
+    }
+}
+
+// Cambia la moneda seleccionada y actualiza los totales.
+function cambiarMoneda(nuevaMoneda) {
+    monedaActual = nuevaMoneda;
+    actualizarTotal(); // Recalcula el total en la nueva moneda.
+}
+
+// Convierte un valor entre USD y UYU según la moneda actual.
+function convertirMoneda(valor, monedaProducto) {
+    if (monedaActual === 'USD') {
+        return monedaProducto === 'USD' ? valor : valor / tasaCambioUSDToUYU;
+    } else {
+        return monedaProducto === 'UYU' ? valor : valor * tasaCambioUSDToUYU;
+    }
+}
+
+// Recalcula y actualiza el total del carrito en la interfaz.
+function actualizarTotal() {
+    const currentUser = getCurrentUser();
+    if (!currentUser || !currentUser.carrito) return;
+
+    let total = 0;
+    let cantidadTotal = 0;
+
+    // Recorre los productos del carrito para calcular el total convertido.
+    currentUser.carrito.forEach(producto => {
+        const subtotalConvertido = convertirMoneda(producto.cost * producto.cantidad, producto.currency);
+        total += subtotalConvertido;
+        cantidadTotal += producto.cantidad;
+    });
+
+    // Actualiza el total y la cantidad en la UI.
+    const simboloMoneda = monedaActual === 'USD' ? 'USD' : 'UYU';
+    document.getElementById('total-price').innerText = `${simboloMoneda} ${total.toFixed(2)}`;
+    document.getElementById('total-items').innerText = cantidadTotal;
+}
+
+
 // Maneja los clics en el carrito, eliminando productos cuando se presiona el botón correspondiente.
 function manejoDeClicksEnCarrito(e) {
     if (e.target.classList.contains('eliminar-producto')) { // Verifica si el elemento tiene la clase 'eliminar-producto'.
@@ -59,43 +128,62 @@ function mostrarProductosEnCarrito() {
     // Itera sobre cada producto del carrito y genera su HTML.
     currentUser.carrito.forEach(producto => {
         const productoHTML = `
-            <div class="row my-2" id="producto-${producto.id}">
 
-                <div class="col-6">
+        <div class="col-12">
+            <div class="row my-2" id="producto-${producto.id}">
+                <div class="col-12 col-md-6">
                     <div class="row">
                         <div class="col-6">
-                            <img src="${producto.images[0]}" class="img-fluid" alt="${producto.name}">
+                            <img src="${producto.images[0]}" class="img-fluid mb-4" alt="${producto.name}">
                         </div>
 
                         <div class="col-6">
-                            <h5>${producto.name}</h5>
-                            <p class="d-md-block d-none">${producto.description}</p>
+                            <div class="row">
+                                <div class="col-8">
+                                    <h5>${producto.name}</h5>
+                                </div>
+                                <div class="col-2 d-block d-md-none">
+                                    <button class="btn btn-outline-secondary eliminar-producto" data-id="${producto.id}">
+                                        <i class="fas fa-trash fa-sm"></i>
+                                    </button>
+                                </div>
+                                <p class="d-md-block d-none">${producto.description}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="col-2 text-center">
-                    <p class="fw-semibold">Cantidad:</p>
-                    <div class="btn-group btn-group-sm">
-                        <button class="btn btn-outline-secondary btn-sm" onclick="actualizarCantidad(${producto.id}, -1)">-</button>
-                        <button class="btn btn-outline-secondary">
-                            <span id="cantidad-${producto.id}">${producto.cantidad}</span>
-                        </button>
-                        <button class="btn btn-outline-secondary btn-sm" onclick="actualizarCantidad(${producto.id}, 1)">+</button>
+                <div class="col-12 col-md-5">
+                    <div class="row">
+                        <div class="col-6 text-center">
+                            <p class="fw-semibold">Cantidad:</p>
+                            <div class="btn-group btn-group-sm">
+                                <button class="btn btn-secondary btn-sm btn-no-transition" onclick="actualizarCantidad(${producto.id}, -1)">-</button>
+                                <button class="btn btn-secondary btn-no-transition">
+                                    <span id="cantidad-${producto.id}">${producto.cantidad}</span>
+                                </button>
+                                <button class="btn btn-secondary btn-sm btn-no-transition" onclick="actualizarCantidad(${producto.id}, 1)">+</button>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <p class="fw-semibold">Precio:</p>
+                            <p>${producto.currency} ${producto.cost}</p>
+
+                            <p class="d-none d-md-block">Subtotal: <span id="subtotal-${producto.id}">${producto.currency} ${(producto.cost * producto.cantidad).toFixed(2)}</span></p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="col-3">
-                    <p class="fw-semibold">Precio:</p>
-                    <p>${producto.currency} ${producto.cost}</p>
-                    <p>Subtotal: <span id="subtotal-${producto.id}">${producto.currency} ${(producto.cost * producto.cantidad).toFixed(2)}</span></p>
-                </div>
-                <div class="col-1">
+                <div class="col-1 d-none d-md-block">
                     <button class="btn btn-outline-secondary eliminar-producto" data-id="${producto.id}">
                         <i class="fas fa-trash fa-sm"></i>
                     </button>
                 </div>
             </div>
+        </div>
+        <hr class="mb-4">
+        
         `;
         
         cartContainer.innerHTML += productoHTML; // Agrega el producto al contenedor del carrito.
@@ -122,25 +210,4 @@ function actualizarLocalStorage(currentUser) {
     let usuarios = JSON.parse(localStorage.getItem('usuarios')) || []; // Obtiene todos los usuarios.
     usuarios = usuarios.map(usuario => usuario.email === currentUser.email ? currentUser : usuario); // Actualiza solo el usuario actual.
     localStorage.setItem('usuarios', JSON.stringify(usuarios)); // Guarda los cambios en localStorage.
-}
-
-// Recalcula y actualiza el total general y la cantidad total de productos en el carrito en la interfaz.
-function actualizarTotal() {
-    const currentUser = getCurrentUser(); // Obtiene el usuario actual.
-    if (!currentUser || !currentUser.carrito) return; // Si no hay usuario o carrito, detiene la función.
-
-    let total = 0; // Inicializa el total en dinero.
-    let cantidadTotal = 0; // Inicializa la cantidad total de productos.
-
-    // Itera sobre los productos del carrito para calcular el total y la cantidad total.
-    currentUser.carrito.forEach(producto => {
-        total += producto.cost * producto.cantidad; // Suma el subtotal de cada producto.
-        cantidadTotal += producto.cantidad; // Suma la cantidad de cada producto.
-    });
-
-    // Actualiza el total en la interfaz con el símbolo de moneda adecuado.
-    document.getElementById('total-price').innerText = `${currentUser.carrito[0]?.currency || '$'} ${total.toFixed(2)}`;
-
-    // Actualiza la cantidad total de productos en la interfaz.
-    document.getElementById('total-items').innerText = cantidadTotal;
 }

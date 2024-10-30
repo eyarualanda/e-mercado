@@ -1,12 +1,9 @@
 document.addEventListener('DOMContentLoaded', function () {
-
   // Ruta de la imagen predeterminada de perfil.
   const defaultProfileImg = 'img/default_profile_img.jpg'; // Cambia esta ruta a la ubicación correcta de tu imagen.
-
   // Referencias a los elementos del interruptor de modo noche y el body de la página.
   const switchModoNoche = document.getElementById('switchModoNoche');
   const body = document.body;
-
   // Referencias a los elementos del formulario de perfil.
   const profileForm = document.getElementById('profileForm');
   const fotoPerfil = document.getElementById('fotoPerfil');
@@ -17,12 +14,13 @@ document.addEventListener('DOMContentLoaded', function () {
   const segundoNombre = document.getElementById('segundoNombre');
   const segundoApellido = document.getElementById('segundoApellido');
   const telefono = document.getElementById('telefono');
-  
+
   // Referencia al elemento donde se muestra el email del usuario en el navbar
   const usuarioDisplay = document.getElementById('usuarioDisplay');
-
   // Cargar el email del usuario almacenado en Local Storage al iniciar sesión.
   const usuarioGuardado = localStorage.getItem('usuario');
+  let carrito = JSON.parse(localStorage.getItem('carrito')) || []; // Cargar el carrito desde localStorage
+  
   if (usuarioGuardado) {
     email.value = usuarioGuardado;
     usuarioDisplay.textContent = usuarioGuardado; // Mostrar el email en el navbar
@@ -37,7 +35,6 @@ document.addEventListener('DOMContentLoaded', function () {
   function cargarDatosUsuario(emailUsuario) {
     const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
     const usuario = usuarios.find(u => u.email === emailUsuario);
-
     if (usuario) {
       // Asignar los datos del usuario a los campos del formulario.
       nombre.value = usuario.nombre || '';
@@ -45,14 +42,13 @@ document.addEventListener('DOMContentLoaded', function () {
       segundoNombre.value = usuario.segundoNombre || '';
       segundoApellido.value = usuario.segundoApellido || '';
       telefono.value = usuario.telefono || '';
-
       // Cargar imagen de perfil o establecer la imagen predeterminada.
       previewImage.src = usuario.fotoPerfil || defaultProfileImg;
-
       // Cargar el estado del modo oscuro.
       const modoNocheActivo = usuario.modoNoche || false;
       switchModoNoche.checked = modoNocheActivo;
       body.setAttribute('data-bs-theme', modoNocheActivo ? 'dark' : 'light');
+      carrito = usuario.carrito || []; // Cargar el carrito del usuario
     } else {
       // Si no existe el usuario, usar la imagen predeterminada y modo claro.
       previewImage.src = defaultProfileImg;
@@ -64,13 +60,11 @@ document.addEventListener('DOMContentLoaded', function () {
   function guardarDatosUsuario(usuario) {
     let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
     const index = usuarios.findIndex(u => u.email === usuario.email);
-
     if (index !== -1) {
       usuarios[index] = usuario; // Actualizar el usuario existente.
     } else {
       usuarios.push(usuario); // Agregar el nuevo usuario.
     }
-
     localStorage.setItem('usuarios', JSON.stringify(usuarios));
   }
 
@@ -94,46 +88,40 @@ document.addEventListener('DOMContentLoaded', function () {
   switchModoNoche.addEventListener('change', () => {
     const modoNoche = switchModoNoche.checked;
     body.setAttribute('data-bs-theme', modoNoche ? 'dark' : 'light');
-    
-    // Obtener el email del usuario actual
+
     const emailUsuario = email.value;
     if (emailUsuario) {
-        let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-        const index = usuarios.findIndex(u => u.email === emailUsuario);
-
-        if (index !== -1) {
-            // Actualizar el estado del modo noche del usuario en el array
-            usuarios[index].modoNoche = modoNoche;
-
-            // Guardar los cambios en localStorage
-            localStorage.setItem('usuarios', JSON.stringify(usuarios));
-        }
+      let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+      const index = usuarios.findIndex(u => u.email === emailUsuario);
+      if (index !== -1) {
+        usuarios[index].modoNoche = modoNoche; // Actualizar el estado del modo noche del usuario en el array
+        localStorage.setItem('usuarios', JSON.stringify(usuarios)); // Guardar los cambios en localStorage
+      }
     }
   });
 
-  // Función para validar si un campo está vacío en tiempo real.
   // Función para validar si un campo está vacío o, si es email, que tenga un formato válido.
-function validarCampo(campo) {
-  if (campo.type === 'email') {
-    // Validación de email usando checkValidity()
-    if (campo.checkValidity()) {
-      campo.classList.add('is-valid');
-      campo.classList.remove('is-invalid');
+  function validarCampo(campo) {
+    if (campo.type === 'email') {
+      // Validación de email usando checkValidity()
+      if (campo.checkValidity()) {
+        campo.classList.add('is-valid');
+        campo.classList.remove('is-invalid');
+      } else {
+        campo.classList.add('is-invalid');
+        campo.classList.remove('is-valid');
+      }
     } else {
-      campo.classList.add('is-invalid');
-      campo.classList.remove('is-valid');
-    }
-  } else {
-    // Validación para otros campos (que no estén vacíos)
-    if (campo.value.trim() === '') {
-      campo.classList.add('is-invalid');
-      campo.classList.remove('is-valid');
-    } else {
-      campo.classList.add('is-valid');
-      campo.classList.remove('is-invalid');
+      // Validación para otros campos (que no estén vacíos)
+      if (campo.value.trim() === '') {
+        campo.classList.add('is-invalid');
+        campo.classList.remove('is-valid');
+      } else {
+        campo.classList.add('is-valid');
+        campo.classList.remove('is-invalid');
+      }
     }
   }
-}
 
   // Validación en tiempo real de los campos de nombre, apellido y email.
   nombre.addEventListener('input', () => validarCampo(nombre));
@@ -144,11 +132,9 @@ function validarCampo(campo) {
   profileForm.addEventListener('submit', function (event) {
     event.preventDefault();
     event.stopPropagation();
-
     validarCampo(nombre);
     validarCampo(apellido);
     validarCampo(email);
-
     if (nombre.classList.contains('is-valid') && apellido.classList.contains('is-valid') && email.classList.contains('is-valid')) {
       const usuario = {
         nombre: nombre.value,
@@ -157,17 +143,13 @@ function validarCampo(campo) {
         segundoNombre: segundoNombre.value,
         segundoApellido: segundoApellido.value,
         telefono: telefono.value,
-        fotoPerfil: previewImage.src || defaultProfileImg,  // Guardar la imagen de perfil o la predeterminada.
-        modoNoche: switchModoNoche.checked,  // Guardar el estado del modo oscuro.
-        carrito: []
+        fotoPerfil: previewImage.src || defaultProfileImg, // Guardar la imagen de perfil o la predeterminada.
+        modoNoche: switchModoNoche.checked, // Guardar el estado del modo oscuro.
+        carrito: carrito // Incluir el carrito en los datos del usuario.
       };
-
-      guardarDatosUsuario(usuario);  // Guardar o actualizar los datos del usuario en Local Storage.
+      guardarDatosUsuario(usuario); // Guardar o actualizar los datos del usuario en Local Storage.
       localStorage.setItem('usuario', email.value); // Actualizar el email en localStorage
-
-      // Actualizar el email del usuario en el navbar
-      usuarioDisplay.textContent = email.value;
-      
+      usuarioDisplay.textContent = email.value; // Actualizar el email del usuario en el navbar
       alert('Datos guardados correctamente');
     } else {
       alert('Por favor, complete todos los campos obligatorios.');
