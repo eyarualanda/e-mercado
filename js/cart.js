@@ -3,6 +3,75 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('cart-container').addEventListener('click', manejoDeClicksEnCarrito); // Agrega escucha de clics en el contenedor del carrito.
 });
 
+// Clave de API y URL para ExchangeRate-API (reemplaza con tu clave).
+const API_KEY = 'c21e93603f7dead2043de597';
+const API_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/USD`;
+
+let tasaCambioUSDToUYU = 40; // Tasa de cambio predeterminada (por si falla la API).
+let monedaActual = 'UYU'; // Moneda predeterminada.
+
+// Escucha el evento DOMContentLoaded para iniciar.
+document.addEventListener("DOMContentLoaded", async () => {
+    mostrarProductosEnCarrito();
+    await obtenerTasaCambio(); // Cargar tasa de cambio al inicio.
+
+    // Agregar eventos para los botones de cambio de moneda.
+    document.getElementById('currency-uyu').addEventListener('click', () => cambiarMoneda('UYU'));
+    document.getElementById('currency-usd').addEventListener('click', () => cambiarMoneda('USD'));
+});
+
+// Obtiene la tasa de cambio actual desde la API.
+async function obtenerTasaCambio() {
+    try {
+        const respuesta = await fetch(API_URL);
+        const datos = await respuesta.json();
+
+        // Si la respuesta es correcta, guarda la tasa de cambio.
+        tasaCambioUSDToUYU = datos.conversion_rates.UYU;
+        console.log(`Tasa de cambio actualizada: 1 USD = ${tasaCambioUSDToUYU} UYU`);
+    } catch (error) {
+        console.error('Error al obtener la tasa de cambio:', error);
+        alert('No se pudo actualizar la tasa de cambio. Usando tasa predeterminada.');
+    }
+}
+
+// Cambia la moneda seleccionada y actualiza los totales.
+function cambiarMoneda(nuevaMoneda) {
+    monedaActual = nuevaMoneda;
+    actualizarTotal(); // Recalcula el total en la nueva moneda.
+}
+
+// Convierte un valor entre USD y UYU según la moneda actual.
+function convertirMoneda(valor, monedaProducto) {
+    if (monedaActual === 'USD') {
+        return monedaProducto === 'USD' ? valor : valor / tasaCambioUSDToUYU;
+    } else {
+        return monedaProducto === 'UYU' ? valor : valor * tasaCambioUSDToUYU;
+    }
+}
+
+// Recalcula y actualiza el total del carrito en la interfaz.
+function actualizarTotal() {
+    const currentUser = getCurrentUser();
+    if (!currentUser || !currentUser.carrito) return;
+
+    let total = 0;
+    let cantidadTotal = 0;
+
+    // Recorre los productos del carrito para calcular el total convertido.
+    currentUser.carrito.forEach(producto => {
+        const subtotalConvertido = convertirMoneda(producto.cost * producto.cantidad, producto.currency);
+        total += subtotalConvertido;
+        cantidadTotal += producto.cantidad;
+    });
+
+    // Actualiza el total y la cantidad en la UI.
+    const simboloMoneda = monedaActual === 'USD' ? 'USD' : 'UYU';
+    document.getElementById('total-price').innerText = `${simboloMoneda} ${total.toFixed(2)}`;
+    document.getElementById('total-items').innerText = cantidadTotal;
+}
+
+
 // Maneja los clics en el carrito, eliminando productos cuando se presiona el botón correspondiente.
 function manejoDeClicksEnCarrito(e) {
     if (e.target.classList.contains('eliminar-producto')) { // Verifica si el elemento tiene la clase 'eliminar-producto'.
@@ -141,25 +210,4 @@ function actualizarLocalStorage(currentUser) {
     let usuarios = JSON.parse(localStorage.getItem('usuarios')) || []; // Obtiene todos los usuarios.
     usuarios = usuarios.map(usuario => usuario.email === currentUser.email ? currentUser : usuario); // Actualiza solo el usuario actual.
     localStorage.setItem('usuarios', JSON.stringify(usuarios)); // Guarda los cambios en localStorage.
-}
-
-// Recalcula y actualiza el total general y la cantidad total de productos en el carrito en la interfaz.
-function actualizarTotal() {
-    const currentUser = getCurrentUser(); // Obtiene el usuario actual.
-    if (!currentUser || !currentUser.carrito) return; // Si no hay usuario o carrito, detiene la función.
-
-    let total = 0; // Inicializa el total en dinero.
-    let cantidadTotal = 0; // Inicializa la cantidad total de productos.
-
-    // Itera sobre los productos del carrito para calcular el total y la cantidad total.
-    currentUser.carrito.forEach(producto => {
-        total += producto.cost * producto.cantidad; // Suma el subtotal de cada producto.
-        cantidadTotal += producto.cantidad; // Suma la cantidad de cada producto.
-    });
-
-    // Actualiza el total en la interfaz con el símbolo de moneda adecuado.
-    document.getElementById('total-price').innerText = `${currentUser.carrito[0]?.currency || '$'} ${total.toFixed(2)}`;
-
-    // Actualiza la cantidad total de productos en la interfaz.
-    document.getElementById('total-items').innerText = cantidadTotal;
 }
