@@ -19,7 +19,7 @@ function crearTarjeta(product) {
                         <button class="btn btn-primary">
                             <i class="fas fa-shopping-bag"></i> Comprar
                         </button>
-                   </a>
+                </a>
                     <button class="btn btn-secondary">
                         <i class="fas fa-cart-plus"></i> Agregar al carrito
                     </button>
