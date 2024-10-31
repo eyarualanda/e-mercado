@@ -31,10 +31,18 @@ nav a {
   height: 50vh; /* Altura del 50% del viewport */
   padding: 5em inherit;
   margin-bottom: 0;
-  background: #f8f9fa url('../img/cover_back.png') no-repeat center;
-  background-size: cover; /* La imagen cubrirá el contenedor */
   color: black;
   font-weight: bold;
+}
+
+body[data-bs-theme="light"] .jumbotron {
+  background: #f8f9fa url('../img/cover_back.png') no-repeat center;
+  background-size: cover; /* La imagen cubrirá el contenedor */
+}
+
+body[data-bs-theme="dark"] .jumbotron {
+  background: #f8f9fa00 url('../img/cover_back_night.png') no-repeat center;
+  background-size: cover; /* La imagen cubrirá el contenedor */
 }
 
 /* Tableta en modo vertical (768x1024 px) */
