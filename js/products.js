@@ -175,7 +175,6 @@ document.addEventListener("DOMContentLoaded", function() {
         event.stopPropagation();
     });
 });
-
 // Función para agregar al carrito
 function agregarAlCarrito(id, name) {
     // Obtener el carrito actual o crear uno nuevo
