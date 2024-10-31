@@ -41,7 +41,7 @@ body[data-bs-theme="light"] .jumbotron {
 }
 
 body[data-bs-theme="dark"] .jumbotron {
-  background: #f8f9fa00 url('../img/cover_back_night.png') no-repeat center;
+  background: url('../img/cover_back_night.png') no-repeat center;
   background-size: cover; /* La imagen cubrirá el contenedor */
 }
 
@@ -702,4 +702,12 @@ h2.text-center {
 
 .footer a {
   color: #007bff;
+}
+
+body[data-bs-theme="light"] #btn-ymuchomas {
+  color: black;
+}
+
+body[data-bs-theme="dark"] #btn-ymuchomas {
+  color: white;
 }
