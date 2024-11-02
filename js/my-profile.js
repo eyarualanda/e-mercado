@@ -150,9 +150,17 @@ document.addEventListener('DOMContentLoaded', function () {
       guardarDatosUsuario(usuario); // Guardar o actualizar los datos del usuario en Local Storage.
       localStorage.setItem('usuario', email.value); // Actualizar el email en localStorage
       usuarioDisplay.textContent = email.value; // Actualizar el email del usuario en el navbar
-      alert('Datos guardados correctamente');
+      Swal.fire({
+        title: "Información guardada correctamente",
+        icon: "success",
+        confirmButtonText: 'OK'
+      })
     } else {
-      alert('Por favor, complete todos los campos obligatorios.');
+      Swal.fire({
+        title: "Por favor, completa los campos obligatorios",
+        icon: "warning",
+        confirmButtonText: 'OK'
+      })
     }
   });
 });
