@@ -286,7 +286,7 @@ function generarBarrasProgreso(opiniones) {
 }
 
 // Agregar al carrito asociado al usuario
-function agregarAlCarrito(product) {
+let agregarAlCarrito = function(product) {
     const usuarioActual = localStorage.getItem('usuario'); // El usuario logueado
 
     let usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
@@ -297,8 +297,14 @@ function agregarAlCarrito(product) {
         return;
     }
 
-    const cantidad = parseInt(document.getElementById('quantity').value);
+    // Si no se encuentra el campo de cantidad, la cantidad es 1
+    let cantidad = 1;
+    const quantityInput = document.getElementById('quantity');
+    if (quantityInput) {
+        cantidad = parseInt(quantityInput.value);
+    }
 
+    // Verificar si el producto ya está en el carrito del usuario
     const productoExistente = usuario.carrito.find(p => p.id === product.id);
 
     if (productoExistente) {
@@ -313,7 +319,7 @@ function agregarAlCarrito(product) {
     localStorage.setItem('usuarios', JSON.stringify(usuarios));
 
     actualizarBadgeCarrito();
-}
+};
 
 
 document.addEventListener("DOMContentLoaded", function() {

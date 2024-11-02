@@ -10,15 +10,15 @@ let searchProducts = '';
 // Función que crea una tarjeta de producto
 function crearTarjeta(product) {
     return `
-        <div class="col-md-4 producto">
+        <div class="col-md-4 producto" onclick="setProductID(${product.id})">
             <img src="${product.image}" alt="${product.name}">
             <div class="overlay">
                 <div class="nombre-producto">${product.name}</div>
                 <div class="botones">
-                    <button class="btn btn-primary" onclick="comprarProducto(${product.id})">
+                    <button class="btn btn-primary" onclick="comprarProducto(${product})">
                         <i class="fas fa-shopping-bag"></i> Comprar
                     </button>
-                    <button class="btn btn-secondary" onclick="agregarAlCarrito(${product.id}, '${product.name}')">
+                    <button class="btn btn-secondary" onclick="comprarProducto(${product})">
                         <i class="fas fa-cart-plus"></i> Agregar al carrito
                     </button>
                 </div>
@@ -67,6 +67,11 @@ function mostrarProductos(productsArray) {
             listaDeProductos.innerHTML += crearTarjeta(product);
         });
     }
+}
+
+function comprarProducto(product) {
+    agregarAlCarrito(product);
+    alert(`Producto ${product.name} agregado al carrito!`);
 }
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -175,30 +180,3 @@ document.addEventListener("DOMContentLoaded", function() {
         event.stopPropagation();
     });
 });
-// Función para agregar al carrito
-function agregarAlCarrito(id, name) {
-    // Obtener el carrito actual o crear uno nuevo
-    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-    
-    // Añadir el producto al carrito
-    carrito.push({ productID: id, productName: name });
-    
-    // Guardar el carrito actualizado en localStorage
-    localStorage.setItem("carrito", JSON.stringify(carrito));
-
-    alert(`${name} ha sido agregado al carrito.`); // Alerta de confirmación carrito
-}
-
-// Función para redirigir a cart.html al comprar
-function comprarProducto(id) {
-    // Primero se puede llamar a agregarAlCarrito para agregar el producto
-    const product = productsArray.find(p => p.id === id);
-    if (product) {
-        agregarAlCarrito(id, product.name);
-    }
-    // Alerta de confirmación para la compra
-    alert(`Has comprado ${product.name}!`);
-    
-    // Redirigir a la página del carrito
-    window.location = "cart.html";
-}
