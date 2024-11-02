@@ -55,12 +55,29 @@ window.onload = function () {
       if (usuario) {
         let camposObligatoriosCompletos = usuario.nombre && usuario.apellido && usuario.email;
         if (!camposObligatoriosCompletos) {
-          window.location.href = 'my-profile.html'; // Redirige al perfil si faltan datos
-          alert('Por favor, completa los campos obligatorios');
+          Swal.fire({
+            title: "Información requerida",
+            text: "Antes de continuar, completa los datos de tu perfil",
+            icon: "info",
+            confirmButtonText: 'Ir a "Mi Perfil"'
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.href = 'my-profile.html';
+            }
+          });
+          
         }
       } else {
-        window.location.href = 'my-profile.html';  // Si no se encuentra el usuario, también redirige al perfil
-        alert('Por favor, completa los campos obligatorios');
+        Swal.fire({
+          title: "Información requerida",
+          text: "Antes de continuar, completa los datos de tu perfil",
+          icon: "info",
+          confirmButtonText: 'Ir a "Mi Perfil"'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            window.location.href = 'my-profile.html';
+          }
+        });
       }
     }
   }

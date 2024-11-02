@@ -76,7 +76,24 @@ function mostrarInfoProducto(product) {
 
     document.getElementById('buyButton').addEventListener('click', () => agregarAlCarrito(product));
     document.getElementById('addToCartButton').addEventListener('click', () => agregarAlCarrito(product));
-    document.getElementById('addToCartButton').addEventListener('click', () => alert("Producto agregado al carrito"));
+    document.getElementById('addToCartButton').addEventListener('click', () => {
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.onmouseenter = Swal.stopTimer;
+              toast.onmouseleave = Swal.resumeTimer;
+            }
+          });
+          Toast.fire({
+            icon: "success",
+            html: '<strong>' + product.name + '</strong> agregado al carrito'
+        });
+        }
+    );
 
     mostrarProductosRelacionados(product.relatedProducts);
 }
@@ -225,23 +242,48 @@ function enviarResenia() {
 
     // Verifica que ambos, la reseña y la calificación, no estén vacíos
     if (nuevaResenia && nuevaCalificacion) {
-        // Crea un nuevo objeto que representa la opinión del usuario
-        const nuevaOpinion = {
-            score: nuevaCalificacion, // Asigna la calificación
-            description: nuevaResenia, // Asigna la reseña
-            user: localStorage.getItem("usuario"), // Obtiene el nombre del usuario desde localStorage
-            dateTime: new Date().toISOString() // Asigna la fecha y hora actual en formato ISO
-        };
 
-        // Añade la nueva opinión al array de opiniones existente
-        opiniones.push(nuevaOpinion);
+        Swal.fire({
+            title: "¿Estás seguro de querer enviar la reseña?",
+            html: mostrarEstrellas(nuevaCalificacion) + ' "<i>' + nuevaResenia + '</i>"',
+            showDenyButton: true,
+            showCancelButton: true,
+            denyButtonText: `No enviar`,
+            confirmButtonText: "Enviar",
+            showCloseButton: true,
+            showCancelButton: false
+            }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                // Crea un nuevo objeto que representa la opinión del usuario
+                const nuevaOpinion = {
+                    score: nuevaCalificacion, // Asigna la calificación
+                    description: nuevaResenia, // Asigna la reseña
+                    user: localStorage.getItem("usuario"), // Obtiene el nombre del usuario desde localStorage
+                    dateTime: new Date().toISOString() // Asigna la fecha y hora actual en formato ISO
+                };
 
-        // Llama a la función que vuelve a mostrar todos los comentarios, incluyendo la nueva opinión
-        mostrarComentariosProducto(opiniones);
+                // Añade la nueva opinión al array de opiniones existente
+                opiniones.push(nuevaOpinion);
+
+                // Llama a la función que vuelve a mostrar todos los comentarios, incluyendo la nueva opinión
+                mostrarComentariosProducto(opiniones);
+
+                Swal.fire("¡Tu reseña fue añadida con éxito!", "", "success");
+            } else if (result.isDenied) {
+              Swal.fire("La reseña no fue enviada", "", "info");
+            }
+          });
+          
     } else {
         // Si faltan la reseña o la calificación, muestra un mensaje de alerta
-        alert("Por favor ingresa una reseña y una calificación.");
-    }
+        Swal.fire({
+            title: "Reseña incompleta",
+            text: "Por favor, ingresa una reseña válida",
+            icon: "warning",
+            confirmButtonText: 'OK'
+          })
+        }
 }
 
 // Cálculo de calificación promedio
