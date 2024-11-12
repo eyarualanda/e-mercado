@@ -112,6 +112,50 @@
 
         <br>
 
+        <div class="container mx-90 my-2">
+            <div id="alertaCarrito"></div>
+            
+    
+            <!-- Tabs -->
+            <ul class="nav nav-tabs" id="checkoutTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="shipping-type-tab" data-bs-toggle="tab" data-bs-target="#shipping-type" type="button" role="tab">Tipo de Envío</button>
+                
+                </li>
+                
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="shipping-address-tab" data-bs-toggle="tab" data-bs-target="#shipping-address" type="button" role="tab">Dirección de Envío</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="payment-method-tab" data-bs-toggle="tab" data-bs-target="#payment-method" type="button" role="tab">Forma de Pago</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="cost-summary-tab" data-bs-toggle="tab" data-bs-target="#cost-summary" type="button" role="tab">Costos</button>
+                </li>
+            </ul>
+                
+                <!-- Tipo de Envío -->
+                <div class="card-body">
+                <div id="cart-summary" class="ff-jost d-flex flex-column align-items-center">
+                <div class="tab-pane fade show active" id="shipping-type" role="tabpanel">
+                    
+                    <h3 class="mt-4 text-center">Tipo de Envío</h3>
+                    <div class="d-flex flex-column align-items-center">
+                        <button type="button" class="btn btn-info btn-lg btn-block mb-2 w-auto border">
+                          Premium<br><small>Entrega de 2 a 5 días (15%)</small>
+                        </button>
+                        <button type="button" class="btn btn-secondary btn-lg btn-block mb-2 w-auto border">
+                          Express<br><small>Entrega de 5 a 8 días (7%)</small>
+                        </button>
+                        <button type="button" class="btn btn-light btn-lg btn-block w-auto border">
+                          Standard<br><small>Entrega de 12 a 15 días (5%)</small>
+                        </button>
+                      </div>
+                    </div>
+               
+    
+            <button class="btn btn-success mt-4" id="finalizarCompra">Finalizar compra</button>
+        </div>
     </main>
 
     <footer class="text-muted">
