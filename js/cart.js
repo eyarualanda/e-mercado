@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Clave de API y URL para ExchangeRate-API (reemplaza con tu clave).
-const API_KEY = 'c21e93603f7dead2043de597';
+const API_KEY = '9fbc515fdf44f560c270a07c';
 const API_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/USD`;
 
 let tasaCambioUSDToUYU = 40; // Tasa de cambio predeterminada (por si falla la API).
@@ -38,6 +38,7 @@ async function obtenerTasaCambio() {
 // Cambia la moneda seleccionada y actualiza los totales.
 function cambiarMoneda(nuevaMoneda) {
     monedaActual = nuevaMoneda;
+    actualizarSubtotal(); // Recalcula el total en la nueva moneda.
     actualizarTotal(); // Recalcula el total en la nueva moneda.
 }
 
@@ -51,6 +52,25 @@ function convertirMoneda(valor, monedaProducto) {
 }
 
 // Recalcula y actualiza el total del carrito en la interfaz.
+function actualizarSubtotal() {
+    const currentUser = getCurrentUser();
+    if (!currentUser || !currentUser.carrito) return;
+
+    let total = 0;
+    let cantidadTotal = 0;
+
+    // Recorre los productos del carrito para calcular el total convertido.
+    currentUser.carrito.forEach(producto => {
+        const subtotalConvertido = convertirMoneda(producto.cost * producto.cantidad, producto.currency);
+        total += subtotalConvertido;
+        cantidadTotal += producto.cantidad;
+    });
+
+    // Actualiza el total y la cantidad en la UI.
+    const simboloMoneda = monedaActual === 'USD' ? 'USD' : 'UYU';
+    document.getElementById('subtotal').innerText = `${simboloMoneda} ${total.toFixed(2)}`;
+}
+
 function actualizarTotal() {
     const currentUser = getCurrentUser();
     if (!currentUser || !currentUser.carrito) return;
@@ -67,7 +87,6 @@ function actualizarTotal() {
 
     // Actualiza el total y la cantidad en la UI.
     const simboloMoneda = monedaActual === 'USD' ? 'USD' : 'UYU';
-    document.getElementById('total-price').innerText = `${simboloMoneda} ${total.toFixed(2)}`;
     document.getElementById('total-items').innerText = cantidadTotal;
 }
 
@@ -94,6 +113,7 @@ function actualizarCantidad(productID, cantidad) {
 
     actualizarLocalStorage(currentUser); // Guarda el estado del carrito en localStorage.
     actualizarBadgeCarrito(); // Actualiza la insignia del carrito (si existe en la UI).
+    actualizarSubtotal(); // Recalcula el total general del carrito.
     actualizarTotal(); // Recalcula el total general del carrito.
 }
 
@@ -110,7 +130,6 @@ function eliminarDelCarrito(productID) {
     actualizarBadgeCarrito(); // Actualiza la insignia del carrito (si existe en la UI).
 }
 
-// Muestra los productos del carrito en el contenedor designado en la UI.
 function mostrarProductosEnCarrito() {
     const currentUser = getCurrentUser(); // Obtiene el usuario actual.
     const cartContainer = document.getElementById('cart-container'); // Elemento del DOM para mostrar el carrito.
@@ -128,7 +147,6 @@ function mostrarProductosEnCarrito() {
     // Itera sobre cada producto del carrito y genera su HTML.
     currentUser.carrito.forEach(producto => {
         const productoHTML = `
-
         <div class="col-12">
             <div class="row my-2" id="producto-${producto.id}">
                 <div class="col-12 col-md-6">
@@ -183,7 +201,6 @@ function mostrarProductosEnCarrito() {
             </div>
         </div>
         <hr class="mb-4">
-        
         `;
         
         cartContainer.innerHTML += productoHTML; // Agrega el producto al contenedor del carrito.
@@ -191,9 +208,91 @@ function mostrarProductosEnCarrito() {
         cantidadTotal += producto.cantidad; // Acumula la cantidad total de productos.
     });
 
+    // Almacena los valores para el cálculo posterior del envío.
+    const totalPrice = total; // Total sin envío
+    const totalItems = cantidadTotal;
+
     // Actualiza el total y la cantidad total en la interfaz.
-    document.getElementById('total-price').innerText = `${currentUser.carrito[0].currency} ${total.toFixed(2)}`;
-    document.getElementById('total-items').innerText = cantidadTotal;
+    document.getElementById('total-price').innerText = `${currentUser.carrito[0].currency} ${totalPrice.toFixed(2)}`;
+    document.getElementById('total-items').innerText = totalItems;
+
+    const shippingButtons = document.querySelectorAll('#shipping-type button');
+    const shippingSummary = document.getElementById('shipping-summary');
+
+    shippingButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            shippingButtons.forEach(btn => {
+                btn.classList.remove('btn-info');
+                btn.classList.add('btn-light');
+            });
+
+            button.classList.remove('btn-light');
+            button.classList.add('btn-info');
+
+            let shippingPercentage = 0;
+            if (button.id === 'premiumShipping') {
+                shippingPercentage = 15;
+            } else if (button.id === 'expressShipping') {
+                shippingPercentage = 7;
+            } else if (button.id === 'standardShipping') {
+                shippingPercentage = 5;
+            }
+
+            // Ahora se pasa correctamente el total de la compra para calcular el costo de envío.
+            actualizarEnvio(totalPrice, totalItems, shippingPercentage);
+        });
+    });
+
+    actualizarSubtotal();
+}
+
+function actualizarEnvio(totalPrice, totalItems, shippingPercentage) {
+    const shippingCost = (totalPrice * shippingPercentage) / 100;
+    const totalWithShipping = totalPrice + shippingCost;
+
+    // Mostrar el porcentaje de envío en el resumen
+    const shippingSummary = document.getElementById('shipping-summary');
+    shippingSummary.textContent = shippingCost;
+
+    // Mostrar el total con el envío incluido
+    const totalPriceElement = document.getElementById('total-price');
+    totalPriceElement.textContent = `${totalWithShipping.toFixed(2)}`;
+
+    const totalItemsElement = document.getElementById('total-items');
+    totalItemsElement.textContent = totalItems;
+    actualizarTotal();
+}
+
+function obtenerPorcentajeEnvio() {
+    const shippingButtons = document.querySelectorAll('#shipping-type button');
+    let shippingPercentage = 0;
+
+    shippingButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            shippingButtons.forEach(btn => {
+                btn.classList.remove('btn-info');
+                btn.classList.add('btn-light');
+            });
+
+            button.classList.remove('btn-light');
+            button.classList.add('btn-info');
+
+            if (button.id === 'premiumShipping') {
+                shippingPercentage = 15;
+            } else if (button.id === 'expressShipping') {
+                shippingPercentage = 7;
+            } else if (button.id === 'standardShipping') {
+                shippingPercentage = 5;
+            }
+
+            // Actualiza el envío con el nuevo porcentaje
+            const totalPrice = parseFloat(document.getElementById('total-price').innerText.replace('$', '').trim());
+            const totalItems = parseInt(document.getElementById('total-items').innerText);
+            actualizarEnvio(totalPrice, totalItems, shippingPercentage);
+        });
+    });
+
+    return shippingPercentage; // Devuelve el porcentaje actual de envío
 }
 
 // Muestra un mensaje de carrito vacío y oculta secciones innecesarias.
@@ -211,49 +310,8 @@ function actualizarLocalStorage(currentUser) {
     usuarios = usuarios.map(usuario => usuario.email === currentUser.email ? currentUser : usuario); // Actualiza solo el usuario actual.
     localStorage.setItem('usuarios', JSON.stringify(usuarios)); // Guarda los cambios en localStorage.
 }
-document.addEventListener("DOMContentLoaded", function() {
-    // Selección de botones y elementos
-    const premiumButton = document.getElementById("premiumShipping");
-    const expressButton = document.getElementById("expressShipping");
-    const standardButton = document.getElementById("standardShipping");
-    const siguienteButton = document.getElementById("siguienteButton");
-    const shippingTypeDisplay = document.getElementById("selected-shipping");
-    const errorMessage = document.getElementById("error-message");
 
-    let selectedShipping = null; // Variable para almacenar el tipo de envío seleccionado
-
-    // Función para actualizar el tipo de envío seleccionado
-    function selectShipping(type, costPercentage) {
-        selectedShipping = { type, costPercentage };
-        shippingTypeDisplay.innerText = `Tipo de Envío: ${type}`;
-        errorMessage.innerText = ""; // Limpiar mensaje de error si ya se seleccionó un envío
-    }
-
-    // Asignar acciones a cada botón de envío
-    premiumButton.addEventListener("click", function() {
-        selectShipping("Premium", 0.15);
-    });
-    expressButton.addEventListener("click", function() {
-        selectShipping("Express", 0.07);
-    });
-    standardButton.addEventListener("click", function() {
-        selectShipping("Standard", 0.05);
-    });
-
-    // Acción para el botón "Siguiente"
-    siguienteButton.addEventListener("click", function() {
-        if (selectedShipping) {
-            // Si hay un tipo de envío seleccionado, cambia a la siguiente pestaña
-            const nextTab = new bootstrap.Tab(document.getElementById('shipping-address-tab'));
-            nextTab.show();
-        } else {
-            // Mostrar mensaje de error si no se seleccionó ningún tipo de envío
-            errorMessage.innerText = "Por favor, selecciona un tipo de envío antes de continuar.";
-        }
-    });
-});
 // Obtener el botón y el formulario
-const siguienteButton = document.getElementById("nextButton");
 const shippingAddressForm = document.getElementById("shippingAddressForm");
 const errorMessage = document.getElementById("error-message");
 
@@ -277,18 +335,6 @@ function validateShippingAddress() {
     return true;
 }
 
-// Añadir el manejador de evento al botón "Siguiente"
-siguienteButton.addEventListener("click", function() {
-    if (validateShippingAddress()) {
-        // Si la validación es exitosa, cambiar a la siguiente pestaña (forma de pago)
-        const shippingAddressTab = document.getElementById("shipping-address-tab");
-        const paymentMethodTab = document.getElementById("payment-method-tab");
-
-        // Cambiar a la pestaña "Forma de Pago"
-        const bootstrapTab = new bootstrap.Tab(paymentMethodTab);
-        bootstrapTab.show();
-    }
-});
 //Añade funcionalidad al botón
 document.getElementById('nextButtonPayment').addEventListener('click', function () {
     // Selecciona la pestaña de "Costos"
