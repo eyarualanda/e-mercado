@@ -161,13 +161,13 @@
                                         <h4 class="my-4 text-center">Tipo de Envío</h4>
                                         <div class="d-flex flex-column align-items-center">
                                             <!-- Botones de Tipo de Envío -->
-                                            <button type="button" data-bs-toggle="button" class="btn btn-light btn-block mb-2 w-auto border" id="premiumShipping">
+                                            <button type="button" class="btn btn-block mb-2 w-auto border" id="premiumShipping">
                                                 <span class="fw-bolder">Premium</span><br><small>Entrega de 2 a 5 días (15%)</small>
                                             </button>
-                                            <button type="button" data-bs-toggle="button" class="btn btn-light btn-block mb-2 w-auto border" id="expressShipping">
+                                            <button type="button" class="btn btn-block mb-2 w-auto border" id="expressShipping">
                                                 <span class="fw-bolder">Express</span><br><small>Entrega de 5 a 8 días (7%)</small>
                                             </button>
-                                            <button type="button" data-bs-toggle="button" class="btn btn-light btn-block w-auto border" id="standardShipping">
+                                            <button type="button" class="btn btn-block w-auto border" id="standardShipping">
                                                 <span class="fw-bolder">Standard</span><br><small>Entrega de 12 a 15 días (5%)</small>
                                             </button>
                                         </div>
@@ -228,6 +228,10 @@
                         <div class="summary-details d-flex justify-content-between w-100 mb-2" style="margin-top: 30px;">
                             <span class="fw-bold">Cantidad total de productos:</span>
                             <span id="total-items" class="ms-2">0</span>
+                        </div>
+                        <div class="summary-details d-flex justify-content-between w-100 mb-2" style="margin-top: 30px;">
+                            <span class="fw-bold">Envío:</span>
+                            <span id="shipping-summary" class="ms-2">0</span>
                         </div>
                         <hr class="separator"> <!-- Línea de separación -->
                         <div class="summary-details d-flex justify-content-between w-100 mb-4">
