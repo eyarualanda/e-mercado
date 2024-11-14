@@ -16,11 +16,11 @@ function crearTarjeta(product) {
                 <div class="nombre-producto">${product.name}</div>
                 <div class="botones">
                     <a href="cart.html">
-                        <button class="btn btn-primary">
+                        <button class="btn btn-primary" data-id="${product.id}">
                             <i class="fas fa-shopping-bag"></i> Comprar
                         </button>
                    </a>
-                    <button class="btn btn-secondary">
+                    <button class="btn btn-secondary" data-id="${product.id}">
                         <i class="fas fa-cart-plus"></i> Agregar al carrito
                     </button>
                 </div>
@@ -178,3 +178,46 @@ document.addEventListener("DOMContentLoaded", function() {
         event.stopPropagation();
     });
 });
+ 
+// Función para agregar productos al carrito
+function agregarAlCarrito(product) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    // Verificar si el producto ya está en el carrito
+    const existingProduct = cart.find(item => item.id === product.id);
+    if (existingProduct) {
+        existingProduct.quantity += 1; // Incrementar cantidad si ya existe
+    } else {
+        product.quantity = 1; // Si no, agregar con cantidad 1
+        cart.push(product);
+    }
+    
+    localStorage.setItem('cart', JSON.stringify(cart)); // Guardar carrito en localStorage
+}
+
+// Función para agregar eventos a los botones de los productos
+function agregarEventosBotones() {
+    // Agregar evento al botón "Comprar"
+    const buyButtons = document.querySelectorAll('.buy-button');
+    buyButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevenir redirección inmediata
+            const productId = event.target.dataset.id;
+            const product = productsArray.find(p => p.id == productId);
+            agregarAlCarrito(product); // Agregar producto al carrito
+            window.location.href = "cart.html"; // Redirigir a la página de carrito
+        });
+    });
+
+    // Agregar evento al botón "Agregar al carrito"
+    const addToCartButtons = document.querySelectorAll('.add-to-cart-button');
+    addToCartButtons.forEach(button => {
+        button.addEventListener('click', (event) => {
+            event.stopPropagation(); // Evitar que se dispare el evento de la tarjeta
+            const productId = event.target.dataset.id;
+            const product = productsArray.find(p => p.id == productId);
+            agregarAlCarrito(product); // Agregar producto al carrito
+            alert("Producto agregado al carrito"); // Mensaje de confirmación
+        });
+    });
+}
