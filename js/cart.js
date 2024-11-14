@@ -211,3 +211,95 @@ function actualizarLocalStorage(currentUser) {
     usuarios = usuarios.map(usuario => usuario.email === currentUser.email ? currentUser : usuario); // Actualiza solo el usuario actual.
     localStorage.setItem('usuarios', JSON.stringify(usuarios)); // Guarda los cambios en localStorage.
 }
+document.addEventListener("DOMContentLoaded", function() {
+    // Selección de botones y elementos
+    const premiumButton = document.getElementById("premiumShipping");
+    const expressButton = document.getElementById("expressShipping");
+    const standardButton = document.getElementById("standardShipping");
+    const siguienteButton = document.getElementById("siguienteButton");
+    const shippingTypeDisplay = document.getElementById("selected-shipping");
+    const errorMessage = document.getElementById("error-message");
+
+    let selectedShipping = null; // Variable para almacenar el tipo de envío seleccionado
+
+    // Función para actualizar el tipo de envío seleccionado
+    function selectShipping(type, costPercentage) {
+        selectedShipping = { type, costPercentage };
+        shippingTypeDisplay.innerText = `Tipo de Envío: ${type}`;
+        errorMessage.innerText = ""; // Limpiar mensaje de error si ya se seleccionó un envío
+    }
+
+    // Asignar acciones a cada botón de envío
+    premiumButton.addEventListener("click", function() {
+        selectShipping("Premium", 0.15);
+    });
+    expressButton.addEventListener("click", function() {
+        selectShipping("Express", 0.07);
+    });
+    standardButton.addEventListener("click", function() {
+        selectShipping("Standard", 0.05);
+    });
+
+    // Acción para el botón "Siguiente"
+    siguienteButton.addEventListener("click", function() {
+        if (selectedShipping) {
+            // Si hay un tipo de envío seleccionado, cambia a la siguiente pestaña
+            const nextTab = new bootstrap.Tab(document.getElementById('shipping-address-tab'));
+            nextTab.show();
+        } else {
+            // Mostrar mensaje de error si no se seleccionó ningún tipo de envío
+            errorMessage.innerText = "Por favor, selecciona un tipo de envío antes de continuar.";
+        }
+    });
+});
+// Obtener el botón y el formulario
+const siguienteButton = document.getElementById("nextButton");
+const shippingAddressForm = document.getElementById("shippingAddressForm");
+const errorMessage = document.getElementById("error-message");
+
+// Función para validar el formulario de dirección
+function validateShippingAddress() {
+    const fullName = document.getElementById("fullName").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const address = document.getElementById("address").value.trim();
+    const city = document.getElementById("city").value.trim();
+    const country = document.getElementById("country").value.trim();
+    const zip = document.getElementById("zip").value.trim();
+
+    // Verificar si hay algún campo vacío
+    if (!fullName || !phone || !address || !city || !country || !zip) {
+        errorMessage.textContent = "Por favor, completa todos los campos.";
+        return false;
+    }
+
+    // Si todo es válido, limpiar el mensaje de error
+    errorMessage.textContent = "";
+    return true;
+}
+
+// Añadir el manejador de evento al botón "Siguiente"
+siguienteButton.addEventListener("click", function() {
+    if (validateShippingAddress()) {
+        // Si la validación es exitosa, cambiar a la siguiente pestaña (forma de pago)
+        const shippingAddressTab = document.getElementById("shipping-address-tab");
+        const paymentMethodTab = document.getElementById("payment-method-tab");
+
+        // Cambiar a la pestaña "Forma de Pago"
+        const bootstrapTab = new bootstrap.Tab(paymentMethodTab);
+        bootstrapTab.show();
+    }
+});
+//Añade funcionalidad al botón
+document.getElementById('nextButtonPayment').addEventListener('click', function () {
+    // Selecciona la pestaña de "Costos"
+    const costSummaryTab = new bootstrap.Tab(document.getElementById('cost-summary-tab'));
+    // Cambia a la pestaña de "Costos"
+    costSummaryTab.show();
+});
+//Le asigna la funcionalidad al botón de "Atrás" en la pestaña de Forma de envíos
+document.getElementById("backToShipping").addEventListener("click", function (e) {
+    e.preventDefault();
+    // Cambia al tab anterior (Dirección de Envío)
+    var previousTab = new bootstrap.Tab(document.querySelector('#shipping-address-tab'));
+    previousTab.show();
+});

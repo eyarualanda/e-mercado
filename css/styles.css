@@ -694,4 +694,44 @@ h2.text-center {
 
 .footer a {
   color: #007bff;
+<<<<<<< Updated upstream
 }
+=======
+}
+
+body[data-bs-theme="light"] #btn-ymuchomas {
+  color: black;
+}
+
+body[data-bs-theme="dark"] #btn-ymuchomas {
+  color: white;
+}
+.payment-options .payment-option {
+  width: 150px;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.payment-option:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.payment-option i {
+  color: #007bff;
+}
+
+.payment-option p {
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.payment-options {
+  gap: 10px;
+}
+>>>>>>> Stashed changes
