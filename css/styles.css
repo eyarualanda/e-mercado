@@ -711,3 +711,43 @@ body[data-bs-theme="light"] #btn-ymuchomas {
 body[data-bs-theme="dark"] #btn-ymuchomas {
   color: white;
 }
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+/* Pantallas muy pequeñas (ej. smartphones en modo vertical) */
+@media (max-width: 480px) {
+  .jumbotron {
+    height: 25vh;
+    padding: 1.5em 0.5em;
+  }
+
+  .card-title-login {
+    font-size: 1.2rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+:root {
+  --font-size-base: 16px;
+}
+
+body {
+  font-size: var(--font-size-base);
+}
+
+@media (max-width: 768px) {
+  :root {
+    --font-size-base: 14px;
+  }
+}
