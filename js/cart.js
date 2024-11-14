@@ -202,7 +202,7 @@ function mostrarCarritoVacio() {
     document.getElementById('total-price').innerText = '$ 0.00';
     document.getElementById('total-items').innerText = '0';
     document.getElementById('cart-summary').classList.add('d-none');
-    document.getElementById('cart-container').classList.add('d-none');
+    document.getElementById('div-carrito').classList.add('d-none');
 }
 
 // Actualiza la información del usuario en localStorage.

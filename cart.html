@@ -82,156 +82,170 @@
     </nav>
 
     <main>
-
+        
         <div class="container mx-5 my-2">
-            <h1 class="text-center">Productos del carrito</h1>
-            <div id="alertaCarrito"></div>
-
-            <div id="cart-container" class="container my-4">
-            </div>
-
-            <div id="cart-summary" class="ff-jost d-flex flex-column align-items-center m-auto">
-                <h2 class="text-center">Resumen de la compra</h2>
-                <div class="summary-details d-flex justify-content-between w-100 mb-2" style="margin-top: 30px;">
-                    <span class="fw-bold">Cantidad total de productos:</span>
-                    <span id="total-items" class="ms-2">0</span>
-                </div>
-                <hr class="separator"> <!-- Línea de separación -->
-                <div class="summary-details d-flex justify-content-between w-100 mb-4">
-                    <span class="fw-bold">Total:</span>
-                    <span id="total-price" class="ms-2"></span>
-                </div>
-                                <!-- Botones para selección de moneda -->
-                                <div class="currency-selector d-flex justify-content-center mb-4">
-                                    <button class="btn btn-outline-primary me-2" id="currency-uyu">Pesos Uruguayos (UYU)</button>
-                                    <button class="btn btn-outline-primary" id="currency-usd">Dólares (USD)</button>
+        <h1 class="text-center mb-4">Carrito</h1>
+        <div id="alertaCarrito"></div>
+            <div class="row" id="div-carrito">
+                <div class="col-8">
+                    <ul class="nav nav-tabs nav-justified" id="checkoutTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="cart-tab" data-bs-toggle="tab" data-bs-target="#cart" type="button" role="tab">Artículos</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="shipping-tab" data-bs-toggle="tab" data-bs-target="#shipping" type="button" role="tab">Envío</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="payment-method-tab" data-bs-toggle="tab" data-bs-target="#payment-method" type="button" role="tab">Forma de Pago</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="finalize-tab" data-bs-toggle="tab" data-bs-target="#finalize" type="button" role="tab">Finalizar</button>
+                        </li>
+                    </ul>
+                    
+                    <!-- Tab Content -->
+                    <div class="tab-content">
+                        <!-- Carrito -->
+                        <div class="tab-pane fade show active" id="cart" role="tabpanel">
+                            <div id="cart-container" class="container my-4">
+                            </div>
+                        </div>
+                    
+                        <!-- Envío (con sub-pestañas) -->
+                        <div class="tab-pane fade" id="shipping" role="tabpanel">
+                            <!-- Tipo de Envío -->
+                                <div class="row">
+                                <div class="col-7">
+                                    <div id="shipping-address" role="tabpanel">
+                                        <h4 class="my-4 text-center">Dirección de Envío</h4>
+                                        <form id="shippingAddressForm" class="container">
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <label for="fullName" class="form-label">Nombre Completo*</label>
+                                                    <input type="text" class="form-control" id="fullName" placeholder="Juan Pérez" required>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="phone" class="form-label">Teléfono*</label>
+                                                    <input type="tel" class="form-control" id="phone" placeholder="099123456" required>
+                                                </div>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="address" class="form-label">Dirección*</label>
+                                                <input type="text" class="form-control" id="address" placeholder="Calle Falsa 123" required>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <div class="col-md-4">
+                                                    <label for="city" class="form-label">Ciudad*</label>
+                                                    <input type="text" class="form-control" id="city" placeholder="Montevideo" required>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="country" class="form-label">País</label>
+                                                    <select id="country" class="form-select" required>
+                                                        <option value="">Selecciona un país*</option>
+                                                        <option>Uruguay</option>
+                                                        <option>Argentina</option>
+                                                        <option>Brasil</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="zip" class="form-label">ZIP *</label>
+                                                    <input type="text" class="form-control" id="zip" placeholder="11300" required>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
-                <button class="btn btn-outline-success" id="finalizarCompra">Finalizar compra</button>
+    
+                                <div class="col">
+                                    <div id="shipping-type" role="tabpanel">
+                                    <h4 class="my-4 text-center">Tipo de Envío</h4>
+                                    <div class="d-flex flex-column align-items-center">
+                                        <!-- Botones de Tipo de Envío -->
+                                        <button type="button" data-bs-toggle="button" class="btn btn-light btn-block mb-2 w-auto border" id="premiumShipping">
+                                            <span class="fw-bolder">Premium</span><br><small>Entrega de 2 a 5 días (15%)</small>
+                                        </button>
+                                        <button type="button" data-bs-toggle="button" class="btn btn-light btn-block mb-2 w-auto border" id="expressShipping">
+                                            <span class="fw-bolder">Express</span><br><small>Entrega de 5 a 8 días (7%)</small>
+                                        </button>
+                                        <button type="button" data-bs-toggle="button" class="btn btn-light btn-block w-auto border" id="standardShipping">
+                                            <span class="fw-bolder">Standard</span><br><small>Entrega de 12 a 15 días (5%)</small>
+                                        </button>
+                                    </div>
+                                    <div id="error-message" class="text-danger mt-2"></div>
+                                    </div>
+                                </div>
+                            </div>  
+                            <div class="d-flex justify-content-between">
+                                <button class="btn btn-secondary" id="backToType">Atrás</button>
+                                <button type="button" class="btn btn-primary" id="toPaymentButton">Siguiente</button>
+                            </div>      
+                        </div>
+                    
+                        <!-- Forma de Pago -->
+                        <div class="tab-pane fade" id="payment-method" role="tabpanel">
+                            <h3 class="mt-4 text-center">Forma de Pago</h3>
+                            <form id="paymentForm" class="container mt-3 text-center">
+                                <div class="payment-options d-flex justify-content-around mb-4">
+                                    <button type="button" data-bs-toggle="button" class="btn btn-light payment-option border" data-payment="credit-card">
+                                        <i class="fas fa-credit-card fa-2x"></i>
+                                        <p class="mt-2">Tarjeta de Crédito</p>
+                                    </button>
+                                    <button type="button" data-bs-toggle="button" class="btn btn-light payment-option border" data-payment="debit-card">
+                                        <i class="fas fa-credit-card fa-2x"></i>
+                                        <p class="mt-2">Tarjeta de Débito</p>
+                                    </button>
+                                    <button type="button" data-bs-toggle="button" class="btn btn-light payment-option border" data-payment="bank-transfer">
+                                        <i class="fas fa-university fa-2x"></i>
+                                        <p class="mt-2">Transferencia Bancaria</p>
+                                    </button>
+                                    <button type="button" data-bs-toggle="button" class="btn btn-light payment-option border" data-payment="cash-on-delivery">
+                                        <i class="fas fa-money-bill-wave fa-2x"></i>
+                                        <p class="mt-2">Efectivo</p>
+                                    </button>
+                                </div>
+                                
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-secondary" id="backToShipping">Atrás</button>
+                                    <button type="button" class="btn btn-primary" id="nextButtonPayment">Siguiente</button>
+                                </div>
+                            </form>
+                        </div>
+                    
+                        <!-- Finalizar -->
+                        <div class="tab-pane fade" id="finalize" role="tabpanel">
+                            <h3 class="mt-4 text-center">Resumen y Finalización</h3>
+                            <p class="text-center">Aquí puedes revisar todos los detalles antes de completar tu compra.</p>
+                            <div class="d-flex justify-content-center">
+                                <button class="btn btn-primary">Finalizar Compra</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col">
+                    <div id="cart-summary" class="ff-jost d-flex flex-column align-items-center m-auto mt-5">
+                        <h4 class="text-center">Resumen de la compra</h4>
+                        <div class="summary-details d-flex justify-content-between w-100 mb-2" style="margin-top: 30px;">
+                            <span class="fw-bold">Cantidad total de productos:</span>
+                            <span id="total-items" class="ms-2">0</span>
+                        </div>
+                        <hr class="separator"> <!-- Línea de separación -->
+                        <div class="summary-details d-flex justify-content-between w-100 mb-4">
+                            <span class="fw-bold">Total:</span>
+                            <span id="total-price" class="ms-2"></span>
+                        </div>
+                            <!-- Botones para selección de moneda -->
+                            <div class="currency-selector d-flex justify-content-center mb-4">
+                                <button class="btn btn-outline-primary me-2" id="currency-uyu">Pesos Uruguayos (UYU)</button>
+                                <button class="btn btn-outline-primary" id="currency-usd">Dólares (USD)</button>
+                            </div>
+                        <button class="btn btn-outline-success" id="finalizarCompra">Finalizar compra</button>
+                    </div>
+                </div>
             </div>
         </div>
-
-        <br>
 
         <div class="container mx-90 my-2">
-            <div id="alertaCarrito"></div>
-            
-    
-            <!-- Tabs -->
-            <ul class="nav nav-tabs" id="checkoutTabs" role="tablist">
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="shipping-type-tab" data-bs-toggle="tab" data-bs-target="#shipping-type" type="button" role="tab">Tipo de Envío</button>
-                
-                </li>
-                
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="shipping-address-tab" data-bs-toggle="tab" data-bs-target="#shipping-address" type="button" role="tab">Dirección de Envío</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="payment-method-tab" data-bs-toggle="tab" data-bs-target="#payment-method" type="button" role="tab">Forma de Pago</button>
-                </li>
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="cost-summary-tab" data-bs-toggle="tab" data-bs-target="#cost-summary" type="button" role="tab">Costos</button>
-                </li>
-            </ul>
-                
-                <!-- Tipo de Envío -->
-                <div class="card-body">
-                <div id="cart-summary" class="ff-jost d-flex flex-column align-items-center">
-                <div class="tab-pane fade show active" id="shipping-type" role="tabpanel">
-                   
-                    <h3 class="mt-4 text-center">Tipo de Envío</h3>
-                    <div class="d-flex flex-column align-items-center">
-                        <!-- Botones de Tipo de Envío -->
-                     <button type="button" class="btn btn-info btn-lg btn-block mb-2 w-auto border" id="premiumShipping">
-                      Premium<br><small>Entrega de 2 a 5 días (15%)</small>
-                     </button>
-                     <button type="button" class="btn btn-secondary btn-lg btn-block mb-2 w-auto border" id="expressShipping">
-                     Express<br><small>Entrega de 5 a 8 días (7%)</small>
-                     </button>
-                     <button type="button" class="btn btn-light btn-lg btn-block w-auto border" id="standardShipping">
-                     Standard<br><small>Entrega de 12 a 15 días (5%)</small>
-                     </button>
-                     <button class="btn btn-success mt-4" id="siguienteButton">Siguiente</button>
-                      </div>
-                      <div id="error-message" class="text-danger mt-2"></div>
-                    </div>
-                    
-                              <!-- Dirección de envío -->
-                     <div class="tab-pane fade" id="shipping-address" role="tabpanel">
-                        <h3 class="mt-4 text-center">Dirección de Envío</h3>
-                        <form id="shippingAddressForm" class="container mt-3">
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="fullName" class="form-label">Nombre Completo*</label>
-                                    <input type="text" class="form-control" id="fullName" placeholder="Juan Pérez" required>
-                                </div>
-                                <div class="col-md-6">
-                                    <label for="phone" class="form-label">Teléfono*</label>
-                                    <input type="tel" class="form-control" id="phone" placeholder="099123456" required>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <label for="address" class="form-label">Dirección*</label>
-                                <input type="text" class="form-control" id="address" placeholder="Calle Falsa 123" required>
-                            </div>
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <label for="city" class="form-label">Ciudad*</label>
-                                    <input type="text" class="form-control" id="city" placeholder="Montevideo" required>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="country" class="form-label">País</label>
-                                    <select id="country" class="form-select" required>
-                                        <option value="">Selecciona un país*</option>
-                                        <option>Uruguay</option>
-                                        <option>Argentina</option>
-                                        <option>Brasil</option>
-                                        <!-- Agrega más opciones según sea necesario -->
-                                    </select>
-                                </div>
-                                <div class="col-md-2">
-                                    <label for="zip" class="form-label">Código Postal *</label>
-                                    <input type="text" class="form-control" id="zip" placeholder="11300" required>
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <button class="btn btn-secondary w-25" id="atrasPayment">Atrás</button>
-                                <button type="button" class="btn btn-success" id="nextButton">Siguiente</button>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- Forma de Pago -->
-<div class="tab-pane fade" id="payment-method" role="tabpanel">
-    <h3 class="mt-4 text-center">Forma de Pago</h3>
-    <form id="paymentForm" class="container mt-3 text-center">
-        <div class="payment-options d-flex justify-content-around mb-4">
-            <button type="button" class="btn btn-light payment-option border" data-payment="credit-card">
-                <i class="fas fa-credit-card fa-2x"></i>
-                <p class="mt-2">Tarjeta de Crédito</p>
-            </button>
-            <button type="button" class="btn btn-light payment-option border" data-payment="debit-card">
-                <i class="fas fa-credit-card fa-2x"></i>
-                <p class="mt-2">Tarjeta de Débito</p>
-            </button>
-            <button type="button" class="btn btn-light payment-option border" data-payment="bank-transfer">
-                <i class="fas fa-university fa-2x"></i>
-                <p class="mt-2">Transferencia Bancaria</p>
-            </button>
-            <button type="button" class="btn btn-light payment-option border" data-payment="cash-on-delivery">
-                <i class="fas fa-money-bill-wave fa-2x"></i>
-                <p class="mt-2">Efectivo</p>
-            </button>
-        </div>
-        
-        <div class="d-flex justify-content-between">
-            <button class="btn btn-secondary" id="backToShipping">Atrás</button>
-            <button type="button" class="btn btn-success" id="nextButtonPayment">Siguiente</button>
-        </div>
-    </form>
-</div>
-
-
-        </div>
         
     </main>
 
