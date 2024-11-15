@@ -424,7 +424,9 @@ function manejoBotonesNavegacion() {
                 title: "Información incompleta",
                 text: "Por favor, completa todos los campos para continuar.",
             });
+            document.getElementById('error-message').innerText = 'Completa los campos y selecciona un tipo de envío.';
         } else {
+            document.getElementById('error-message').innerText = '';
             Swal.fire({
                 icon: "success",
                 title: "¡Gracias por tu compra!",
