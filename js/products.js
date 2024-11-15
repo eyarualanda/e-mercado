@@ -19,7 +19,7 @@ function crearTarjeta(product) {
                         <button class="btn btn-primary" data-id="${product.id}">
                             <i class="fas fa-shopping-bag"></i> Comprar
                         </button>
-                   </a>
+                     </a>
                     <button class="btn btn-secondary" data-id="${product.id}">
                         <i class="fas fa-cart-plus"></i> Agregar al carrito
                     </button>
@@ -178,7 +178,7 @@ document.addEventListener("DOMContentLoaded", function() {
         event.stopPropagation();
     });
 });
- 
+
 // Función para agregar productos al carrito
 function agregarAlCarrito(product) {
     let cart = JSON.parse(localStorage.getItem('cart')) || [];

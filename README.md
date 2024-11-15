@@ -27,4 +27,4 @@ Pueden probar la página desde GitHub Pages a través del link: *https://eyarual
 
 ## Créditos
 
-Desarrollado por Sofía Stazi, Sabrina Filgueira, Jimena Márquez, Eyarúa Sanabria, Pilar Rodríguez.
+Desarrollado por Sofía Stazi, Gimena Saravia, Sabrina Filgueira, Jimena Márquez, Eyarúa Sanabria, Pilar Rodríguez.

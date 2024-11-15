@@ -31,10 +31,18 @@ nav a {
   height: 50vh; /* Altura del 50% del viewport */
   padding: 5em inherit;
   margin-bottom: 0;
-  background: #f8f9fa url('../img/cover_back.png') no-repeat center;
-  background-size: cover; /* La imagen cubrirá el contenedor */
   color: black;
   font-weight: bold;
+}
+
+body[data-bs-theme="light"] .jumbotron {
+  background: #f8f9fa url('../img/cover_back.png') no-repeat center;
+  background-size: cover; /* La imagen cubrirá el contenedor */
+}
+
+body[data-bs-theme="dark"] .jumbotron {
+  background: url('../img/cover_back_night.png') no-repeat center;
+  background-size: cover; /* La imagen cubrirá el contenedor */
 }
 
 /* Tableta en modo vertical (768x1024 px) */
@@ -699,6 +707,7 @@ body[data-bs-theme="light"] #btn-ymuchomas {
 body[data-bs-theme="dark"] #btn-ymuchomas {
   color: white;
 }
+
 .payment-options .payment-option {
   width: 150px;
   height: 120px;
@@ -712,4 +721,44 @@ body[data-bs-theme="dark"] #btn-ymuchomas {
 .payment-option:hover {
   transform: scale(1.05);
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
+
+/* Pantallas muy pequeñas (ej. smartphones en modo vertical) */
+@media (max-width: 480px) {
+  .jumbotron {
+    height: 25vh;
+    padding: 1.5em 0.5em;
+  }
+
+  .card-title-login {
+    font-size: 1.2rem;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+}
+
+:root {
+  --font-size-base: 16px;
+}
+
+body {
+  font-size: var(--font-size-base);
+}
+
+@media (max-width: 768px) {
+  :root {
+    --font-size-base: 14px;
+  }
 }
