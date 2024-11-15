@@ -211,95 +211,103 @@ function actualizarLocalStorage(currentUser) {
     usuarios = usuarios.map(usuario => usuario.email === currentUser.email ? currentUser : usuario); // Actualiza solo el usuario actual.
     localStorage.setItem('usuarios', JSON.stringify(usuarios)); // Guarda los cambios en localStorage.
 }
-document.addEventListener("DOMContentLoaded", function() {
-    // Selección de botones y elementos
-    const premiumButton = document.getElementById("premiumShipping");
-    const expressButton = document.getElementById("expressShipping");
-    const standardButton = document.getElementById("standardShipping");
-    const siguienteButton = document.getElementById("siguienteButton");
-    const shippingTypeDisplay = document.getElementById("selected-shipping");
-    const errorMessage = document.getElementById("error-message");
-
-    let selectedShipping = null; // Variable para almacenar el tipo de envío seleccionado
-
-    // Función para actualizar el tipo de envío seleccionado
-    function selectShipping(type, costPercentage) {
-        selectedShipping = { type, costPercentage };
-        shippingTypeDisplay.innerText = `Tipo de Envío: ${type}`;
-        errorMessage.innerText = ""; // Limpiar mensaje de error si ya se seleccionó un envío
-    }
-
-    // Asignar acciones a cada botón de envío
-    premiumButton.addEventListener("click", function() {
-        selectShipping("Premium", 0.15);
-    });
-    expressButton.addEventListener("click", function() {
-        selectShipping("Express", 0.07);
-    });
-    standardButton.addEventListener("click", function() {
-        selectShipping("Standard", 0.05);
-    });
-
-    // Acción para el botón "Siguiente"
-    siguienteButton.addEventListener("click", function() {
-        if (selectedShipping) {
-            // Si hay un tipo de envío seleccionado, cambia a la siguiente pestaña
-            const nextTab = new bootstrap.Tab(document.getElementById('shipping-address-tab'));
-            nextTab.show();
-        } else {
-            // Mostrar mensaje de error si no se seleccionó ningún tipo de envío
-            errorMessage.innerText = "Por favor, selecciona un tipo de envío antes de continuar.";
-        }
-    });
-});
-// Obtener el botón y el formulario
-const siguienteButton = document.getElementById("nextButton");
-const shippingAddressForm = document.getElementById("shippingAddressForm");
-const errorMessage = document.getElementById("error-message");
-
-// Función para validar el formulario de dirección
-function validateShippingAddress() {
-    const fullName = document.getElementById("fullName").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const address = document.getElementById("address").value.trim();
-    const city = document.getElementById("city").value.trim();
-    const country = document.getElementById("country").value.trim();
-    const zip = document.getElementById("zip").value.trim();
-
-    // Verificar si hay algún campo vacío
-    if (!fullName || !phone || !address || !city || !country || !zip) {
-        errorMessage.textContent = "Por favor, completa todos los campos.";
-        return false;
-    }
-
-    // Si todo es válido, limpiar el mensaje de error
-    errorMessage.textContent = "";
-    return true;
+// Validación para la forma de pago
+function validatePaymentMethod() {
+    return document.querySelector('input[name="paymentMethod"]:checked') !== null;
 }
 
-// Añadir el manejador de evento al botón "Siguiente"
-siguienteButton.addEventListener("click", function() {
-    if (validateShippingAddress()) {
-        // Si la validación es exitosa, cambiar a la siguiente pestaña (forma de pago)
-        const shippingAddressTab = document.getElementById("shipping-address-tab");
-        const paymentMethodTab = document.getElementById("payment-method-tab");
+document.getElementById("toShippingButton").addEventListener("click", function() {
+    let cartTab = new bootstrap.Tab(document.getElementById("shipping-tab"));
+    cartTab.show();
+});
 
-        // Cambiar a la pestaña "Forma de Pago"
-        const bootstrapTab = new bootstrap.Tab(paymentMethodTab);
-        bootstrapTab.show();
+document.getElementById("toPaymentButton").addEventListener("click", function() {
+    let shippingTab = new bootstrap.Tab(document.getElementById("payment-method-tab"));
+    shippingTab.show();
+});
+
+document.getElementById("backToType").addEventListener("click", function() {
+    let cartTab = new bootstrap.Tab(document.getElementById("cart-tab"));
+    cartTab.show();
+});
+
+document.getElementById("nextButtonPayment").addEventListener("click", function() {
+    let finalizeTab = new bootstrap.Tab(document.getElementById("finalize-tab"));
+    finalizeTab.show();
+});
+
+document.getElementById("backToShipping").addEventListener("click", () => {
+    let shippingTab = new bootstrap.Tab(document.getElementById("shipping-tab"));
+    shippingTab.show();
+});
+
+// Seleccionar los formularios y botones
+const shippingForm = document.getElementById('shippingAddressForm');
+const paymentForm = document.getElementById('paymentForm');
+const toShippingButton = document.getElementById('toShippingButton');
+const toPaymentButton = document.getElementById('toPaymentButton');
+const finalizarCompraButton = document.getElementById('finalizarCompra');
+
+// Función para validar un formulario
+function isFormValid(form) {
+    return form.checkValidity();
+}
+
+// Verificar si el formulario de envío es válido antes de avanzar
+toShippingButton.addEventListener('click', (e) => {
+    if (!isFormValid(shippingForm)) {
+        e.preventDefault(); // Evitar que se avance
+        shippingForm.reportValidity(); // Mostrar mensaje de campos incompletos
+    } else {
+        document.getElementById('shipping-tab').click(); // Avanzar a la sección de Envío
     }
 });
-//Añade funcionalidad al botón
-document.getElementById('nextButtonPayment').addEventListener('click', function () {
-    // Selecciona la pestaña de "Costos"
-    const costSummaryTab = new bootstrap.Tab(document.getElementById('cost-summary-tab'));
-    // Cambia a la pestaña de "Costos"
-    costSummaryTab.show();
+
+// Verificar si el formulario de forma de pago es válido antes de avanzar
+toPaymentButton.addEventListener('click', (e) => {
+    if (!isFormValid(paymentForm)) {
+        e.preventDefault(); // Evitar que se avance
+        paymentForm.reportValidity(); // Mostrar mensaje de campos incompletos
+    } else {
+        document.getElementById('payment-method-tab').click(); // Avanzar a la sección de Forma de Pago
+    }
 });
-//Le asigna la funcionalidad al botón de "Atrás" en la pestaña de Forma de envíos
-document.getElementById("backToShipping").addEventListener("click", function (e) {
-    e.preventDefault();
-    // Cambia al tab anterior (Dirección de Envío)
-    var previousTab = new bootstrap.Tab(document.querySelector('#shipping-address-tab'));
-    previousTab.show();
+
+// Finalizar compra si todos los formularios están completos
+finalizarCompraButton.addEventListener('click', (e) => {
+    if (!isFormValid(shippingForm) || !isFormValid(paymentForm)) {
+        e.preventDefault(); // Evitar que se finalice
+        alert('Por favor, completa todos los campos obligatorios antes de finalizar la compra.');
+    } 
 });
+
+//Supuestamente, para que los botones en Forma de Pago se seleccionen sólo de a uno
+const shippingButtons = document.querySelectorAll('#shipping-type button');
+shippingButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        shippingButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+    });
+});
+//Supuestamente, para que no se pueda avanzar en las páginas si el formulario de Envío no se completó
+document.getElementById('toPaymentButton').addEventListener('click', (event) => {
+    const requiredFields = document.querySelectorAll('#shippingAddressForm input[required]');
+    let allFilled = true;
+    requiredFields.forEach(input => {
+        if (!input.value.trim()) {
+            allFilled = false;
+            input.classList.add('is-invalid'); // Añade un borde rojo o similar
+        } else {
+            input.classList.remove('is-invalid');
+        }
+    });
+
+    if (!allFilled) {
+        event.preventDefault();
+        document.getElementById('error-message').textContent = "Completa todos los campos antes de continuar.";
+    } else {
+        let paymentTab = new bootstrap.Tab(document.getElementById('payment-method-tab'));
+        paymentTab.show();
+    }
+});
+//Supuestamente, método de pago
