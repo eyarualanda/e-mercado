@@ -436,7 +436,6 @@ document.getElementById('toPaymentButton').addEventListener('click', (event) => 
         paymentTab.show();
     }
 });
-//Supuestamente, método de pago
 
 //Boton atras seccion de forma de pago funciona
 document.getElementById("backToShipping").addEventListener("click", () => {
