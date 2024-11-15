@@ -388,8 +388,23 @@ toPaymentButton.addEventListener('click', (e) => {
 finalizarCompraButton.addEventListener('click', (e) => {
     if (!isFormValid(shippingForm) || !isFormValid(paymentForm)) {
         e.preventDefault(); // Evitar que se finalice
-        alert('Por favor, completa todos los campos obligatorios antes de finalizar la compra.');
-    } 
+        Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: 'Por favor, completa todos los campos obligatorios antes de finalizar la compra.'
+        });
+    } else {
+        // Si todo está bien, muestra una alerta de compra exitosa
+        Swal.fire({
+            icon: 'success',
+            title: '¡Compra exitosa!',
+            text: 'Tu compra ha sido procesada correctamente.',
+            confirmButtonText: 'Aceptar'
+        }).then(() => {
+            // Redirige al usuario a la página de inicio después de la compra exitosa
+            window.location.href = 'https://eyarualanda.github.io/e-mercado/'; // Redirige a la página principal
+        });
+    }
 });
 
 //Supuestamente, para que los botones en Forma de Pago se seleccionen sólo de a uno
@@ -422,3 +437,9 @@ document.getElementById('toPaymentButton').addEventListener('click', (event) => 
     }
 });
 //Supuestamente, método de pago
+
+//Boton atras seccion de forma de pago funciona
+document.getElementById("backToShipping").addEventListener("click", () => {
+    let shippingTab = new bootstrap.Tab(document.getElementById("shipping-tab"));
+    shippingTab.show();
+});
