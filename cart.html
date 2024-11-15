@@ -103,62 +103,61 @@
                         </li>
                     </ul>
                     
-                    <!-- Tab Content -->
                     <div class="tab-content">
-                        <!-- Carrito -->
                         <div class="tab-pane fade show active" id="cart" role="tabpanel">
                             <div id="cart-container" class="container my-4">
                             </div>
-                            <div class="d-flex justify-content-center">
-                                <button type="button" class="btn btn-primary align-items-center" id="toShippingButton">Siguiente</button>
-                            </div>
                         </div>
                     
-                        <!-- Envío (con sub-pestañas) -->
                         <div class="tab-pane fade" id="shipping" role="tabpanel">
-                            <!-- Tipo de Envío -->
-                                <div class="row">
+                            <div class="row">
                                 <div class="col-lg-7 col-sm-12">
                                     <div id="shipping-address" role="tabpanel">
                                         <h4 class="my-4 text-center">Dirección de Envío</h4>
-                                        <form id="shippingAddressForm" class="container">
+                                        <form id="shippingAddressForm" class="container" novalidate>
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <label for="fullName" class="form-label">Nombre Completo*</label>
                                                     <input type="text" class="form-control" id="fullName" placeholder="Juan Pérez" required>
+                                                    <div class="invalid-feedback">El nombre completo es obligatorio.</div>
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="phone" class="form-label">Teléfono*</label>
-                                                    <input type="tel" class="form-control" id="phone" placeholder="099123456" required>
+                                                    <input type="tel" class="form-control" id="phone" placeholder="091234567" pattern="^\+?\d{1,4}[-.\s]?\(?\d{1,4}?\)?[-.\s]?\d{7,15}$" required>
+                                                    <div class="invalid-feedback">Escribe un número de teléfono válido.</div>
                                                 </div>
                                             </div>
                                             <div class="mb-3">
                                                 <label for="address" class="form-label">Dirección*</label>
                                                 <input type="text" class="form-control" id="address" placeholder="Calle Falsa 123" required>
+                                                <div class="invalid-feedback">La dirección es obligatoria.</div>
                                             </div>
                                             <div class="row mb-3">
                                                 <div class="col-md-4">
                                                     <label for="city" class="form-label">Ciudad*</label>
                                                     <input type="text" class="form-control" id="city" placeholder="Montevideo" required>
+                                                    <div class="invalid-feedback">La ciudad es obligatoria.</div>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <label for="country" class="form-label">País</label>
+                                                    <label for="country" class="form-label">País*</label>
                                                     <select id="country" class="form-select" required>
                                                         <option value="">Selecciona un país*</option>
-                                                        <option>Uruguay</option>
-                                                        <option>Argentina</option>
-                                                        <option>Brasil</option>
+                                                        <option value="Uruguay">Uruguay</option>
+                                                        <option value="Argentina">Argentina</option>
+                                                        <option value="Brasil">Brasil</option>
                                                     </select>
+                                                    <div class="invalid-feedback">Selecciona un país.</div>
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label for="zip" class="form-label">ZIP *</label>
-                                                    <input type="text" class="form-control" id="zip" placeholder="11300" required>
+                                                    <input type="text" class="form-control" id="zip" placeholder="11300" pattern="^\d{4,5}$" required>
+                                                    <div class="invalid-feedback">Escribe un código postal válido.</div>
                                                 </div>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
-    
+
                                 <div class="col-lg-5 col-sm-12">
                                     <div id="shipping-type" role="tabpanel">
                                         <h4 class="my-4 text-center">Tipo de Envío</h4>
@@ -231,7 +230,7 @@
                         <div class="summary-details d-flex justify-content-between w-100 my-2">
                             <span class="fw-bold">Cantidad total de productos:</span>
                             <span id="total-items" class="ms-2">0</span>
-                        </div>
+                        </div> 
                         <div class="summary-details d-flex justify-content-between w-100 my-2">
                             <span class="fw-bold">Subtotal:</span>
                             <span id="subtotal" class="ms-2">0</span>
