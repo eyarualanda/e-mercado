@@ -425,7 +425,6 @@ document.getElementById('toPaymentButton').addEventListener('click', (event) => 
         } else {
             input.classList.remove('is-invalid');
         }
-    });
 
     if (!allFilled) {
         event.preventDefault();
