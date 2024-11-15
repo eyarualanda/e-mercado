@@ -431,7 +431,7 @@ function manejoBotonesNavegacion() {
         let paymentTab = new bootstrap.Tab(document.getElementById('payment-method-tab'));
         paymentTab.show();
     }
-});
+
 
 function validateForm(form) {
     const inputs = form.querySelectorAll('input, select, textarea');
