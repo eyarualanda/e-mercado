@@ -1,9 +1,3 @@
-document.addEventListener("DOMContentLoaded", () => {
-    mostrarProductosEnCarrito(); // Muestra productos del carrito en la página.
-    document.getElementById('cart-container').addEventListener('click', manejoDeClicksEnCarrito); // Agrega escucha de clics en el contenedor del carrito.
-});
-
-// Clave de API y URL para ExchangeRate-API (reemplaza con tu clave).
 const API_KEY = '9fbc515fdf44f560c270a07c';
 const API_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/USD`;
 
@@ -12,8 +6,12 @@ let monedaActual = 'UYU'; // Moneda predeterminada.
 
 // Escucha el evento DOMContentLoaded para iniciar.
 document.addEventListener("DOMContentLoaded", async () => {
-    mostrarProductosEnCarrito();
+    document.getElementById('cart-container').addEventListener('click', manejoDeClicksEnCarrito); // Agrega escucha de clics en el contenedor del carrito.
     await obtenerTasaCambio(); // Cargar tasa de cambio al inicio.
+    mostrarProductosEnCarrito();
+    actualizarSubtotal();
+    actualizarTotal();
+    actualizarEnvio();
 
     // Agregar eventos para los botones de cambio de moneda.
     document.getElementById('currency-uyu').addEventListener('click', () => cambiarMoneda('UYU'));
@@ -38,8 +36,9 @@ async function obtenerTasaCambio() {
 // Cambia la moneda seleccionada y actualiza los totales.
 function cambiarMoneda(nuevaMoneda) {
     monedaActual = nuevaMoneda;
-    actualizarSubtotal(); // Recalcula el total en la nueva moneda.
-    actualizarTotal(); // Recalcula el total en la nueva moneda.
+    actualizarSubtotal();
+    actualizarTotal();
+    actualizarEnvio(); // Recalcula el costo del envío en la nueva moneda.
 }
 
 // Convierte un valor entre USD y UYU según la moneda actual.
@@ -51,22 +50,18 @@ function convertirMoneda(valor, monedaProducto) {
     }
 }
 
-// Recalcula y actualiza el total del carrito en la interfaz.
 function actualizarSubtotal() {
     const currentUser = getCurrentUser();
     if (!currentUser || !currentUser.carrito) return;
 
     let total = 0;
-    let cantidadTotal = 0;
 
-    // Recorre los productos del carrito para calcular el total convertido.
+    // Asegúrate de aplicar la conversión de moneda antes de mostrar los valores
     currentUser.carrito.forEach(producto => {
         const subtotalConvertido = convertirMoneda(producto.cost * producto.cantidad, producto.currency);
         total += subtotalConvertido;
-        cantidadTotal += producto.cantidad;
     });
 
-    // Actualiza el total y la cantidad en la UI.
     const simboloMoneda = monedaActual === 'USD' ? 'USD' : 'UYU';
     document.getElementById('subtotal').innerText = `${simboloMoneda} ${total.toFixed(2)}`;
 }
@@ -78,16 +73,15 @@ function actualizarTotal() {
     let total = 0;
     let cantidadTotal = 0;
 
-    // Recorre los productos del carrito para calcular el total convertido.
     currentUser.carrito.forEach(producto => {
-        const subtotalConvertido = convertirMoneda(producto.cost * producto.cantidad, producto.currency);
-        total += subtotalConvertido;
+        total += convertirMoneda(producto.cost * producto.cantidad, producto.currency);
         cantidadTotal += producto.cantidad;
+
     });
 
-    // Actualiza el total y la cantidad en la UI.
     const simboloMoneda = monedaActual === 'USD' ? 'USD' : 'UYU';
     document.getElementById('total-items').innerText = cantidadTotal;
+    document.getElementById('total-price').innerText = `${simboloMoneda} ${total.toFixed(2)}`;
 }
 
 
@@ -141,7 +135,7 @@ function mostrarProductosEnCarrito() {
         return;
     }
 
-    let total = 0; // Inicializa el total general del carrito.
+    let subtotal = 0; // Inicializa el total general del carrito.
     let cantidadTotal = 0; // Inicializa el contador de productos.
 
     // Itera sobre cada producto del carrito y genera su HTML.
@@ -204,12 +198,12 @@ function mostrarProductosEnCarrito() {
         `;
         
         cartContainer.innerHTML += productoHTML; // Agrega el producto al contenedor del carrito.
-        total += producto.cost * producto.cantidad; // Acumula el costo total.
+        subtotal += producto.cost * producto.cantidad; // Acumula el costo total.
         cantidadTotal += producto.cantidad; // Acumula la cantidad total de productos.
     });
 
     // Almacena los valores para el cálculo posterior del envío.
-    const totalPrice = total; // Total sin envío
+    const totalPrice = subtotal; // Total sin envío
     const totalItems = cantidadTotal;
 
     // Actualiza el total y la cantidad total en la interfaz.
@@ -217,7 +211,6 @@ function mostrarProductosEnCarrito() {
     document.getElementById('total-items').innerText = totalItems;
 
     const shippingButtons = document.querySelectorAll('#shipping-type button');
-    const shippingSummary = document.getElementById('shipping-summary');
 
     shippingButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -243,25 +236,40 @@ function mostrarProductosEnCarrito() {
         });
     });
 
-    actualizarSubtotal();
 }
 
-function actualizarEnvio(totalPrice, totalItems, shippingPercentage) {
+function actualizarEnvio() {
+    const currentUser = getCurrentUser();
+    if (!currentUser || !currentUser.carrito) return;
+
+    const totalPrice = currentUser.carrito.reduce((acc, producto) => {
+        return acc + convertirMoneda(producto.cost * producto.cantidad, producto.currency);
+    }, 0);
+
+    const shippingButtons = document.querySelectorAll('#shipping-type button');
+    let shippingPercentage = 0;
+
+    shippingButtons.forEach(button => {
+        if (button.classList.contains('btn-info')) {
+            if (button.id === 'premiumShipping') {
+                shippingPercentage = 15;
+            } else if (button.id === 'expressShipping') {
+                shippingPercentage = 7;
+            } else if (button.id === 'standardShipping') {
+                shippingPercentage = 5;
+            }
+        }
+    });
+
     const shippingCost = (totalPrice * shippingPercentage) / 100;
     const totalWithShipping = totalPrice + shippingCost;
 
-    // Mostrar el porcentaje de envío en el resumen
-    const shippingSummary = document.getElementById('shipping-summary');
-    shippingSummary.textContent = shippingCost;
-
-    // Mostrar el total con el envío incluido
-    const totalPriceElement = document.getElementById('total-price');
-    totalPriceElement.textContent = `${totalWithShipping.toFixed(2)}`;
-
-    const totalItemsElement = document.getElementById('total-items');
-    totalItemsElement.textContent = totalItems;
-    actualizarTotal();
+    // Actualizar los valores en la interfaz
+    const simboloMoneda = monedaActual === 'USD' ? 'USD' : 'UYU';
+    document.getElementById('shipping-summary').textContent = `${simboloMoneda} ${shippingCost.toFixed(2)}`;
+    document.getElementById('total-price').textContent = `${simboloMoneda} ${totalWithShipping.toFixed(2)}`;
 }
+
 
 function obtenerPorcentajeEnvio() {
     const shippingButtons = document.querySelectorAll('#shipping-type button');
