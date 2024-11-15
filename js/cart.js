@@ -381,25 +381,13 @@ function manejoBotonesNavegacion() {
     // Seleccionar los formularios y botones
     const shippingForm = document.getElementById('shippingAddressForm');
     const paymentForm = document.getElementById('paymentForm');
-    const toShippingButton = document.getElementById('toShippingButton');
-    const toPaymentButton = document.getElementById('toPaymentButton');
-    const finalizarCompraButton = document.getElementById('finalizarCompra');
-    
-    // Verificar si el formulario de envío es válido antes de avanzar
-    toShippingButton.addEventListener('click', (e) => {
-        if (!isFormValid(shippingForm)) {
-            e.preventDefault(); // Evitar que se avance
-            shippingForm.reportValidity(); // Mostrar mensaje de campos incompletos
-        } else {
-            document.getElementById('shipping-tab').click(); // Avanzar a la sección de Envío
-        }
-    });
+    const toPaymentButton = document.getElementById('toPaymentButton'); 
     
     // Verificar si el formulario de forma de pago es válido antes de avanzar
     toPaymentButton.addEventListener('click', (e) => {
-        if (!isFormValid(paymentForm)) {
+        if (!isFormValid(shippingForm)) {
             e.preventDefault(); // Evitar que se avance
-            paymentForm.reportValidity(); // Mostrar mensaje de campos incompletos
+            shippingForm.reportValidity(); // Mostrar mensaje de campos incompletos
         } else {
             document.getElementById('payment-method-tab').click(); // Avanzar a la sección de Forma de Pago
         }
@@ -426,7 +414,6 @@ function manejoBotonesNavegacion() {
             });
             document.getElementById('error-message').innerText = 'Completa los campos y selecciona un tipo de envío.';
         } else {
-            document.getElementById('error-message').innerText = '';
             Swal.fire({
                 icon: "success",
                 title: "¡Gracias por tu compra!",
@@ -454,24 +441,3 @@ function isFormValid(form) {
     validateForm(form); // Llama la validación en tiempo real
     return isValid;
 }
-
-// Actualización de los formularios de envío y pago antes de avanzar
-document.getElementById("toShippingButton").addEventListener("click", function (e) {
-    if (!isFormValid(shippingForm)) {
-        e.preventDefault(); // Evitar que se avance
-        shippingForm.reportValidity(); // Mostrar mensaje de campos incompletos
-    } else {
-        let shippingTab = new bootstrap.Tab(document.getElementById("shipping-tab"));
-        shippingTab.show();
-    }
-});
-
-document.getElementById("toPaymentButton").addEventListener("click", function (e) {
-    if (!isFormValid(paymentForm)) {
-        e.preventDefault(); // Evitar que se avance
-        paymentForm.reportValidity(); // Mostrar mensaje de campos incompletos
-    } else {
-        let paymentTab = new bootstrap.Tab(document.getElementById("payment-method-tab"));
-        paymentTab.show();
-    }
-});
