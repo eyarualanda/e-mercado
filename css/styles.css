@@ -645,19 +645,15 @@ body {
 #cart-container {
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  max-width: 80%;
 }
 
 #cart-summary {
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); /* Efecto de sombra más pronunciado */
-  max-width: 80%;
   transition: transform 0.3s ease, box-shadow 0.3s ease; /* Transición suave */
+  background-color: #6c757d2b;
 }
-
-
 
 #cart-summary:hover {
   transform: translateY(-5px); /* Efecto de elevación al pasar el cursor */
@@ -710,6 +706,21 @@ body[data-bs-theme="light"] #btn-ymuchomas {
 
 body[data-bs-theme="dark"] #btn-ymuchomas {
   color: white;
+}
+
+.payment-options .payment-option {
+  width: 150px;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.payment-option:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 img {
