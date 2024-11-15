@@ -424,6 +424,15 @@ function manejoBotonesNavegacion() {
     });
 };
 
+    if (!allFilled) {
+        event.preventDefault();
+        document.getElementById('error-message').textContent = "Completa todos los campos antes de continuar.";
+    } else {
+        let paymentTab = new bootstrap.Tab(document.getElementById('payment-method-tab'));
+        paymentTab.show();
+    }
+});
+
 function validateForm(form) {
     const inputs = form.querySelectorAll('input, select, textarea');
     inputs.forEach(input => {
