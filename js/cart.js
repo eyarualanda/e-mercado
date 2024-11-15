@@ -14,9 +14,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     actualizarEnvio();
     manejoBotonesNavegacion()
 
-    // Agregar eventos para los botones de cambio de moneda.
+    // Agregar eventos de validación en tiempo real
+    const shippingForm = document.getElementById('shippingAddressForm');
+    const paymentForm = document.getElementById('paymentForm');
+
+    // Validación en tiempo real del formulario de envío
+    shippingForm.addEventListener('input', function (event) {
+        validateForm(shippingForm);
+    });
+
+    // Validación en tiempo real del formulario de pago
+    paymentForm.addEventListener('input', function (event) {
+        validateForm(paymentForm);
+    });
+
+    // Agregar eventos de cambio de moneda
     document.getElementById('currency-uyu').addEventListener('click', () => cambiarMoneda('UYU'));
     document.getElementById('currency-usd').addEventListener('click', () => cambiarMoneda('USD'));
+    
 });
 
 // Obtiene la tasa de cambio actual desde la API.
@@ -30,7 +45,11 @@ async function obtenerTasaCambio() {
         console.log(`Tasa de cambio actualizada: 1 USD = ${tasaCambioUSDToUYU} UYU`);
     } catch (error) {
         console.error('Error al obtener la tasa de cambio:', error);
-        alert('No se pudo actualizar la tasa de cambio. Usando tasa predeterminada.');
+        Swal.fire({
+            icon: "info",
+            title: "Tasa de conversión",
+            text: "No pudimos obtener la tasa de conversión actual de USD a UYU, usaremos la predeterminada.",
+          });
     }
 }
 
@@ -366,11 +385,6 @@ function manejoBotonesNavegacion() {
     const toPaymentButton = document.getElementById('toPaymentButton');
     const finalizarCompraButton = document.getElementById('finalizarCompra');
     
-    // Función para validar un formulario
-    function isFormValid(form) {
-        return form.checkValidity();
-    }
-    
     // Verificar si el formulario de envío es válido antes de avanzar
     toShippingButton.addEventListener('click', (e) => {
         if (!isFormValid(shippingForm)) {
@@ -392,40 +406,70 @@ function manejoBotonesNavegacion() {
     });
     
     // Finalizar compra si todos los formularios están completos
-    finalizarCompraButton.addEventListener('click', (e) => {
-        if (!isFormValid(shippingForm) || !isFormValid(paymentForm)) {
-            e.preventDefault(); // Evitar que se finalice
-            alert('Por favor, completa todos los campos obligatorios antes de finalizar la compra.');
-        } 
-    });
+    document.getElementById("finalizarCompra").addEventListener("click", function(e) {
+        const shippingButtons = document.querySelectorAll('#shipping-type button');
+        let shippingSelected = false;
     
-    //Supuestamente, para que los botones en Forma de Pago se seleccionen sólo de a uno
-    const shippingButtons = document.querySelectorAll('#shipping-type button');
-    shippingButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            shippingButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
-        });
-    });
-    //Supuestamente, para que no se pueda avanzar en las páginas si el formulario de Envío no se completó
-    document.getElementById('toPaymentButton').addEventListener('click', (event) => {
-        const requiredFields = document.querySelectorAll('#shippingAddressForm input[required]');
-        let allFilled = true;
-        requiredFields.forEach(input => {
-            if (!input.value.trim()) {
-                allFilled = false;
-                input.classList.add('is-invalid'); // Añade un borde rojo o similar
-            } else {
-                input.classList.remove('is-invalid');
+        // Verificar si hay algún botón de envío seleccionado
+        shippingButtons.forEach(button => {
+            if (button.classList.contains('btn-info')) {
+                shippingSelected = true;
             }
         });
     
-        if (!allFilled) {
-            event.preventDefault();
-            document.getElementById('error-message').textContent = "Completa todos los campos antes de continuar.";
+        if (!shippingSelected || !isFormValid(shippingForm) || !isFormValid(paymentForm)) {
+            e.preventDefault(); // Evitar que se finalice la compra
+            Swal.fire({
+                icon: "error",
+                title: "Información incompleta",
+                text: "Por favor, completa todos los campos para continuar.",
+            });
         } else {
-            let paymentTab = new bootstrap.Tab(document.getElementById('payment-method-tab'));
-            paymentTab.show();
+            Swal.fire({
+                icon: "success",
+                title: "¡Gracias por tu compra!",
+                text: "Tu compra ha sido finalizada con éxito, en los próximos días la recibirás al domicilio indicado.",
+            });
         }
     });
 };
+
+function validateForm(form) {
+    const inputs = form.querySelectorAll('input, select, textarea');
+    inputs.forEach(input => {
+        if (input.checkValidity()) {
+            input.classList.remove('is-invalid');
+            input.classList.add('is-valid');
+        } else {
+            input.classList.remove('is-valid');
+            input.classList.add('is-invalid');
+        }
+    });
+}
+
+function isFormValid(form) {
+    const isValid = form.checkValidity();
+    validateForm(form); // Llama la validación en tiempo real
+    return isValid;
+}
+
+// Actualización de los formularios de envío y pago antes de avanzar
+document.getElementById("toShippingButton").addEventListener("click", function (e) {
+    if (!isFormValid(shippingForm)) {
+        e.preventDefault(); // Evitar que se avance
+        shippingForm.reportValidity(); // Mostrar mensaje de campos incompletos
+    } else {
+        let shippingTab = new bootstrap.Tab(document.getElementById("shipping-tab"));
+        shippingTab.show();
+    }
+});
+
+document.getElementById("toPaymentButton").addEventListener("click", function (e) {
+    if (!isFormValid(paymentForm)) {
+        e.preventDefault(); // Evitar que se avance
+        paymentForm.reportValidity(); // Mostrar mensaje de campos incompletos
+    } else {
+        let paymentTab = new bootstrap.Tab(document.getElementById("payment-method-tab"));
+        paymentTab.show();
+    }
+});
