@@ -90,6 +90,9 @@ function manejoDeClicksEnCarrito(e) {
     if (e.target.classList.contains('eliminar-producto')) { // Verifica si el elemento tiene la clase 'eliminar-producto'.
         const productID = e.target.getAttribute('data-id'); // Obtiene el ID del producto.
         eliminarDelCarrito(productID); // Llama a la función para eliminar el producto.
+        actualizarSubtotal();
+        actualizarTotal();
+        actualizarEnvio();
     }
 }
 
