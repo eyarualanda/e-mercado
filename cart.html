@@ -87,7 +87,7 @@
         <h1 class="text-center mb-4">Carrito</h1>
         <div id="alertaCarrito"></div>
             <div class="row" id="div-carrito">
-                <div class="col-8">
+                <div class="col-lg-8 col-sm-12">
                     <ul class="nav nav-tabs nav-justified" id="checkoutTabs" role="tablist">
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="cart-tab" data-bs-toggle="tab" data-bs-target="#cart" type="button" role="tab">Artículos</button>
@@ -118,7 +118,7 @@
                         <div class="tab-pane fade" id="shipping" role="tabpanel">
                             <!-- Tipo de Envío -->
                                 <div class="row">
-                                <div class="col-7">
+                                <div class="col-lg-7 col-sm-12">
                                     <div id="shipping-address" role="tabpanel">
                                         <h4 class="my-4 text-center">Dirección de Envío</h4>
                                         <form id="shippingAddressForm" class="container">
@@ -159,22 +159,22 @@
                                     </div>
                                 </div>
     
-                                <div class="col">
+                                <div class="col-lg-5 col-sm-12">
                                     <div id="shipping-type" role="tabpanel">
-                                    <h4 class="my-4 text-center">Tipo de Envío</h4>
-                                    <div class="d-flex flex-column align-items-center">
-                                        <!-- Botones de Tipo de Envío -->
-                                        <button type="button" data-bs-toggle="button" class="btn btn-light btn-block mb-2 w-auto border" id="premiumShipping">
-                                            <span class="fw-bolder">Premium</span><br><small>Entrega de 2 a 5 días (15%)</small>
-                                        </button>
-                                        <button type="button" data-bs-toggle="button" class="btn btn-light btn-block mb-2 w-auto border" id="expressShipping">
-                                            <span class="fw-bolder">Express</span><br><small>Entrega de 5 a 8 días (7%)</small>
-                                        </button>
-                                        <button type="button" data-bs-toggle="button" class="btn btn-light btn-block w-auto border" id="standardShipping">
-                                            <span class="fw-bolder">Standard</span><br><small>Entrega de 12 a 15 días (5%)</small>
-                                        </button>
-                                    </div>
-                                    <div id="error-message" class="text-danger mt-2"></div>
+                                        <h4 class="my-4 text-center">Tipo de Envío</h4>
+                                        <div class="d-flex flex-column align-items-center">
+                                            <!-- Botones de Tipo de Envío -->
+                                            <button type="button" class="btn btn-block mb-2 w-auto border" id="premiumShipping">
+                                                <span class="fw-bolder">Premium</span><br><small>Entrega de 2 a 5 días (15%)</small>
+                                            </button>
+                                            <button type="button" class="btn btn-block mb-2 w-auto border" id="expressShipping">
+                                                <span class="fw-bolder">Express</span><br><small>Entrega de 5 a 8 días (7%)</small>
+                                            </button>
+                                            <button type="button" class="btn btn-block w-auto border" id="standardShipping">
+                                                <span class="fw-bolder">Standard</span><br><small>Entrega de 12 a 15 días (5%)</small>
+                                            </button>
+                                        </div>
+                                        <div id="error-message" class="text-danger mt-2"></div>
                                     </div>
                                 </div>
                             </div>  
@@ -227,10 +227,18 @@
 
                 <div class="col">
                     <div id="cart-summary" class="ff-jost d-flex flex-column align-items-center m-auto mt-5">
-                        <h4 class="text-center">Resumen de la compra</h4>
-                        <div class="summary-details d-flex justify-content-between w-100 mb-2" style="margin-top: 30px;">
+                        <h4 class="text-center mb-3">Resumen de la compra</h4>
+                        <div class="summary-details d-flex justify-content-between w-100 my-2">
                             <span class="fw-bold">Cantidad total de productos:</span>
                             <span id="total-items" class="ms-2">0</span>
+                        </div>
+                        <div class="summary-details d-flex justify-content-between w-100 my-2">
+                            <span class="fw-bold">Subtotal:</span>
+                            <span id="subtotal" class="ms-2">0</span>
+                        </div>
+                        <div class="summary-details d-flex justify-content-between w-100 my-2">
+                            <span class="fw-bold">Envío:</span>
+                            <span id="shipping-summary" class="ms-2">0</span>
                         </div>
                         <hr class="separator"> <!-- Línea de separación -->
                         <div class="summary-details d-flex justify-content-between w-100 mb-4">
@@ -259,6 +267,7 @@
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="js/init.js"></script>
     <script src="js/cart.js"></script>
 </body>
