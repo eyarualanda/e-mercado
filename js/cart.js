@@ -132,6 +132,7 @@ function actualizarCantidad(productID, cantidad) {
     actualizarBadgeCarrito(); // Actualiza la insignia del carrito (si existe en la UI).
     actualizarSubtotal(); // Recalcula el total general del carrito.
     actualizarTotal(); // Recalcula el total general del carrito.
+    actualizarEnvio(); // Recalcula el total general del carrito.
 }
 
 // Elimina un producto del carrito según su ID y actualiza el almacenamiento y la interfaz.
