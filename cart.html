@@ -123,7 +123,7 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <label for="phone" class="form-label">Teléfono*</label>
-                                                    <input type="tel" class="form-control" id="phone" placeholder="091234567" pattern="^\+?\d{1,4}[-.\s]?\(?\d{1,4}?\)?[-.\s]?\d{7,15}$" required>
+                                                    <input type="tel" class="form-control" id="phone" placeholder="091234567" pattern="^\+?\d{7,15}$" required>
                                                     <div class="invalid-feedback">Escribe un número de teléfono válido.</div>
                                                 </div>
                                             </div>
@@ -183,31 +183,31 @@
                             </div>      
                         </div>
                     
-                        <!-- Forma de Pago -->
                         <div class="tab-pane fade" id="payment-method" role="tabpanel">
                             <h3 class="mt-4 text-center">Forma de Pago</h3>
                             <form id="paymentForm" class="container mt-3 text-center">
+                                <!-- Opciones de pago -->
                                 <div class="payment-options d-flex justify-content-around mb-4">
-                                    <button type="button" data-bs-toggle="button" class="btn btn-light payment-option border" data-payment="credit-card" type="radio" name="paymentMethod">
+                                    <button type="button" class="btn btn-light payment-option border" data-payment="credit-card">
                                         <i class="fas fa-credit-card fa-2x"></i>
                                         <p class="mt-2">Tarjeta de Crédito</p>
                                     </button>
-                                    <button type="button" data-bs-toggle="button" class="btn btn-light payment-option border" data-payment="debit-card" type="radio" name="paymentMethod">
+                                    <button type="button" class="btn btn-light payment-option border" data-payment="debit-card">
                                         <i class="fas fa-credit-card fa-2x"></i>
                                         <p class="mt-2">Tarjeta de Débito</p>
                                     </button>
-                                    <button type="button" data-bs-toggle="button" class="btn btn-light payment-option border" data-payment="bank-transfer" type="radio" name="paymentMethod">
+                                    <button type="button" class="btn btn-light payment-option border" data-payment="bank-transfer">
                                         <i class="fas fa-university fa-2x"></i>
                                         <p class="mt-2">Transferencia Bancaria</p>
                                     </button>
-                                    <button type="button" data-bs-toggle="button" class="btn btn-light payment-option border" data-payment="cash-on-delivery" type="radio" name="paymentMethod">
+                                    <button type="button" class="btn btn-light payment-option border" data-payment="cash-on-delivery">
                                         <i class="fas fa-money-bill-wave fa-2x"></i>
                                         <p class="mt-2">Efectivo</p>
                                     </button>
                                 </div>
-                                
+                                <div id="payment-options-container"></div>
                                 <div class="d-flex justify-content-between">
-                                    <button class="btn btn-secondary" id="backToShipping">Atrás</button>
+                                    <button type="button" class="btn btn-secondary" id="backToShipping">Atrás</button>
                                     <button type="button" class="btn btn-primary" id="nextButtonPayment">Siguiente</button>
                                 </div>
                             </form>
