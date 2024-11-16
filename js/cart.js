@@ -565,3 +565,9 @@ function isPaymentFormValid() {
     // Si no hay un formulario específico para el método seleccionado, asumimos que es válido
     return true;
 }
+
+// Oculta el boton de siguiente en la pestaña de pago
+const nextButtonPayment = document.getElementById("nextButtonPayment");
+if (nextButtonPayment) {
+    nextButtonPayment.style.display = "none";
+}
