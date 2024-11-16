@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById('cart-container').addEventListener('click', manejoDeClicksEnCarrito); // Agrega escucha de clics en el contenedor del carrito.
     await obtenerTasaCambio(); // Cargar tasa de cambio al inicio.
     mostrarProductosEnCarrito();
+    showPaymentForms();
     actualizarSubtotal();
     actualizarTotal();
     actualizarEnvio();
@@ -231,6 +232,43 @@ function mostrarProductosEnCarrito() {
             <button type="button" class="btn btn-primary align-items-center" id="toShippingButton">Siguiente</button>
         </div>`; 
 
+    // Almacena los valores para el cálculo posterior del envío.
+    const totalPrice = subtotal; // Total sin envío
+    const totalItems = cantidadTotal;
+
+    // Actualiza el total y la cantidad total en la interfaz.
+    document.getElementById('total-price').innerText = `${currentUser.carrito[0].currency} ${totalPrice.toFixed(2)}`;
+    document.getElementById('total-items').innerText = totalItems;
+
+    const shippingButtons = document.querySelectorAll('#shipping-type button');
+
+    shippingButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            shippingButtons.forEach(btn => {
+                btn.classList.remove('btn-info');
+                btn.classList.add('btn-light');
+            });
+
+            button.classList.remove('btn-light');
+            button.classList.add('btn-info');
+
+            let shippingPercentage = 0;
+            if (button.id === 'premiumShipping') {
+                shippingPercentage = 15;
+            } else if (button.id === 'expressShipping') {
+                shippingPercentage = 7;
+            } else if (button.id === 'standardShipping') {
+                shippingPercentage = 5;
+            }
+
+            // Ahora se pasa correctamente el total de la compra para calcular el costo de envío.
+            actualizarEnvio(totalPrice, totalItems, shippingPercentage);
+        });
+    });
+
+}
+
+function showPaymentForms() {
     const paymentOptions = document.querySelectorAll('.payment-option');
     const creditCardForm = document.getElementById('creditCardForm');
     const debitCardForm = document.getElementById('debitCardForm');
@@ -333,40 +371,6 @@ function mostrarProductosEnCarrito() {
             };
         });
     });
-    // Almacena los valores para el cálculo posterior del envío.
-    const totalPrice = subtotal; // Total sin envío
-    const totalItems = cantidadTotal;
-
-    // Actualiza el total y la cantidad total en la interfaz.
-    document.getElementById('total-price').innerText = `${currentUser.carrito[0].currency} ${totalPrice.toFixed(2)}`;
-    document.getElementById('total-items').innerText = totalItems;
-
-    const shippingButtons = document.querySelectorAll('#shipping-type button');
-
-    shippingButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            shippingButtons.forEach(btn => {
-                btn.classList.remove('btn-info');
-                btn.classList.add('btn-light');
-            });
-
-            button.classList.remove('btn-light');
-            button.classList.add('btn-info');
-
-            let shippingPercentage = 0;
-            if (button.id === 'premiumShipping') {
-                shippingPercentage = 15;
-            } else if (button.id === 'expressShipping') {
-                shippingPercentage = 7;
-            } else if (button.id === 'standardShipping') {
-                shippingPercentage = 5;
-            }
-
-            // Ahora se pasa correctamente el total de la compra para calcular el costo de envío.
-            actualizarEnvio(totalPrice, totalItems, shippingPercentage);
-        });
-    });
-
 }
 
 function actualizarEnvio() {
