@@ -231,6 +231,108 @@ function mostrarProductosEnCarrito() {
             <button type="button" class="btn btn-primary align-items-center" id="toShippingButton">Siguiente</button>
         </div>`; 
 
+    const paymentOptions = document.querySelectorAll('.payment-option');
+    const creditCardForm = document.getElementById('creditCardForm');
+    const debitCardForm = document.getElementById('debitCardForm');
+    const bankTransferForm = document.getElementById('bankTransferForm');
+    const cashOptions = document.getElementById('cashOptions');
+    const paymentOptionsContainer = document.getElementById('payment-options-container');
+
+    // Manejar la selección de método de pago
+    paymentOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            // Mostrar formulario correspondiente
+            const paymentMethod = option.getAttribute('data-payment');
+            if (paymentMethod === 'credit-card') {
+                paymentOptionsContainer.innerHTML = '';
+                paymentOptionsContainer.innerHTML = `
+                <div id="creditCardForm" class="mt-4">
+                    <h5>Detalles del Pago - Tarjeta de Crédito</h5>
+                    <div class="mb-3">
+                        <label for="cardHolder" class="form-label">Titular de la Tarjeta</label>
+                        <input type="text" name="paymentMethod" class="form-control" id="cardHolder" placeholder="Nombre del titular" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cardNumber" class="form-label">Número de Tarjeta</label>
+                        <input type="text" name="paymentMethod" class="form-control" id="cardNumber" placeholder="1234 5678 9123 4567" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="expiryDate" class="form-label">Vencimiento</label>
+                            <input type="text" name="paymentMethod" class="form-control" id="expiryDate" placeholder="MM/AA" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="cvv" class="form-label">CVV</label>
+                            <input type="text" name="paymentMethod" class="form-control" id="cvv" placeholder="123" required>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="installments" class="form-label">Cuotas</label>
+                        <select class="form-select" name="paymentMethod" id="installments" required>
+                            <option selected>Seleccione</option>
+                            <option value="1">1 cuota</option>
+                            <option value="3">3 cuotas</option>
+                            <option value="6">6 cuotas</option>
+                            <option value="12">12 cuotas</option>
+                        </select>
+                    </div>
+                </div>
+                `;
+            } else if (paymentMethod === 'debit-card'){
+                paymentOptionsContainer.innerHTML = '';
+                paymentOptionsContainer.innerHTML = `
+                <div id="debitCardForm" class="mt-4">
+                    <h5>Detalles del Pago - Tarjeta de Débito</h5>
+                    <div class="mb-3">
+                        <label for="debitCardHolder" class="form-label">Titular de la Tarjeta</label>
+                        <input type="text" name="paymentMethod" class="form-control" id="debitCardHolder" placeholder="Nombre del titular" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="debitCardNumber" class="form-label">Número de Tarjeta</label>
+                        <input type="text" name="paymentMethod" class="form-control" id="debitCardNumber" placeholder="1234 5678 9123 4567" required>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="debitExpiryDate" class="form-label">Vencimiento</label>
+                            <input type="text" name="paymentMethod" class="form-control" id="debitExpiryDate" placeholder="MM/AA" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="debitCvv" class="form-label">CVV</label>
+                            <input type="text" name="paymentMethod" class="form-control" id="debitCvv" placeholder="123" required>
+                        </div>
+                    </div>
+                </div>
+                `;
+
+            } else if (paymentMethod === 'bank-transfer') {
+                paymentOptionsContainer.innerHTML = '';
+                paymentOptionsContainer.innerHTML = `
+                <div id="bankTransferForm" class="mt-4">
+                    <h5>Detalles del Pago - Transferencia Bancaria</h5>
+                    <div class="mb-3">
+                        <label for="bankCardNumber" class="form-label">Número de Cuenta</label>
+                        <input type="text" name="paymentMethod" class="form-control" id="bankCardNumber" placeholder="1234 5678 9123 4567">
+                    </div>
+                </div>
+                `;
+            } else if (paymentMethod === 'cash-on-delivery') {
+                paymentOptionsContainer.innerHTML = '';
+                paymentOptionsContainer.innerHTML = `
+                <div id="cashOptions" class="mt-4">
+                    <h5>Seleccione su forma de pago en efectivo</h5>
+                    <div class="mb-3">
+                        <label for="cashMethod" class="form-label">Opciones</label>
+                        <select class="form-select" name="paymentMethod" id="cashMethod" required>
+                            <option selected>Seleccione</option>
+                            <option value="abitab">Abitab</option>
+                            <option value="redpagos">RedPagos</option>
+                        </select>
+                    </div>
+                </div>
+                `;
+            };
+        });
+    });
     // Almacena los valores para el cálculo posterior del envío.
     const totalPrice = subtotal; // Total sin envío
     const totalItems = cantidadTotal;
@@ -393,7 +495,7 @@ function manejoBotonesNavegacion() {
     document.getElementById("finalizarCompra").addEventListener("click", function(e) {
         // Verificar si los formularios son válidos
         const shippingValid = isFormValid(document.getElementById('shippingAddressForm'));
-        const paymentMethodSelected = isPaymentFormValid(document.getElementById('paymentForm'));
+        const paymentValid = isPaymentFormValid(document.getElementById('paymentForm'));
     
         // Verificar si se seleccionó un método de envío
         const shippingButtons = document.querySelectorAll('#shipping-type button');
@@ -405,7 +507,7 @@ function manejoBotonesNavegacion() {
         });
     
         // Mostrar errores si falta información
-        if (!shippingSelected || !shippingValid || !paymentValid || !paymentMethodSelected) {
+        if (!shippingSelected || !shippingValid || !paymentValid) {
             e.preventDefault(); // Evita que se complete la compra
             Swal.fire({
                 icon: "error",
@@ -424,7 +526,6 @@ function manejoBotonesNavegacion() {
         }
     });    
 };
-
 
 function validateForm(form) {
     const inputs = form.querySelectorAll('input, select, textarea');
@@ -446,11 +547,14 @@ function isFormValid(form) {
 }
 
 function isPaymentFormValid() {
+    // Obtiene el método de pago seleccionado
     const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
-    if (!paymentMethod) return false; // Verifica que haya un método seleccionado
+    if (!paymentMethod) return false; // Verifica que haya un método de pago seleccionado
 
-    const method = paymentMethod.value;
+    const method = paymentMethod.value; // Obtiene el valor del método seleccionado
     let form;
+
+    // Asigna el formulario correspondiente según el método de pago
     if (method === 'credit-card') {
         form = document.getElementById('creditCardForm');
     } else if (method === 'debit-card') {
@@ -459,33 +563,11 @@ function isPaymentFormValid() {
         form = document.getElementById('bankTransferForm');
     }
 
+    // Si existe un formulario asociado, valida sus campos
     if (form) {
-        return form.checkValidity(); // Verifica si el formulario es válido
+        return form.checkValidity(); // Usa la validación HTML5 integrada
     }
 
-    return true; // Para métodos sin formularios específicos
+    // Si no hay un formulario específico para el método seleccionado, asumimos que es válido
+    return true;
 }
-
-const paymentOptions = document.querySelectorAll('.payment-option');
-const creditCardForm = document.getElementById('creditCardForm');
-const debitCardForm = document.getElementById('debitCardForm');
-const bankTransferForm = document.getElementById('bankTransferForm');
-const cashOptions = document.getElementById('cashOptions');
-
-// Manejar la selección de método de pago
-paymentOptions.forEach(option => {
-    option.addEventListener('click', () => {
-        // Ocultar todos los formularios
-        creditCardForm.style.display = 'none';
-        debitCardForm.style.display = 'none';
-        bankTransferForm.style.display = 'none';
-        cashOptions.style.display = 'none';
-
-        // Mostrar formulario correspondiente
-        const paymentMethod = option.getAttribute('data-payment');
-        if (paymentMethod === 'credit-card') creditCardForm.style.display = 'block';
-        else if (paymentMethod === 'debit-card') debitCardForm.style.display = 'block';
-        else if (paymentMethod === 'bank-transfer') bankTransferForm.style.display = 'block';
-        else if (paymentMethod === 'cash-on-delivery') cashOptions.style.display = 'block';
-    });
-});
