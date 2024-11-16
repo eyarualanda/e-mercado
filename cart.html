@@ -183,31 +183,110 @@
                             </div>      
                         </div>
                     
-                        <!-- Forma de Pago -->
                         <div class="tab-pane fade" id="payment-method" role="tabpanel">
                             <h3 class="mt-4 text-center">Forma de Pago</h3>
                             <form id="paymentForm" class="container mt-3 text-center">
+                                <!-- Opciones de pago -->
                                 <div class="payment-options d-flex justify-content-around mb-4">
-                                    <button type="button" data-bs-toggle="button" class="btn btn-light payment-option border" data-payment="credit-card" type="radio" name="paymentMethod">
+                                    <button type="button" class="btn btn-light payment-option border" data-payment="credit-card">
                                         <i class="fas fa-credit-card fa-2x"></i>
                                         <p class="mt-2">Tarjeta de Crédito</p>
                                     </button>
-                                    <button type="button" data-bs-toggle="button" class="btn btn-light payment-option border" data-payment="debit-card" type="radio" name="paymentMethod">
+                                    <button type="button" class="btn btn-light payment-option border" data-payment="debit-card">
                                         <i class="fas fa-credit-card fa-2x"></i>
                                         <p class="mt-2">Tarjeta de Débito</p>
                                     </button>
-                                    <button type="button" data-bs-toggle="button" class="btn btn-light payment-option border" data-payment="bank-transfer" type="radio" name="paymentMethod">
+                                    <button type="button" class="btn btn-light payment-option border" data-payment="bank-transfer">
                                         <i class="fas fa-university fa-2x"></i>
                                         <p class="mt-2">Transferencia Bancaria</p>
                                     </button>
-                                    <button type="button" data-bs-toggle="button" class="btn btn-light payment-option border" data-payment="cash-on-delivery" type="radio" name="paymentMethod">
+                                    <button type="button" class="btn btn-light payment-option border" data-payment="cash-on-delivery">
                                         <i class="fas fa-money-bill-wave fa-2x"></i>
                                         <p class="mt-2">Efectivo</p>
                                     </button>
                                 </div>
-                                
+                        
+                                <!-- Formulario Tarjeta de Crédito -->
+                                <div id="creditCardForm" class="mt-4" style="display: none;">
+                                    <h5>Detalles del Pago - Tarjeta de Crédito</h5>
+                                    <div class="mb-3">
+                                        <label for="cardHolder" class="form-label">Titular de la Tarjeta</label>
+                                        <input type="text" class="form-control" id="cardHolder" placeholder="Nombre del titular">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="cardNumber" class="form-label">Número de Tarjeta</label>
+                                        <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9123 4567">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="expiryDate" class="form-label">Vencimiento</label>
+                                            <input type="text" class="form-control" id="expiryDate" placeholder="MM/AA">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="cvv" class="form-label">CVV</label>
+                                            <input type="text" class="form-control" id="cvv" placeholder="123">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="installments" class="form-label">Cuotas</label>
+                                        <select class="form-select" id="installments">
+                                            <option selected>Seleccione</option>
+                                            <option value="1">1 cuota</option>
+                                            <option value="3">3 cuotas</option>
+                                            <option value="6">6 cuotas</option>
+                                            <option value="12">12 cuotas</option>
+                                        </select>
+                                    </div>
+                                </div>
+                        
+                                <!-- Formulario Tarjeta de Débito -->
+                                <div id="debitCardForm" class="mt-4" style="display: none;">
+                                    <h5>Detalles del Pago - Tarjeta de Débito</h5>
+                                    <div class="mb-3">
+                                        <label for="debitCardHolder" class="form-label">Titular de la Tarjeta</label>
+                                        <input type="text" class="form-control" id="debitCardHolder" placeholder="Nombre del titular">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="debitCardNumber" class="form-label">Número de Tarjeta</label>
+                                        <input type="text" class="form-control" id="debitCardNumber" placeholder="1234 5678 9123 4567">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="debitExpiryDate" class="form-label">Vencimiento</label>
+                                            <input type="text" class="form-control" id="debitExpiryDate" placeholder="MM/AA">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="debitCvv" class="form-label">CVV</label>
+                                            <input type="text" class="form-control" id="debitCvv" placeholder="123">
+                                        </div>
+                                    </div>
+                                </div>
+                        
+                                <!-- Formulario Transferencia Bancaria -->
+                                <div id="bankTransferForm" class="mt-4" style="display: none;">
+                                    <h5>Detalles del Pago - Transferencia Bancaria</h5>
+                                    <div class="mb-3">
+                                        <label for="bankCardNumber" class="form-label">Número de Cuenta</label>
+                                        <input type="text" class="form-control" id="bankCardNumber" placeholder="1234 5678 9123 4567">
+                                    </div>
+                                </div>
+                        
+                                <!-- Opciones para Efectivo -->
+                                <div id="cashOptions" class="mt-4" style="display: none;">
+                                    <h5>Seleccione su forma de pago en efectivo</h5>
+                                    <div class="mb-3">
+                                        <label for="cashMethod" class="form-label">Opciones</label>
+                                        <select class="form-select" id="cashMethod">
+                                            <option selected>Seleccione</option>
+                                            <option value="abitab">Abitab</option>
+                                            <option value="redpagos">RedPagos</option>
+                                        </select>
+                                    </div>
+                                </div>
+                        
+                                <!-- Botones -->
                                 <div class="d-flex justify-content-between">
-                                    <button class="btn btn-secondary" id="backToShipping">Atrás</button>
+                                    <button type="button" class="btn btn-secondary" id="backToShipping">Atrás</button>
                                     <button type="button" class="btn btn-primary" id="nextButtonPayment">Siguiente</button>
                                 </div>
                             </form>

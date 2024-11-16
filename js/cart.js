@@ -348,11 +348,6 @@ function actualizarLocalStorage(currentUser) {
     localStorage.setItem('usuarios', JSON.stringify(usuarios)); // Guarda los cambios en localStorage.
 }
 
-// Validación para la forma de pago
-function validatePaymentMethod() {
-    return document.querySelector('input[name="paymentMethod"]:checked') !== null;
-}
-
 function manejoBotonesNavegacion() {
     document.getElementById("toShippingButton").addEventListener("click", function() {
         let cartTab = new bootstrap.Tab(document.getElementById("shipping-tab"));
@@ -396,32 +391,38 @@ function manejoBotonesNavegacion() {
     
     // Finalizar compra si todos los formularios están completos
     document.getElementById("finalizarCompra").addEventListener("click", function(e) {
+        // Verificar si los formularios son válidos
+        const shippingValid = isFormValid(document.getElementById('shippingAddressForm'));
+        const paymentMethodSelected = isPaymentFormValid(document.getElementById('paymentForm'));
+    
+        // Verificar si se seleccionó un método de envío
         const shippingButtons = document.querySelectorAll('#shipping-type button');
         let shippingSelected = false;
-    
-        // Verificar si hay algún botón de envío seleccionado
         shippingButtons.forEach(button => {
             if (button.classList.contains('btn-info')) {
                 shippingSelected = true;
             }
         });
     
-        if (!shippingSelected || !isFormValid(shippingForm) || !isFormValid(paymentForm)) {
-            e.preventDefault(); // Evitar que se finalice la compra
+        // Mostrar errores si falta información
+        if (!shippingSelected || !shippingValid || !paymentValid || !paymentMethodSelected) {
+            e.preventDefault(); // Evita que se complete la compra
             Swal.fire({
                 icon: "error",
                 title: "Información incompleta",
-                text: "Por favor, completa todos los campos para continuar.",
+                text: "Por favor, completa todos los campos requeridos y selecciona un método de pago válido.",
             });
-            document.getElementById('error-message').innerText = 'Completa los campos y selecciona un tipo de envío.';
+            document.getElementById('error-message').innerText = 'Revisa los campos y asegúrate de completar todo correctamente.';
         } else {
+            // Confirmación de compra exitosa
             Swal.fire({
                 icon: "success",
                 title: "¡Gracias por tu compra!",
-                text: "Tu compra ha sido finalizada con éxito, en los próximos días la recibirás al domicilio indicado.",
+                text: "Tu compra ha sido finalizada con éxito. En los próximos días recibirás tu pedido.",
             });
+            window.location.href = 'index.html'; // Redirige a la página principal
         }
-    });
+    });    
 };
 
 
@@ -443,3 +444,48 @@ function isFormValid(form) {
     validateForm(form); // Llama la validación en tiempo real
     return isValid;
 }
+
+function isPaymentFormValid() {
+    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+    if (!paymentMethod) return false; // Verifica que haya un método seleccionado
+
+    const method = paymentMethod.value;
+    let form;
+    if (method === 'credit-card') {
+        form = document.getElementById('creditCardForm');
+    } else if (method === 'debit-card') {
+        form = document.getElementById('debitCardForm');
+    } else if (method === 'bank-transfer') {
+        form = document.getElementById('bankTransferForm');
+    }
+
+    if (form) {
+        return form.checkValidity(); // Verifica si el formulario es válido
+    }
+
+    return true; // Para métodos sin formularios específicos
+}
+
+const paymentOptions = document.querySelectorAll('.payment-option');
+const creditCardForm = document.getElementById('creditCardForm');
+const debitCardForm = document.getElementById('debitCardForm');
+const bankTransferForm = document.getElementById('bankTransferForm');
+const cashOptions = document.getElementById('cashOptions');
+
+// Manejar la selección de método de pago
+paymentOptions.forEach(option => {
+    option.addEventListener('click', () => {
+        // Ocultar todos los formularios
+        creditCardForm.style.display = 'none';
+        debitCardForm.style.display = 'none';
+        bankTransferForm.style.display = 'none';
+        cashOptions.style.display = 'none';
+
+        // Mostrar formulario correspondiente
+        const paymentMethod = option.getAttribute('data-payment');
+        if (paymentMethod === 'credit-card') creditCardForm.style.display = 'block';
+        else if (paymentMethod === 'debit-card') debitCardForm.style.display = 'block';
+        else if (paymentMethod === 'bank-transfer') bankTransferForm.style.display = 'block';
+        else if (paymentMethod === 'cash-on-delivery') cashOptions.style.display = 'block';
+    });
+});
