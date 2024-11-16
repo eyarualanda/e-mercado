@@ -443,3 +443,96 @@ function isFormValid(form) {
     validateForm(form); // Llama la validación en tiempo real
     return isValid;
 }
+//Supuestamente, valida los formularios en forma de pago
+document.addEventListener('DOMContentLoaded', function() {
+    // Seleccionamos todos los botones de opción de pago
+    const paymentButtons = document.querySelectorAll('.payment-option');
+    
+    // Ocultamos todos los formularios de pago al inicio
+    const paymentForms = document.querySelectorAll('#creditCardForm, #debitCardForm, #bankTransferForm, #cashOptions');
+    paymentForms.forEach(form => form.style.display = 'none');
+    
+    // Función para manejar la selección de un método de pago
+    paymentButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Obtenemos el tipo de pago seleccionado desde el data-payment
+            const paymentType = button.getAttribute('data-payment');
+            
+            // Desactivamos todos los botones y ocultamos todos los formularios
+            paymentButtons.forEach(btn => btn.disabled = true); // Desactiva todos los botones
+            paymentForms.forEach(form => form.style.display = 'none');
+            
+            // Mostramos el formulario correspondiente
+            if (paymentType === 'credit-card') {
+                document.getElementById('creditCardForm').style.display = 'block';
+            } else if (paymentType === 'debit-card') {
+                document.getElementById('debitCardForm').style.display = 'block';
+            } else if (paymentType === 'bank-transfer') {
+                document.getElementById('bankTransferForm').style.display = 'block';
+            } else if (paymentType === 'cash-on-delivery') {
+                document.getElementById('cashOptions').style.display = 'block';
+            }
+        });
+    });
+
+    // Validación del formulario
+    const paymentForm = document.getElementById('paymentForm');
+    
+    paymentForm.addEventListener('submit', function(event) {
+        // Verificamos qué formulario está visible
+        let isValid = false;
+
+        // Validación para el formulario de tarjeta de crédito
+        if (document.getElementById('creditCardForm').style.display === 'block') {
+            isValid = validateCreditCardForm();
+        }
+        // Validación para el formulario de tarjeta de débito
+        else if (document.getElementById('debitCardForm').style.display === 'block') {
+            isValid = validateDebitCardForm();
+        }
+        // Validación para el formulario de transferencia bancaria
+        else if (document.getElementById('bankTransferForm').style.display === 'block') {
+            isValid = validateBankTransferForm();
+        }
+        // Validación para el formulario de pago en efectivo
+        else if (document.getElementById('cashOptions').style.display === 'block') {
+            isValid = validateCashOptions();
+        }
+
+        // Si no es válido, mostramos un mensaje de error y prevenimos el envío del formulario
+        if (!isValid) {
+            event.preventDefault();
+            alert("Por favor, complete el formulario del método de pago seleccionado.");
+        }
+    });
+
+    // Funciones de validación de los formularios
+    function validateCreditCardForm() {
+        const cardHolder = document.getElementById('cardHolder').value;
+        const cardNumber = document.getElementById('cardNumber').value;
+        const expiryDate = document.getElementById('expiryDate').value;
+        const cvv = document.getElementById('cvv').value;
+        const installments = document.getElementById('installments').value;
+
+        return cardHolder && cardNumber && expiryDate && cvv && installments !== "Seleccione";
+    }
+
+    function validateDebitCardForm() {
+        const debitCardHolder = document.getElementById('debitCardHolder').value;
+        const debitCardNumber = document.getElementById('debitCardNumber').value;
+        const debitExpiryDate = document.getElementById('debitExpiryDate').value;
+        const debitCvv = document.getElementById('debitCvv').value;
+
+        return debitCardHolder && debitCardNumber && debitExpiryDate && debitCvv;
+    }
+
+    function validateBankTransferForm() {
+        const bankCardNumber = document.getElementById('bankCardNumber').value;
+        return bankCardNumber;
+    }
+
+    function validateCashOptions() {
+        const cashMethod = document.getElementById('cashMethod').value;
+        return cashMethod !== "Seleccione";
+    }
+});
