@@ -270,19 +270,16 @@ function mostrarProductosEnCarrito() {
 
 function showPaymentForms() {
     const paymentOptions = document.querySelectorAll('.payment-option');
-    const creditCardForm = document.getElementById('creditCardForm');
-    const debitCardForm = document.getElementById('debitCardForm');
-    const bankTransferForm = document.getElementById('bankTransferForm');
-    const cashOptions = document.getElementById('cashOptions');
     const paymentOptionsContainer = document.getElementById('payment-options-container');
 
     // Manejar la selección de método de pago
     paymentOptions.forEach(option => {
         option.addEventListener('click', () => {
-            // Mostrar formulario correspondiente
             const paymentMethod = option.getAttribute('data-payment');
+            // Vaciar contenedor de formularios antes de cargar uno nuevo
+            paymentOptionsContainer.innerHTML = '';
+
             if (paymentMethod === 'credit-card') {
-                paymentOptionsContainer.innerHTML = '';
                 paymentOptionsContainer.innerHTML = `
                 <div id="creditCardForm" class="mt-4">
                     <h5>Detalles del Pago - Tarjeta de Crédito</h5>
@@ -316,8 +313,7 @@ function showPaymentForms() {
                     </div>
                 </div>
                 `;
-            } else if (paymentMethod === 'debit-card'){
-                paymentOptionsContainer.innerHTML = '';
+            } else if (paymentMethod === 'debit-card') {
                 paymentOptionsContainer.innerHTML = `
                 <div id="debitCardForm" class="mt-4">
                     <h5>Detalles del Pago - Tarjeta de Débito</h5>
@@ -341,9 +337,7 @@ function showPaymentForms() {
                     </div>
                 </div>
                 `;
-
             } else if (paymentMethod === 'bank-transfer') {
-                paymentOptionsContainer.innerHTML = '';
                 paymentOptionsContainer.innerHTML = `
                 <div id="bankTransferForm" class="mt-4">
                     <h5>Detalles del Pago - Transferencia Bancaria</h5>
@@ -354,7 +348,6 @@ function showPaymentForms() {
                 </div>
                 `;
             } else if (paymentMethod === 'cash-on-delivery') {
-                paymentOptionsContainer.innerHTML = '';
                 paymentOptionsContainer.innerHTML = `
                 <div id="cashOptions" class="mt-4">
                     <h5>Seleccione su forma de pago en efectivo</h5>
@@ -368,10 +361,42 @@ function showPaymentForms() {
                     </div>
                 </div>
                 `;
-            };
+            }
         });
     });
 }
+
+function finalizarCompra() {
+    const shippingValid = isFormValid(document.getElementById('shippingAddressForm'));
+    const paymentValid = isPaymentFormValid();
+    
+    // Verificar si se seleccionó un método de envío
+    const shippingButtons = document.querySelectorAll('#shipping-type button');
+    let shippingSelected = false;
+    shippingButtons.forEach(button => {
+        if (button.classList.contains('btn-info')) {
+            shippingSelected = true;
+        }
+    });
+    
+    if (!shippingSelected || !shippingValid) {
+        Swal.fire({
+            icon: "error",
+            title: "Información incompleta",
+            text: "Por favor, completa todos los campos requeridos y selecciona un método de pago válido.",
+        });
+    } else {
+        Swal.fire({
+            icon: "success",
+            title: "¡Gracias por tu compra!",
+            text: "Tu compra ha sido finalizada con éxito. En los próximos días recibirás tu pedido.",
+        });
+    }
+}
+
+// Este es un ejemplo de cómo puedes conectar el proceso de validación en los formularios de pago
+document.getElementById('finalizarCompra').addEventListener('click', finalizarCompra);
+
 
 function actualizarEnvio() {
     const currentUser = getCurrentUser();
@@ -494,41 +519,6 @@ function manejoBotonesNavegacion() {
             document.getElementById('payment-method-tab').click(); // Avanzar a la sección de Forma de Pago
         }
     });
-    
-    // Finalizar compra si todos los formularios están completos
-    document.getElementById("finalizarCompra").addEventListener("click", function(e) {
-        // Verificar si los formularios son válidos
-        const shippingValid = isFormValid(document.getElementById('shippingAddressForm'));
-        const paymentValid = isPaymentFormValid(document.getElementById('paymentForm'));
-    
-        // Verificar si se seleccionó un método de envío
-        const shippingButtons = document.querySelectorAll('#shipping-type button');
-        let shippingSelected = false;
-        shippingButtons.forEach(button => {
-            if (button.classList.contains('btn-info')) {
-                shippingSelected = true;
-            }
-        });
-    
-        // Mostrar errores si falta información
-        if (!shippingSelected || !shippingValid || !paymentValid) {
-            e.preventDefault(); // Evita que se complete la compra
-            Swal.fire({
-                icon: "error",
-                title: "Información incompleta",
-                text: "Por favor, completa todos los campos requeridos y selecciona un método de pago válido.",
-            });
-            document.getElementById('error-message').innerText = 'Revisa los campos y asegúrate de completar todo correctamente.';
-        } else {
-            // Confirmación de compra exitosa
-            Swal.fire({
-                icon: "success",
-                title: "¡Gracias por tu compra!",
-                text: "Tu compra ha sido finalizada con éxito. En los próximos días recibirás tu pedido.",
-            });
-            window.location.href = 'index.html'; // Redirige a la página principal
-        }
-    });    
 };
 
 function validateForm(form) {
