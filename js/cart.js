@@ -368,7 +368,7 @@ function showPaymentForms() {
 
 function finalizarCompra() {
     const shippingValid = isFormValid(document.getElementById('shippingAddressForm'));
-    const paymentValid = isPaymentFormValid();
+    const paymentValid = validatePaymentForm();
     
     // Verificar si se seleccionó un método de envío
     const shippingButtons = document.querySelectorAll('#shipping-type button');
@@ -379,7 +379,7 @@ function finalizarCompra() {
         }
     });
     
-    if (!shippingSelected || !shippingValid) {
+    if (!shippingSelected || !shippingValid || !paymentValid) {
         Swal.fire({
             icon: "error",
             title: "Información incompleta",
@@ -504,19 +504,15 @@ function manejoBotonesNavegacion() {
         let shippingTab = new bootstrap.Tab(document.getElementById("shipping-tab"));
         shippingTab.show();
     });
-    
-    // Seleccionar los formularios y botones
-    const shippingForm = document.getElementById('shippingAddressForm');
-    const paymentForm = document.getElementById('paymentForm');
-    const toPaymentButton = document.getElementById('toPaymentButton'); 
-    
+        
     // Verificar si el formulario de forma de pago es válido antes de avanzar
-    toPaymentButton.addEventListener('click', (e) => {
+    document.getElementById("toPaymentButton").addEventListener("click", (e) => {
+        const shippingForm = document.getElementById('shippingAddressForm');
         if (!isFormValid(shippingForm)) {
-            e.preventDefault(); // Evitar que se avance
-            shippingForm.reportValidity(); // Mostrar mensaje de campos incompletos
+            e.preventDefault(); // Evita avanzar si no es válido
+            shippingForm.reportValidity(); // Muestra errores de validación de la dirección de envío
         } else {
-            document.getElementById('payment-method-tab').click(); // Avanzar a la sección de Forma de Pago
+            document.getElementById('payment-method-tab').click(); // Avanza a la sección de Forma de Pago
         }
     });
 };
@@ -540,28 +536,82 @@ function isFormValid(form) {
     return isValid;
 }
 
-function isPaymentFormValid() {
-    // Obtiene el método de pago seleccionado
-    const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
-    if (!paymentMethod) return false; // Verifica que haya un método de pago seleccionado
+function validatePaymentForm() {
+    const paymentOptionsContainer = document.getElementById('payment-options-container');
 
-    const method = paymentMethod.value; // Obtiene el valor del método seleccionado
-    let form;
-
-    // Asigna el formulario correspondiente según el método de pago
-    if (method === 'credit-card') {
-        form = document.getElementById('creditCardForm');
-    } else if (method === 'debit-card') {
-        form = document.getElementById('debitCardForm');
-    } else if (method === 'bank-transfer') {
-        form = document.getElementById('bankTransferForm');
+    if (!paymentOptionsContainer) {
+        console.log("Contenedor de opciones de pago no encontrado.");
+        alert('Por favor, seleccione un método de pago.');
+        return false;
     }
 
-    // Si existe un formulario asociado, valida sus campos
-    if (form) {
-        return form.checkValidity(); // Usa la validación HTML5 integrada
+    // Recorre los nodos y selecciona el primer nodo de tipo Element (es decir, el formulario)
+    let activeForm = null;
+    for (let i = 0; i < paymentOptionsContainer.childNodes.length; i++) {
+        const child = paymentOptionsContainer.childNodes[i];
+        if (child.nodeType === 1) { // Verifica si es un nodo de tipo Element (el formulario)
+            activeForm = child;
+            break;
+        }
     }
 
-    // Si no hay un formulario específico para el método seleccionado, asumimos que es válido
+    // Si no encontramos un formulario
+    if (!activeForm) {
+        console.log("No se encontró ningún formulario dentro del contenedor.");
+        alert('Por favor, seleccione un método de pago.');
+        return false;
+    }
+
+    console.log("Formulario activo:", activeForm);
+
+    // Asegúrate de que `activeForm` tiene un id y no es undefined
+    if (!activeForm.id) {
+        console.log("El formulario activo no tiene un ID.");
+        alert('Formulario de pago no reconocido.');
+        return false;
+    }
+
+    // Comprobación de id y validación para cada tipo de formulario
+    if (activeForm.id === 'creditCardForm') {
+        // Validación para tarjeta de crédito...
+        const cardHolder = document.getElementById('cardHolder');
+        const cardNumber = document.getElementById('cardNumber');
+        const expiryDate = document.getElementById('expiryDate');
+        const cvv = document.getElementById('cvv');
+        const installments = document.getElementById('installments');
+        if (!cardHolder.value || !cardNumber.value || !expiryDate.value || !cvv.value || !installments.value) {
+            alert('Por favor, complete todos los campos de la tarjeta de crédito.');
+            return false;
+        }
+    } else if (activeForm.id === 'debitCardForm') {
+        // Validación para tarjeta de débito...
+        const debitCardHolder = document.getElementById('debitCardHolder');
+        const debitCardNumber = document.getElementById('debitCardNumber');
+        const debitExpiryDate = document.getElementById('debitExpiryDate');
+        const debitCvv = document.getElementById('debitCvv');
+        if (!debitCardHolder.value || !debitCardNumber.value || !debitExpiryDate.value || !debitCvv.value) {
+            alert('Por favor, complete todos los campos de la tarjeta de débito.');
+            return false;
+        }
+    } else if (activeForm.id === 'bankTransferForm') {
+        // Validación para transferencia bancaria...
+        const bankCardNumber = document.getElementById('bankCardNumber');
+        if (!bankCardNumber.value) {
+            alert('Por favor, ingrese el número de cuenta para la transferencia bancaria.');
+            return false;
+        }
+    } else if (activeForm.id === 'cashOptions') {
+        // Validación para pago en efectivo...
+        const cashMethod = document.getElementById('cashMethod');
+        if (!cashMethod.value) {
+            alert('Por favor, seleccione un método de pago en efectivo.');
+            return false;
+        }
+    } else {
+        console.log("Formulario de pago no reconocido. ID:", activeForm.id);
+        alert('Formulario de pago no reconocido.');
+        return false;
+    }
+
     return true;
 }
