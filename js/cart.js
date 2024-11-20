@@ -342,8 +342,12 @@ function showPaymentForms() {
                 <div id="bankTransferForm" class="mt-4">
                     <h5>Detalles del Pago - Transferencia Bancaria</h5>
                     <div class="mb-3">
-                        <label for="bankCardNumber" class="form-label">Número de Cuenta</label>
-                        <input type="text" name="paymentMethod" class="form-control" id="bankCardNumber" placeholder="1234 5678 9123 4567">
+                        <input class="form-check-input" type="radio" name="flexRadioDefault" id="bankCardNumber" checked>
+                        <label class="form-check-label" for="flexRadioDefault2">
+                            BROU: <br>
+                            Juan Perez <br>
+                            CA 123456789-00001
+                        </label>
                     </div>
                 </div>
                 `;
@@ -354,7 +358,6 @@ function showPaymentForms() {
                     <div class="mb-3">
                         <label for="cashMethod" class="form-label">Opciones</label>
                         <select class="form-select" name="paymentMethod" id="cashMethod" required>
-                            <option selected>Seleccione</option>
                             <option value="abitab">Abitab</option>
                             <option value="redpagos">RedPagos</option>
                         </select>
