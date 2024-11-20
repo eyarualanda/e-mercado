@@ -304,7 +304,7 @@ function showPaymentForms() {
                     <div class="mb-3">
                         <label for="installments" class="form-label">Cuotas</label>
                         <select class="form-select" name="paymentMethod" id="installments" required>
-                            <option selected>Seleccione</option>
+                            <option disabled>Seleccione</option>
                             <option value="1">1 cuota</option>
                             <option value="3">3 cuotas</option>
                             <option value="6">6 cuotas</option>
@@ -358,6 +358,7 @@ function showPaymentForms() {
                     <div class="mb-3">
                         <label for="cashMethod" class="form-label">Opciones</label>
                         <select class="form-select" name="paymentMethod" id="cashMethod" required>
+                            <option disabled>Seleccione</option>
                             <option value="abitab">Abitab</option>
                             <option value="redpagos">RedPagos</option>
                         </select>
