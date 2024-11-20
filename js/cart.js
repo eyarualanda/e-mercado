@@ -245,12 +245,12 @@ function mostrarProductosEnCarrito() {
     shippingButtons.forEach(button => {
         button.addEventListener('click', () => {
             shippingButtons.forEach(btn => {
-                btn.classList.remove('btn-info');
+                btn.classList.remove('selected');
                 btn.classList.add('btn-light');
             });
 
             button.classList.remove('btn-light');
-            button.classList.add('btn-info');
+            button.classList.add('selected');
 
             let shippingPercentage = 0;
             if (button.id === 'premiumShipping') {
@@ -377,7 +377,7 @@ function finalizarCompra() {
     const shippingButtons = document.querySelectorAll('#shipping-type button');
     let shippingSelected = false;
     shippingButtons.forEach(button => {
-        if (button.classList.contains('btn-info')) {
+        if (button.classList.contains('selected')) {
             shippingSelected = true;
         }
     });
@@ -413,7 +413,7 @@ function actualizarEnvio() {
     let shippingPercentage = 0;
 
     shippingButtons.forEach(button => {
-        if (button.classList.contains('btn-info')) {
+        if (button.classList.contains('selected')) {
             if (button.id === 'premiumShipping') {
                 shippingPercentage = 15;
             } else if (button.id === 'expressShipping') {
@@ -441,12 +441,12 @@ function obtenerPorcentajeEnvio() {
     shippingButtons.forEach(button => {
         button.addEventListener('click', () => {
             shippingButtons.forEach(btn => {
-                btn.classList.remove('btn-info');
+                btn.classList.remove('selected');
                 btn.classList.add('btn-light');
             });
 
             button.classList.remove('btn-light');
-            button.classList.add('btn-info');
+            button.classList.add('selected');
 
             if (button.id === 'premiumShipping') {
                 shippingPercentage = 15;

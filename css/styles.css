@@ -788,6 +788,12 @@ body {
   border-color: #007bff; /* Borde azul cuando se presiona */
 }
 
+#shipping-type button.selected {
+  color: #ffffff; /* Texto blanco */
+  background-color: #007bff; /* Fondo azul */
+  border-color: #007bff; /* Borde azul */
+}
+
 /* En modo noche (dark mode) */
 body.dark-mode #shipping-type button {
   color: #007bff; /* Texto azul en modo noche */
