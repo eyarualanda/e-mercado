@@ -49,7 +49,7 @@ async function obtenerTasaCambio() {
         Swal.fire({
             icon: "info",
             title: "Tasa de conversión",
-            text: "No pudimos obtener la tasa de conversión actual de USD a UYU, usaremos la predeterminada.",
+            text: "No pudimos obtener la tasa de conversión actual de USD a UYU, usaremos la predeterminada (1 USD = 40 UYU).",
           });
     }
 }
