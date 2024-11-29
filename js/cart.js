@@ -1,4 +1,4 @@
-const API_KEY = '9fbc515fdf44f560c270a07c';
+const API_KEY = 'bfce5baafc634cd0814d26ae';
 const API_URL = `https://v6.exchangerate-api.com/v6/${API_KEY}/latest/USD`;
 
 let tasaCambioUSDToUYU = 40; // Tasa de cambio predeterminada (por si falla la API).
@@ -49,7 +49,7 @@ async function obtenerTasaCambio() {
         Swal.fire({
             icon: "info",
             title: "Tasa de conversión",
-            text: "No pudimos obtener la tasa de conversión actual de USD a UYU, usaremos la predeterminada.",
+            text: "No pudimos obtener la tasa de conversión actual de USD a UYU, usaremos la predeterminada (1 USD = 40 UYU).",
           });
     }
 }
